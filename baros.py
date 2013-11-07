@@ -1,7 +1,9 @@
 from sys import exit
-from xlrd import open_workbook, cellname
+from xlrd import open_workbook
+from xlwt import Workbook
 
 # Is it messy to have all these functions run inside each other in a navigation system?
+# Conveniently, everything will be fixed as it is moved to Django. Hopefully.
 
 """This breaks everything. Makes everything run out of order.
 It is wonderfully efficicent in my mind, but I think Python
@@ -124,6 +126,35 @@ def senior_experiments():
         experiment_page(TestExperiment)
     else:
         select_class()
+
+
+def inventory():
+    print "1) By room or 2) by item?"
+    inv_choice = raw_input("> ")
+    if inv_choice == '1':
+        room_list()
+    elif inv_choice == '2':
+        item_list()
+    else:
+        front_page()
+
+
+def room_list():
+    # First, get a list of all rooms and display them.
+    book = open_workbook('Senior Lab Inventory.xls')
+    inv = book.sheet_by_index(0)
+    room_set = []
+
+    for row_index in range(inventory.nrows):
+        if inv.cell(row_index, 1).value not in room_set:
+            room_set.append(inv.cell(row_index, 1))
+    for room in room_set:
+        print room, "\n"
+
+    print "Which room's contents?"
+
+
+
 
 
 front_page()
