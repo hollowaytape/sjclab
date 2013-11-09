@@ -151,8 +151,54 @@ def room_list():
     for room in room_set:
         print room, "\n"
 
-    print "Which room's contents?"
+    while True:                                  # Loop functionality won't be necessary with move to Django.
 
+        print "Which room's contents?"             # Make this a separate function? Like locate_one_item()?
+        selected_room = int(raw_input("> "))                    # Must be an int to search the book correctly.
+
+        book = open_workbook('Senior Lab Inventory.xls')
+        inventory = book.sheet_by_index(0)
+
+        for row_index in range(inventory.nrows):
+            if selected_room in inventory.cell(row_index, 1).value:          # Room Number
+                print "%d x %s, %s" % (inventory.cell(row_index, 2).value,   # Item
+                                       inventory.cell(row_index, 3).value,   # Count
+                                       inventory.cell(row_index, 4).value)   # Location in Room
+
+        print "Search another room? y/n"
+        search_again = raw_input("> ")
+        if search_again == 'n':
+            break
+
+    inventory()
+
+
+def item_list():
+    # First, get a list of all items and display them. (More pleasing way of doing this? Less vertical? Later.)
+    # Do I want to separate the various-size beakers? Probably not.
+
+    book = open_workbook('Senior Lab Inventory.xls')
+    inv = book.sheet_by_index(0)
+    item_set = []
+
+    for row_index in range(inventory.nrows):
+        if inv.cell(row_index, 1).value not in item_set:
+            room_set.append(inv.cell(row_index, 1))
+    for item in item_set:
+        print item, "\n"
+
+    while True:
+        print "Which item's locations?"
+        which_item = raw_input("> ")
+
+        locate_one_item(which_item)
+
+        print "Another item? y/n"
+        search_again = raw_input("> ")
+        if search_again = 'n':
+            break
+
+    inventory()
 
 
 
