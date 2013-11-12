@@ -27,35 +27,49 @@ def prompt_function(prompt, function):
 
 
 class Experiment:
-    def __init__(self, title, index, year, author, procedure, materials):
+    def __init__(self, title, index, year, author, procedure, materials, tags):
         self.title = title
         self.index = index
         self.year = year
         self.author = author
         self.procedure = procedure
-        self.materials = materials
+        self.materials = materials                     # Way to show the quantities?
+        self.tags = tags
+    def __repr__(self):
+        return self.title
 
 TestExperiment = Experiment('Test Experiment', 77, 'Senior', 'Leo Strauss',
              ['1) Pour water from volumetric flask into glove.',
               '2) Empty glove into petri dish.',
               '3) Weigh dish on triple beam balance.'],
-              ['Volumetric flask', 'Orange glove', 'Petri dish', 'Triple beam balance'])
+              ['Volumetric flask', 'Orange glove', 'Petri dish', 'Triple beam balance'],
+             ['testing', 'pouring', 'logos', 'balance', 'weight', 'physics'])
 
 
 def experiment_page(exp):
-    print exp.title, " - ", exp.index
-    print exp.author, "\n\nProcedure:"
+    print "\t", exp.title, " - ", exp.index
+    print exp.author
+
+    print ""
+    for tag in exp.tags:
+        print "[%s] " % tag,
+
+    print "\n\n\tProcedure:"
     for step in exp.procedure:
         print step
-    print "\nMaterials:"
+
+    print "\n\tMaterials:"
     for material in exp.materials:
         print material
-    print "\nWhat to do? \n1) Locate materials \n2) Add comment \n3) Exit"
+
+
+
+    print "\n\n\tWhat to do? \n1) Locate materials \n2) Add comment \n3) Exit"
     what_do = raw_input("> ")
     if what_do == '1':
         locate_materials(exp)
         # More graceful way to exit from this loop?
-    elif what_do == '2':
+    elif what_do == '2':    # Comment feature not yet implemented.
         pass
     elif what_do == '3':
         if exp.year == 'Freshman':
@@ -68,7 +82,7 @@ def experiment_page(exp):
 
 def front_page():
     print "St. John's College - Lab Resources"
-    print "1) Experiments \n2) Inventory \n3 Exit"
+    print "1) Experiments \n2) Inventory \n3) Exit"
     choice = raw_input("> ")
     if choice == "1":
         select_class()
@@ -78,7 +92,8 @@ def front_page():
         exit()
 
 
-def select_class():
+def select_class():         # Not sure about separating F/J/S experiments -
+                            # could display all, have search-by-tag functionality. Maybe in Django.
     print "Which class's experiments do you want to access?"
     print "1) Freshman \n2) Junior \n3) Senior \n4) Never mind"
     class_choice = raw_input("> ")
@@ -95,14 +110,13 @@ def select_class():
 def locate_one_item(item):
     print "%s:" % item
     book = open_workbook('Senior Lab Inventory.xls')
-    inventory = book.sheet_by_index(0)
+    inventory_sheet = book.sheet_by_index(0)
 
-    for row_index in range(inventory.nrows):
-        if item in inventory.cell(row_index, 2).value:                        # Name
-            print "%s in %d, %s" % (    inventory.cell(row_index, 3).value,  # Count
-                                        inventory.cell(row_index, 1).value,   # Room Number
-                                        inventory.cell(row_index, 4).value)   # Location in Room
-    print "\n"
+    for row_index in range(inventory_sheet.nrows):
+        if item in inventory_sheet.cell(row_index, 2).value:                    # Name
+            print "%s in %d, %s" % (inventory_sheet.cell(row_index, 3).value,   # Count
+                                    inventory_sheet.cell(row_index, 1).value,   # Room Number
+                                    inventory_sheet.cell(row_index, 4).value)   # Location in Room
 
 
 def locate_materials(exp):
@@ -120,7 +134,7 @@ def junior_experiments():
 
 def senior_experiments():
     print "Senior Experiments:"
-    print "1) Test Experiment"
+    print "1)", TestExperiment
     exp_choice = raw_input("> ")
     if exp_choice == '1':
         experiment_page(TestExperiment)
@@ -195,7 +209,7 @@ def item_list():
 
         print "Another item? y/n"
         search_again = raw_input("> ")
-        if search_again = 'n':
+        if search_again == 'n':
             break
 
     inventory()
