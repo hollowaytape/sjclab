@@ -3,7 +3,7 @@ from xlrd import open_workbook
 from xlwt import Workbook
 
 # Is it messy to have all these functions run inside each other in a navigation system?
-# Conveniently, everything will be fixed as it is moved to Django. Hopefully.
+# Conveniently, that will be fixed as it is moved to Django. Hopefully.
 
 """This breaks everything. Makes everything run out of order.
 It is wonderfully efficicent in my mind, but I think Python
