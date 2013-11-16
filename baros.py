@@ -1,23 +1,10 @@
+# This is a pure Python mock-up of an in-progress Django framework which will do the same things
+# in a way that is easier to access, easier to read, and operable by a non-Python user.
+# Fetching data from the Excel spreadsheet will be replaced by fetching data from the SQLite database.
+
 from sys import exit
 from xlrd import open_workbook
 from xlwt import Workbook
-
-# Is it messy to have all these functions run inside each other in a navigation system?
-# Conveniently, that will be fixed as it is moved to Django. Hopefully.
-
-"""This breaks everything. Makes everything run out of order.
-It is wonderfully efficicent in my mind, but I think Python
- has eager evaluation - all the potential functions are
- actualizing themselves.
-def menu_select(prompt, choices, outcomes):
-    print prompt                                                            # "Which grade level?"
-    for choice in choices:
-        print "\n%s) %s" % ((choices.index(choice)) + 1, choice)            # "2) Junior Lab"
-    user_input = raw_input("> ")
-    while user_input not in len(choices):
-        user_input = raw_input("I'm sorry, where do you see that in the text? > ")
-    if user_input == choices.index(user_input):
-        outcomes.index(user_input)"""
 
 
 def prompt_function(prompt, function):
@@ -213,8 +200,6 @@ def item_list():
             break
 
     inventory()
-
-
 
 
 front_page()
