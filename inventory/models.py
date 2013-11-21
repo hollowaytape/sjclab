@@ -16,14 +16,20 @@ class Text(models.Model):
         ('SR', 'Senior'),
     )
 	
-    MANUAL_CHOICES = [               # Freshman only so far.
+    MANUAL_CHOICES = [               # JR/SR fall only so far.
 	('OLB', 'Observing Living Beings'),
-	('ME', 'Measurement and Equilibrium'),
-	('CB', 'Constitution of Bodies')
+	('MEQ', 'Measurement and Equilibrium'),
+	('CONS', 'Constitution of Bodies'),
+	
+	('MECH', 'Mechanics'),
+	('NEWT', 'Principia Mathematica'), # Whoops, forgot some texts not in manuals.
+	('GALI', 'Two New Sciences'),
+	
+	('ATOM', 'Atoms and Measurement')
 	]
 	
     title = models.CharField(max_length=25)
-    manual = models.CharField(max_length=50,
+    manual = models.CharField(max_length=4,
 	                          choices=MANUAL_CHOICES)
     year = models.CharField(max_length=2,
                             choices=YEAR_CHOICES)
