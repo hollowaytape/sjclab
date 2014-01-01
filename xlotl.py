@@ -3,10 +3,11 @@ Loads/updates a database from the specified Excel documents.
 Excel is an easier implementation for the client, so
 they should just be able to run this and ignore all the SQL stuff.
 """
-
-from inventory.models import Material, Experiment, Text
+from django.conf import settings
+settings.configure()
 import sqlite3
 from xlrd import open_workbook
+from inventory.models import Material, Text, Experiment
 
 db = "baros.db"
 
@@ -34,19 +35,23 @@ c = conn.cursor()
 def initialize_sr_inventory():
     sheet = open_workbook("Senior Lab Inventory.xls").sheet_by_index(0)
     new_materials = []
-    for row_index in range(sheet.nrows):
+    for row_index in range(1, sheet.nrows):           # Skip the first row, which gives column names.
         name =     sheet.cell(row_index, 2).value     # The ordering is not consistent from xls to the db models, hm...
-        room =     sheet.cell(row_index, 1).value
+        room =     int(sheet.cell(row_index, 1).value)
         location = sheet.cell(row_index, 4).value
-        count =    sheet.cell(row_index, 3).value
-        new_materials.append([name, room, location, count])
+        try:
+            count = int(sheet.cell(row_index, 3).value)
+        except ValueError:
+            count = sheet.cell(row_index, 3).value    # Some are listed in alternate qtys, like gloves - "1pr".
+
+        new_materials.append((name, room, location, count))
     print new_materials
     print "Proceed? y/n"
     yes_no = raw_input("> ")
     if "y" in yes_no:
-        c.executemany('INSERT INTO materials VALUES (?,?,?,?,?)', new_materials)
+        c.executemany('INSERT INTO inventory_material (name, room, location, count) VALUES (?,?,?,?)', new_materials)
 
-c.execute("relevant sql statements")
+initialize_sr_inventory()
 
 c.commit()
 

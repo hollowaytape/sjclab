@@ -12,10 +12,10 @@ MANAGERS = ADMINS
 DATABASES = {
 'default': {
     'ENGINE': 'django.db.backends.sqlite3', 
-    'NAME': 'baros.db', # Just the name
+    'NAME': 'C:/Users/Antpile/Code/Baros/baros.db', # Just the name
     'USER': '',
     'PASSWORD': '',
-    'HOST': '',             
+    'HOST': '',
     'PORT': '',             
         }
     }

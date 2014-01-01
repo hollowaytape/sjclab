@@ -16,16 +16,19 @@ class Text(models.Model):
         ('SR', 'Senior'),
     )
 	
-    MANUAL_CHOICES = [               # JR/SR fall only so far.
+    MANUAL_CHOICES = [
 	('OLB', 'Observing Living Beings'),
 	('MEQ', 'Measurement and Equilibrium'),
 	('CONS', 'Constitution of Bodies'),
 	
 	('MECH', 'Mechanics'),
-	('NEWT', 'Principia Mathematica'), # Whoops, forgot some texts not in manuals.
+	('NEWT', 'Principia Mathematica'), # Whoops, forgot some texts aren't in manuals.
 	('GALI', 'Two New Sciences'),
+	('ELEC', 'Electricity and Magnetism'),
+	('MAXP', 'Notes to Maxwell\'s Papers'),
 	
-	('ATOM', 'Atoms and Measurement')
+	('ATOM', 'Atoms and Measurement'),
+	('GENS', 'Genetics and Evolution')
 	]
 	
     title = models.CharField(max_length=25)
