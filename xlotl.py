@@ -49,6 +49,7 @@ def initialize_sr_inventory():
     print "Proceed? y/n"
     yes_no = raw_input("> ")
     if "y" in yes_no:
+        # "table inventory_material has no column named room"
         c.executemany('INSERT INTO inventory_material (name, room, location, count) VALUES (?,?,?,?)', new_materials)
 
 initialize_sr_inventory()
