@@ -2,8 +2,13 @@
 import os
 import sys
 
+sys.path.append("C:\\Users\Code\Baros")
+os.environ['DJANGO_SETTINGS_MODULE'] = 'site.settings'
+
+print sys.path
+
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "site.settings")
 
     from django.core.management import execute_from_command_line
 
