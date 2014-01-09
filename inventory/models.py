@@ -4,10 +4,15 @@ class Material(models.Model):
     name = models.CharField(max_length=25)
     room = models.IntegerField()
     location = models.CharField(max_length=100)
-    count = models.IntegerField() # Can't be like "2 pair".
+    count = models.IntegerField()        # Can't be like "2 pair".
 	
-    def __unicode__(self):
-        return self.name
+    def __init__(self, name):
+        self.name = name
+
+    def __unicode__(self, name=None):
+	if name is None:
+	    name = self.name
+	    return name
 		
 class Text(models.Model):
     YEAR_CHOICES = (
@@ -17,7 +22,7 @@ class Text(models.Model):
     )
 	
     MANUAL_CHOICES = [
-	('OBSV', 'Observing Living Beings'),
+    ('OBSV', 'Observing Living Beings'),
 	('EQLB', 'Measurement and Equilibrium'),
 	('CONS', 'Constitution of Bodies'),
 	
@@ -31,13 +36,18 @@ class Text(models.Model):
 	
     title = models.CharField(max_length=25)
     manual = models.CharField(max_length=4,
-	                          choices=MANUAL_CHOICES, null=True, default='Null'
+	                          choices=MANUAL_CHOICES, null=True, default='Null')
     year = models.CharField(max_length=2,
                             choices=YEAR_CHOICES)
     author = models.CharField(max_length=20, null=True, default='NULL')
 
-    def __unicode__(self):
-        return self.title
+    def __init__(self, title):
+        self.title = title
+
+    def __unicode__(self, title=None):
+	if title is None:
+	    title = self.title
+	    return title
 
 
 class Experiment(models.Model):
@@ -45,8 +55,13 @@ class Experiment(models.Model):
     text = models.CharField(max_length=50)
     procedure = models.TextField()
     materials = models.ManyToManyField(Material)
-	resources = models.FileField(upload_to=('/%s/' % self.title))
+    resources = models.FileField(upload_to=('/%s/' % title))
     tags = models.TextField()
 
-    def __unicode__(self):
-        return self.title
+    def __init__(self, title):
+        self.title = title
+
+    def __unicode__(self, title=None):
+	if title is None:
+	    title = self.title
+	    return title
