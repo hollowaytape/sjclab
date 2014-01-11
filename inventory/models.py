@@ -13,6 +13,24 @@ class Material(models.Model):
 	if name is None:
 	    name = self.name
 	    return name
+        
+class Room(models.Model):
+    YEAR_CHOICES = (
+        ('FR', 'Freshman'),
+        ('JR', 'Junior'),
+        ('SR', 'Senior'),
+    )
+    
+    TYPE_CHOICES = (
+        ('P', 'Prep'),
+        ('C', 'Class'),
+    )
+    
+    number = models.IntegerField()
+    year = models.CharField(max_length=2,
+                            choices=YEAR_CHOICES)
+    type = models.CharField(max_length=1,
+                            choices=TYPE_CHOICES)
 		
 class Text(models.Model):
     YEAR_CHOICES = (
