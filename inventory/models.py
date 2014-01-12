@@ -1,29 +1,8 @@
 from django.db import models
         
-class Room(models.Model):
-    YEAR_CHOICES = (
-        ('FR', 'Freshman'),
-        ('JR', 'Junior'),
-        ('SR', 'Senior'),
-    )
-    
-    TYPE_CHOICES = (
-        ('P', 'Prep'),
-        ('C', 'Class'),
-    )
-    
-    number = models.IntegerField()
-    year = models.CharField(max_length=2,
-                            choices=YEAR_CHOICES)
-    type = models.CharField(max_length=1,
-                            choices=TYPE_CHOICES)
-                            
-    def __unicode__(self):
-        return self.number
-        
 class Material(models.Model): 
     name = models.CharField(max_length=25)
-    room = models.ManyToManyField(Room)
+    room = models.IntegerField()
     location = models.CharField(max_length=100)
     count = models.IntegerField()        # Can't be like "2 pair".
 
@@ -58,13 +37,7 @@ class Text(models.Model):
     author = models.CharField(max_length=20, null=True, default='NULL')
 
     def __unicode__(self):
-        return self.name
-        
-class Tag(models.Model):
-    name = models.CharField(max_length=200)
-    
-    def __unicode__(self):
-        return self.name
+        return self.title
 
 
 class Experiment(models.Model):
@@ -73,7 +46,7 @@ class Experiment(models.Model):
     procedure = models.TextField()
     materials = models.ManyToManyField(Material)
     resources = models.FileField(upload_to=('/%s/' % title))
-    tags = models.ManyToManyField(Tag)
+    tags = models.TextField()
 
     def __unicode__(self):
         return self.title
