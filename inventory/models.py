@@ -31,7 +31,7 @@ class Text(models.Model):
 	
     title = models.CharField(max_length=25)
     manual = models.CharField(max_length=4,
-	                          choices=MANUAL_CHOICES, null=True, default='Null')
+	                          choices=MANUAL_CHOICES, null=True, default='NULL')
     year = models.CharField(max_length=2,
                             choices=YEAR_CHOICES)
     author = models.CharField(max_length=20, null=True, default='NULL')
@@ -42,9 +42,9 @@ class Text(models.Model):
 
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
-    text = models.CharField(max_length=50)
+    text = models.ForeignKey(Text, null=True)
     procedure = models.TextField()
-    materials = models.ManyToManyField(Material)
+    materials = models.ManyToManyField(Material, null=True)
     resources = models.FileField(upload_to=('/%s/' % title))
     tags = models.TextField()
 

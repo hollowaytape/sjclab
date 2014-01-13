@@ -26,13 +26,15 @@ def populate():
                            count=48)
 
     add_experiment(title="Magnolia Observation",
-                   text=plants,
+                   text=None,
                    procedure="Observe magnolia trees in the Mellon courtyard.",
                    # Materials are not specified until after creation.
                    resources=None,
                    tags="plants")
 
     # Print out what has been added.
+    for t in Text.objects.all():
+        print t
     for e in Experiment.objects.all():
         print e
     for m in Material.objects.all():
