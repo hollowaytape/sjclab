@@ -4,7 +4,7 @@ class Material(models.Model):
     name = models.CharField(max_length=25)
     room = models.IntegerField()
     location = models.CharField(max_length=100)
-    count = models.IntegerField()        # Can't be like "2 pair".
+    count = models.IntegerField(default=1)        # Can't be like "2 pair".
 
     def __unicode__(self):
         return self.name
@@ -43,11 +43,11 @@ class Text(models.Model):
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
     text = models.ForeignKey(Text, null=True)
-    session = models.IntegerField()
-    procedure = models.TextField()
+    session = models.IntegerField(null=True)
+    procedure = models.TextField(null=True)
     materials = models.TextField(null=True)
-    resources = models.FileField(upload_to=('/%s/' % title))
-    tags = models.TextField()
+    resources = models.FileField(upload_to=('/%s/' % title), null=True)
+    tags = models.TextField(null=True)
 
     def __unicode__(self):
         return self.title
