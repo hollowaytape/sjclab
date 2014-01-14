@@ -2,6 +2,7 @@ import os
 from xlrd import open_workbook
 
 inventory_sheet = "Senior Lab Inventory.xls"
+experiment_sheet = "Freshman Experiments.xls"
 
 
 def populate():
@@ -15,6 +16,18 @@ def populate():
         add_material(name, room, location, count)
         add_room(room)                            # Grossly inefficient and highly specific."""
 
+    sheet = open_workbook(experiment_sheet).sheet_by_index(0)
+    for row_index in range(1, sheet.nrows):
+        title = sheet.cell(row_index, 1).value
+        session = int(sheet.cell(row_index, 0).value)
+        text = None
+        procedure = sheet.cell(row_index, 3).value
+        materials = sheet.cell(row_index, 4).value
+        tags = sheet.cell(row_index, 5).value
+
+        add_experiment(title=title, session=session, text=text, procedure=procedure, materials=materials, tags=tags)
+
+
     plants = add_text(title="An Inquiry into Plants",
                       manual="OBSV",
                       year="FR",
@@ -24,13 +37,6 @@ def populate():
                            room=104,
                            location="Front drawer",
                            count=48)
-
-    add_experiment(title="Magnolia Observation",
-                   text=None,
-                   procedure="Observe magnolia trees in the Mellon courtyard.",
-                   # Materials are not specified until after creation.
-                   resources=None,
-                   tags="plants")
 
     # Print out what has been added.
     for t in Text.objects.all():
@@ -46,9 +52,9 @@ def add_material(name, room, location, count=0):
     return m
 
 
-def add_experiment(title, text, procedure, resources=None, tags=None):
-    e, created = Experiment.objects.get_or_create(title=title, text=text, procedure=procedure,
-                                                  resources=resources, tags=tags)
+def add_experiment(title, text, session, materials, procedure, resources=None, tags=None):
+    e, created = Experiment.objects.get_or_create(title=title, text=text, session=session, procedure=procedure,
+                                                  resources=resources, materials=materials, tags=tags)
     return e
 
 

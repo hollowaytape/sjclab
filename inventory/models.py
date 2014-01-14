@@ -43,8 +43,9 @@ class Text(models.Model):
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
     text = models.ForeignKey(Text, null=True)
+    session = models.IntegerField()
     procedure = models.TextField()
-    materials = models.ManyToManyField(Material, null=True)
+    materials = models.TextField(null=True)
     resources = models.FileField(upload_to=('/%s/' % title))
     tags = models.TextField()
 
