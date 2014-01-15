@@ -6,7 +6,7 @@ experiment_sheet = "Freshman Experiments.xls"
 
 
 def populate():
-    """sheet = open_workbook(inventory_sheet).sheet_by_index(0)
+    sheet = open_workbook(inventory_sheet).sheet_by_index(0)
     for row_index in range(1, sheet.nrows):           # Skip the 0th row, which gives column names.
         name =     sheet.cell(row_index, 2).value     # The ordering is not consistent from xls to the db models, hm...
         room =     int(sheet.cell(row_index, 1).value)
@@ -14,7 +14,6 @@ def populate():
         count = int(sheet.cell(row_index, 3).value)
 
         add_material(name, room, location, count)
-        add_room(room)                            # Grossly inefficient and highly specific."""
 
     sheet = open_workbook(experiment_sheet).sheet_by_index(0)
     for row_index in range(1, sheet.nrows):
