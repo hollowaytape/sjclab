@@ -1,0 +1,15 @@
+<h1>{{ experiment.title }}</h1>
+<h2>{{ experiment.text.title}} | {{experiment.text.author}} | {{experiment.text.manual}} | {{experiment.year}}
+<h3>Tags: {{ experiment.tags }}
+
+<h3>Materials:</h3>
+{% for material in experiment.materials %}
+	<li>{{ material.name }}</li>     <!-- Link to material page. -->
+{% endfor %}
+
+<h3>Procedure:</h3>
+{% for step in experiment.procedure %}
+	<li>{{ step }}</li>
+{% endfor %}
+
+<p><a href="experiment_index.html">Return to Experiment Index</a></p>

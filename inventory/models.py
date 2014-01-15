@@ -42,11 +42,12 @@ class Text(models.Model):
 
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
+    title_url = models.CharField(max_length=50)
     text = models.ForeignKey(Text, null=True)
     session = models.IntegerField(null=True)
     procedure = models.TextField(null=True)
     materials = models.TextField(null=True)
-    resources = models.FileField(upload_to=('/%s/' % title), null=True)
+    resources = models.FileField(upload_to=('/inventory/%s/' % title_url), null=True)
     tags = models.TextField(null=True)
 
     def __unicode__(self):

@@ -1,9 +1,10 @@
 from django.template import RequestContext
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from baros.inventory import Experiment, Material, Text
+from inventory.models import Experiment, Material, Text
 
 def index(request):
-	# Obtain the context from the HTTP request.
+    # Obtain the context from the HTTP request.
     context = RequestContext(request)
     
     # Query the database for a list of all experiments.
@@ -14,4 +15,5 @@ def index(request):
     context_dict = {'experiments': experiment_list}
     
     # Render the response and send it back!
-    return render_to_response('inventory/experiment_index.html', context_dict, context)
+    return render_to_response('inventory/index.html', context_dict, context)
+    # return HttpResponse("Inventory says hello world!")

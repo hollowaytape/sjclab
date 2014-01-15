@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Experiment Index</title>
+    </head>
+    <body>
+        {% if experiments %}
+            <ul>
+            {% for experiment in experiments %}
+                <li><a href="inventory/experiments/{{ title_url }}/">{{ experiment.title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No experiments are available.</p>
+        {% endif%}

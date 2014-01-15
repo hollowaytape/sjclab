@@ -18,13 +18,15 @@ def populate():
     sheet = open_workbook(experiment_sheet).sheet_by_index(0)
     for row_index in range(1, sheet.nrows):
         title = sheet.cell(row_index, 1).value
+        title_url = sheet.cell(row_index, 2).value
         session = int(sheet.cell(row_index, 0).value)
         text = None
-        procedure = sheet.cell(row_index, 3).value
-        materials = sheet.cell(row_index, 4).value
-        tags = sheet.cell(row_index, 5).value
+        procedure = sheet.cell(row_index, 4).value
+        materials = sheet.cell(row_index, 5).value
+        tags = sheet.cell(row_index, 6).value
 
-        add_experiment(title=title, session=session, text=text, procedure=procedure, materials=materials, tags=tags)
+        add_experiment(title=title, title_url=title_url, session=session, text=text, 
+                       procedure=procedure, materials=materials, tags=tags)
 
 
     plants = add_text(title="An Inquiry into Plants",
@@ -51,9 +53,9 @@ def add_material(name, room, location, count=0):
     return m
 
 
-def add_experiment(title, text, session, materials, procedure, resources=None, tags=None):
-    e, created = Experiment.objects.get_or_create(title=title, text=text, session=session, procedure=procedure,
-                                                  resources=resources, materials=materials, tags=tags)
+def add_experiment(title, title_url, text, session, materials, procedure, resources=None, tags=None):
+    e, created = Experiment.objects.get_or_create(title=title, title_url=title_url, text=text, session=session, 
+                                                  procedure=procedure, resources=resources, materials=materials, tags=tags)
     return e
 
 
