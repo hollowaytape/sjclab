@@ -8,9 +8,9 @@
         {% if experiments %}
             <ul>
             {% for experiment in experiments %}
-                <li><a href="inventory/experiments/{{ title_url }}/">{{ experiment.title }}</a></li>
+                <li><a href="inventory/experiments/{{ experiment.title_url }}/">{{ experiment.title }}</a></li>
             {% endfor %}
             </ul>
         {% else %}
-            <p>No experiments are available.</p>
+            <p><strong>No experiments are available.</strong></p>
         {% endif%}

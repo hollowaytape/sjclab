@@ -1,15 +1,29 @@
-<h1>{{ experiment.title }}</h1>
-<h2>{{ experiment.text.title}} | {{experiment.text.author}} | {{experiment.text.manual}} | {{experiment.year}}
-<h3>Tags: {{ experiment.tags }}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ experiment }} - Lab Experiment</title>
+    </head>
 
-<h3>Materials:</h3>
-{% for material in experiment.materials %}
-	<li>{{ material.name }}</li>     <!-- Link to material page. -->
-{% endfor %}
+    <body>
+        <h1>{{ experiment }}</h1>
+        {% if experiment %}
+            <h2>{{ experiment.text}} | {{experiment.text.author}} | {{experiment.text.manual}} | {{experiment.year}}
+            <h3>Tags: {{ experiment.tags }}
 
-<h3>Procedure:</h3>
-{% for step in experiment.procedure %}
-	<li>{{ step }}</li>
-{% endfor %}
+            <h3>Materials:</h3>
+            {% if materials %}
+                <ul>
+                {% for material in materials %}
+                    <li>{{ material.name }} ({{ material.count}}x in Room {{ material.room }}, {{material.location}})</li>     <!-- TODO: Link to material page? -->
+                {% endfor %}
+                </ul>
+            {% else %}
+                No materials found. Update the inventory database.
+            <h3>Procedure:</h3>
+            {% for step in experiment.procedure %}
+                <li>{{ step }}</li>
+            {% endfor %}
+        {% else %}
+            Experiment {{ experiment }} does not exist.
 
-<p><a href="experiment_index.html">Return to Experiment Index</a></p>
+        <p><a href="experiment_index.html">Return to Experiment Index</a></p>

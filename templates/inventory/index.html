@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+{% load static %}
+
 <html>
 
 	<head>
@@ -6,7 +9,8 @@
 	</head>
 	
 	<body>
-		<p align="center"><a href="/inventory/inventory_index.html">Inventory</a> | <a href="/inventory/experiment_index.html">Experiments</a></p>
+        <img src="{% static "uneven_scale.png" %}" alt="Uneven scales from Measurement & Equilibrium" />
+		<p align="center"><a href="EMPTY">Inventory</a> | <a href="/inventory/experiments/">Experiments</a></p>
 	</body>
 
 </html>
