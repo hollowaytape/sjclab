@@ -8,7 +8,7 @@
         {% if experiments %}
             <ul>
             {% for experiment in experiments %}
-                <li><a href="inventory/experiments/{{ experiment.title_url }}/">{{ experiment.title }}</a></li>
+                <li><a href="/inventory/experiments/{{ experiment.url }}/">{{ experiment.title }}</a></li>
             {% endfor %}
             </ul>
         {% else %}

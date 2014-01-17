@@ -15,6 +15,10 @@ def experiment_index(request):
     experiment_list = Experiment.objects.order_by('session')
     context_dict = {'experiments': experiment_list}
     
+    # Sanitize experiment names for use in urls.
+    for experiment in experiment_list:
+        experiment.url = experiment.title.replace(' ', '_')
+    
     # Render the response and send it back!
     return render_to_response('inventory/experiment_index.html', context_dict, context)
 
@@ -22,15 +26,18 @@ def experiment_index(request):
 def experiment(request, experiment_name_url):
     context = RequestContext(request)
     
+    # Change underscores in the experiment name to spaces.
+    experiment_name = experiment_name_url.replace('_', ' ')
+    
     # Context dictionary to pass to the template.
     # Contain the name of the experiment passed by the user.
-    context_dict = {'experiment_name_url': experiment_name_url}
+    context_dict = {'experiment_name': experiment_name}
     
     try:
         # Can we find an experiment with the given name?
         # If we can't, the .get() raises DoesNotExist.
         # SO the .get() method returns one model or raises an exception.
-        experiment = Experiment.objects.get(title_url=experiment_title_url)
+        experiment = Experiment.objects.get(title=experiment_name)
         
         # Retrieve all of the experiment's materials.
         # TODO: Get the procedure's steps as well.
