@@ -3,7 +3,15 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from inventory.models import Experiment, Material, Text
-    
+
+def url_safe(string):
+    """ Replaces spaces with underscores, making a string safer for urls."""
+    return string.replace(' ', '_')
+
+def eye_safe(string):
+    """ Undoes the operation of url_safe()."""
+    return string.replace('_', ' ')
+
 def experiment_index(request):
     # Obtain the context from the HTTP request.
     context = RequestContext(request)
@@ -40,14 +48,17 @@ def experiment(request, experiment_name_url):
         experiment = Experiment.objects.get(title=experiment_name)
         
         # Retrieve all of the experiment's materials.
-        # TODO: Get the procedure's steps as well.
         exp_materials = experiment.materials.split(', ')
         materials = Material.objects.filter(name__in=exp_materials)
         
-        # Adds our results list to the template context.
-        context_dict['materials'] = materials
+        # Create a list with the steps of the procedure separated.
+        procedure = experiment.procedure.split('. ')
         
-        # Also add the experiment object to the context dictionary.
+        # Add materials/procedure to the context dictionary.
+        context_dict['materials'] = materials
+        context_dict['procedure'] = procedure
+        
+        # Also add the experiment object.
         context_dict['experiment'] = experiment
         
     except Experiment.DoestNotExist:

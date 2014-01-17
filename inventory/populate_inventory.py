@@ -2,7 +2,7 @@ import os
 from xlrd import open_workbook
 
 inventory_sheet = "Senior Lab Inventory.xls"
-experiment_sheet = "Freshman Experiments.xls"
+experiment_sheet = "Freshman Experiments.xls" # Includes FR texts on sheet 1.)
 
 
 def populate():
@@ -14,6 +14,15 @@ def populate():
         count = int(sheet.cell(row_index, 3).value)
 
         add_material(name, room, location, count)
+        
+    sheet = open_workbook(experiment_sheet).sheet_by_index(1)
+    for row_index in range(1, sheet.nrows):
+        title = sheet.cell(row_index, 0).value
+        author = sheet.cell(row_index, 1).value
+        manual = sheet.cell(row_index, 2).value
+        year = sheet.cell(row_index, 3).value
+        
+        add_text(title, author, manual, year)
 
     sheet = open_workbook(experiment_sheet).sheet_by_index(0)
     for row_index in range(1, sheet.nrows):
@@ -27,18 +36,7 @@ def populate():
         add_experiment(title=title, session=session, text=text,
                        procedure=procedure, materials=materials, tags=tags)
 
-
-    plants = add_text(title="An Inquiry into Plants",
-                      manual="OBSV",
-                      year="FR",
-                      author="Theophrastus")
-
-    pencils = add_material(name="Colored pencils",
-                           room=104,
-                           location="Front drawer",
-                           count=48)
-
-    # Print out what has been added.
+    # Print out the contents of the database... not just what you've added at this point.
     for t in Text.objects.all():
         print t
     for e in Experiment.objects.all():

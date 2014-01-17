@@ -5,10 +5,12 @@
         <title>Experiment Index</title>
     </head>
     <body>
+        <h1>Experiments</h1>
+        <h2>Freshman Experiments</h2>
         {% if experiments %}
             <ul>
             {% for experiment in experiments %}
-                <li><a href="/inventory/experiments/{{ experiment.url }}/">{{ experiment.title }}</a></li>
+                <li><a href="{% url 'experiment' experiment.url %}">{{ experiment.title }}</a></li>
             {% endfor %}
             </ul>
         {% else %}

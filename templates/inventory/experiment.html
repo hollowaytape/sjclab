@@ -21,11 +21,11 @@
                 No materials found. Update the inventory database.
             {% endif %}
             <h3>Procedure:</h3>
-            {% for step in experiment.procedure %}
+            {% for step in procedure %}
                 <li>{{ step }}</li>
             {% endfor %}
         {% else %}
             Experiment "{{ experiment_name }}" does not exist.
         {% endif %}
 
-        <p><a href="experiment_index.html">Return to Experiment Index</a></p>
+        <p><a href="{% url 'experiment_index' %}">Return to Experiment Index</a></p>
