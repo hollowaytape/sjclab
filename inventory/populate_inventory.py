@@ -83,6 +83,7 @@ def associate():
 def add_material(room, name, count, location):
     m, created = Material.objects.get_or_create(room=room, name=name, count=count, location=location)
     if created:
+        m.save()
         return m
 
 
@@ -90,18 +91,21 @@ def add_experiment(title, text, session, procedure, resources=None, tags=None):
     e, created = Experiment.objects.get_or_create(title=title, text=text, session=session,
                                                   procedure=procedure, resources=resources, tags=tags)
     if created:
+        e.save()
         return e
 
 
 def add_text(title, author, manual, year):
     t, created = Text.objects.get_or_create(title=title, author=author, manual=manual, year=year)
     if created:
+        t.save()
         return t
 
 
 def add_room(number):
     r, created = Room.objects.get_or_create(number=number)
     if created:
+        r.save()
         return r
 
 
@@ -109,6 +113,7 @@ def add_text_to_experiment(text_title, experiment_title):
     t = Text.objects.get(title=text_title)
     e = Experiment.objects.get(title=experiment_title)
     e.text = t
+    e.save()
 
 """# get_or_create() acts differently for ForeignKeys... testing a workaround.
 def add_text_to_experiment(text_title, experiment_title):
@@ -128,6 +133,7 @@ def add_materials_to_experiment(materials_list, experiment_title):
             m = Material.objects.get(name=material)
             e = Experiment.objects.get(title=experiment_title)
             e.materials.add(m)
+            e.save()
         except ObjectDoesNotExist:
             print "Material with the name %s does not exist." % material
 
@@ -136,6 +142,7 @@ def add_room_to_material(material_name, material_count, location, room):
     m = Material.objects.get(name=material_name, count=material_count, location=location)
     r = Room.objects.get(number=room)
     m.room = r
+    m.save()
 
 # Start execution here!
 if __name__ == '__main__':
