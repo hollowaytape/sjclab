@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 inventory_sheet = "Senior Lab Inventory.xls"
 experiment_sheet = "Freshman Experiments.xls"  # Includes FR texts on sheet 1.
 
+
 # Try adding the referenced items first? rooms -> materials -> texts -> experiments
 def populate():
     sheet = open_workbook(inventory_sheet).sheet_by_index(0)
@@ -50,13 +51,18 @@ def populate():
 
 
     # Print out the contents of the database... not just what you've added at this point.
+    print "/nTexts:"
     for t in Text.objects.all():
         print t
+    print "/nExperiments:"
     for e in Experiment.objects.all():
         print e
+    print "/nMaterials:"
     for m in Material.objects.all():
         print m
-
+    print "/nRooms:"
+    for r in Room.objects.all():
+        print r
 
 def add_material(room, name, count, location):
     m, created = Material.objects.get_or_create(room=room, name=name, count=count, location=location)
@@ -83,11 +89,21 @@ def add_room(number):
         return r
 
 
-# This raises no errors but does not seem to add the text.
+# get_or_create() acts differently for ForeignKeys... testing a workaround.
 def add_text_to_experiment(text_title, experiment_title):
-    t = Text.objects.get(title=text_title)
-    e = Experiment.objects.get(title=experiment_title)
+    try:
+        t = Text.objects.get(title=text_title)
+    except ObjectDoesNotExist:
+        t = Text.objects.create(title=text_title)
+        t.save()
+
+    e, created = Experiment.objects.get_or_create(title=experiment_title)
     e.text = t
+
+
+    """t = Text.objects.get(title=text_title)
+    e = Experiment.objects.get(title=experiment_title)
+    e.text = t"""
 
 
 def add_materials_to_experiment(materials_list, experiment_title):

@@ -4,7 +4,7 @@ class Room(models.Model):
     number = models.IntegerField()
     
     def __unicode__(self):
-        return self.number
+        return str(self.number)
 
 class Material(models.Model): 
     name = models.CharField(max_length=25)
