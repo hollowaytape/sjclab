@@ -13,7 +13,7 @@
             <h3>Materials:</h3>
             {% if materials %}
                 <ul>
-                {% for material in materials %}
+                {% for material in materials.all %}
                     <li>{{ material.name }} ({{ material.count}}x in Room {{ material.room }}, {{material.location}})</li>     <!-- TODO: Link to material page? -->
                 {% endfor %}
                 </ul>

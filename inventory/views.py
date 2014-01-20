@@ -1,8 +1,8 @@
 from django.template import RequestContext
 
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
-from inventory.models import Experiment, Material, Text
+from django.shortcuts import render_to_response, get_object_or_404
+from inventory.models import Experiment, Material, Text, Room
 
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
@@ -41,29 +41,23 @@ def experiment(request, experiment_name_url):
     # Contain the name of the experiment passed by the user.
     context_dict = {'experiment_name': experiment_name}
     
-    try:
-        # Can we find an experiment with the given name?
-        # If we can't, the .get() raises DoesNotExist.
-        # SO the .get() method returns one model or raises an exception.
-        experiment = Experiment.objects.get(title=experiment_name)
-        
-        # Retrieve all of the experiment's materials.
-        exp_materials = experiment.materials.split(', ')
-        materials = Material.objects.filter(name__in=exp_materials)
-        
-        # Create a list with the steps of the procedure separated.
-        procedure = experiment.procedure.split('. ')
-        
-        # Add materials/procedure to the context dictionary.
-        context_dict['materials'] = materials
-        context_dict['procedure'] = procedure
-        
-        # Also add the experiment object.
-        context_dict['experiment'] = experiment
-        
-    except Experiment.DoestNotExist:
-        # Don't do anything.
-        pass
+    # Can we find an experiment with the given name?
+    # If we can't, the .get() raises DoesNotExist.
+    # SO the .get() method returns one model or raises an exception.
+    experiment = get_object_or_404(Experiment, title=experiment_name)
+    
+    # Retrieve all of the experiment's materials.
+    materials = experiment.materials
+    
+    # Create a list with the steps of the procedure separated.
+    procedure = experiment.procedure.split('. ')
+    
+    # Add materials/procedure to the context dictionary.
+    context_dict['materials'] = materials
+    context_dict['procedure'] = procedure
+    
+    # Also add the experiment object.
+    context_dict['experiment'] = experiment
     
     # Go render the response and return it to the client.
     return render_to_response('inventory/experiment.html', context_dict, context)

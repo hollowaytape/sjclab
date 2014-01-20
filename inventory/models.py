@@ -1,8 +1,14 @@
 from django.db import models
         
+class Room(models.Model):
+    number = models.IntegerField()
+    
+    def __unicode__(self):
+        return self.name
+
 class Material(models.Model): 
     name = models.CharField(max_length=25)
-    room = models.IntegerField()
+    room = models.ForeignKey('Room', null=True, blank=True)
     location = models.CharField(max_length=100)
     count = models.IntegerField(default=1)        # Can't be like "2 pair".
 
@@ -43,12 +49,12 @@ class Text(models.Model):
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
     title_url = models.CharField(max_length=50)
-    text = models.ForeignKey(Text, null=True)
-    session = models.IntegerField(null=True)
-    procedure = models.TextField(null=True)
-    materials = models.TextField(null=True)
-    resources = models.FileField(upload_to=('/inventory/%s/' % title_url), null=True)
-    tags = models.TextField(null=True)
+    text = models.ForeignKey('Text', null=True, blank=True)
+    session = models.IntegerField(null=True, blank=True)
+    procedure = models.TextField(null=True, blank=True)
+    materials = models.ManyToManyField('Material', null=True, blank=True)
+    resources = models.FileField(upload_to=('/inventory/%s/' % title_url), null=True, blank=True)
+    tags = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
         return self.title
