@@ -5,17 +5,17 @@ from django.core.exceptions import ObjectDoesNotExist
 inventory_sheet = "Senior Lab Inventory.xls"
 experiment_sheet = "Freshman Experiments.xls"  # Includes FR texts on sheet 1.
 
-
+# Try adding the referenced items first? rooms -> materials -> texts -> experiments
 def populate():
     sheet = open_workbook(inventory_sheet).sheet_by_index(0)
     for row_index in range(1, sheet.nrows):           # Skip the 0th row, which gives column names.
+        room_number =  int(sheet.cell(row_index, 1).value)
         name =     sheet.cell(row_index, 2).value
-        location = sheet.cell(row_index, 4).value
         count = int(sheet.cell(row_index, 3).value)
-        room =  int(sheet.cell(row_index, 1).value)
-        add_material(name, location, count, room)
+        location = sheet.cell(row_index, 4).value
 
-        add_room(room)
+        add_material(add_room(room_number), name, count, location)
+
         
     sheet = open_workbook(experiment_sheet).sheet_by_index(1)
     for row_index in range(1, sheet.nrows):
@@ -48,6 +48,7 @@ def populate():
         add_text_to_experiment(text, experiment)
         add_materials_to_experiment(materials, experiment)
 
+
     # Print out the contents of the database... not just what you've added at this point.
     for t in Text.objects.all():
         print t
@@ -57,21 +58,21 @@ def populate():
         print m
 
 
-def add_material(name, location, room, count):
-    m, created = Material.objects.get_or_create(name=name, room=room, location=location, count=count)
+def add_material(room, name, count, location):
+    m, created = Material.objects.get_or_create(room=room, name=name, count=count, location=location)
     if created:
         return m
 
 
-def add_experiment(title, text, session, procedure,  resources=None, tags=None):
+def add_experiment(title, text, session, procedure, resources=None, tags=None):
     e, created = Experiment.objects.get_or_create(title=title, text=text, session=session,
                                                   procedure=procedure, resources=resources, tags=tags)
     if created:
         return e
 
 
-def add_text(title, manual, year, author):
-    t, created = Text.objects.get_or_create(title=title, manual=manual, year=year, author=author)
+def add_text(title, author, manual, year):
+    t, created = Text.objects.get_or_create(title=title, author=author, manual=manual, year=year)
     if created:
         return t
 
@@ -82,6 +83,7 @@ def add_room(number):
         return r
 
 
+# This raises no errors but does not seem to add the text.
 def add_text_to_experiment(text_title, experiment_title):
     t = Text.objects.get(title=text_title)
     e = Experiment.objects.get(title=experiment_title)
@@ -96,6 +98,12 @@ def add_materials_to_experiment(materials_list, experiment_title):
             e.materials.add(m)
     except ObjectDoesNotExist:
         print "Material with the name %s does not exist." % (material)
+
+
+def add_room_to_material(material_name, material_count, room):
+    m = Material.objects.get(name=material_name, count=material_count)
+    r = Room.objects.get(number=room)
+    m.room = r
 
 # Start execution here!
 if __name__ == '__main__':

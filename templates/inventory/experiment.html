@@ -7,7 +7,7 @@
     <body>
         <h1>{{ experiment_name }}</h1>
         {% if experiment %}
-            <h2>{{ experiment.text}} | {{experiment.text.author}} | {{experiment.text.manual}} | {{experiment.year}}
+            <h2>Text: {{ experiment.text}} - Author: {{ experiment.text.author }} - Manual: {{ experiment.text.manual }} - Year: {{ experiment.year }}
             <h3>Tags: {{ experiment.tags }}
 
             <h3>Materials:</h3>

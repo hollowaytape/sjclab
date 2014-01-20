@@ -4,7 +4,7 @@ class Room(models.Model):
     number = models.IntegerField()
     
     def __unicode__(self):
-        return self.name
+        return self.number
 
 class Material(models.Model): 
     name = models.CharField(max_length=25)
@@ -48,12 +48,11 @@ class Text(models.Model):
 
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
-    title_url = models.CharField(max_length=50)
     text = models.ForeignKey('Text', null=True, blank=True)
     session = models.IntegerField(null=True, blank=True)
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
-    resources = models.FileField(upload_to=('/inventory/%s/' % title_url), null=True, blank=True)
+    resources = models.FileField(upload_to=('/inventory/resources/'), null=True, blank=True)
     tags = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
