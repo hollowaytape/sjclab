@@ -8,7 +8,11 @@
         <h1>{{ experiment_name }}</h1>
         {% if experiment %}
             <h2>Text: {{ experiment.text}} - Author: {{ experiment.text.author }} - Manual: {{ experiment.text.manual }} - Year: {{ experiment.year }}
-            <h3>Tags: {{ experiment.tags }}
+            {% if tags %}
+            <h3>Tags: {% for tag in tags.all %} {{tag.name}} {% endfor %}
+            {% else %}
+            <h3>Tags: None</h3>
+            {% endif %}
 
             <h3>Materials:</h3>
             {% if materials %}

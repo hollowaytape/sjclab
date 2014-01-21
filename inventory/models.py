@@ -44,6 +44,12 @@ class Text(models.Model):
 
     def __unicode__(self):
         return self.title
+        
+class Tag(models.Model):
+    name = models.CharField(max_length=75)
+    
+    def __unicode__(self):
+        return self.name
 
 
 class Experiment(models.Model):
@@ -53,7 +59,7 @@ class Experiment(models.Model):
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
     resources = models.FileField(upload_to=('/inventory/resources/'), null=True, blank=True)
-    tags = models.TextField(null=True, blank=True)
+    tags = models.ManyToManyField('Tag', null=True, blank=True)
 
     def __unicode__(self):
         return self.title
