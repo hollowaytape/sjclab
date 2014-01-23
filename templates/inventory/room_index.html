@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Room Index</title>
+    </head>
+    <body>
+        <h1>Rooms</h1>
+        {% if rooms %}
+            <ul>
+            {% for room in rooms %}
+                <li><a href="{% url 'room' room.number %}">{{ room }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p><strong>No rooms are available.</strong></p>
+        {% endif%}
