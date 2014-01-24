@@ -64,6 +64,27 @@ def experiment(request, experiment_name_url):
     # Go render the response and return it to the client.
     return render_to_response('inventory/experiment.html', context_dict, context)
     
+def tag(request, tag_name):
+    context = RequestContext(request)
+    
+    # Context dictionary to pass to the template.
+    # Contain the name of the room passed by the user.
+    context_dict = {'tag_name': tag_name}
+    
+    # Can we find an experiment with the given name?
+    # If we can't, the .get() raises DoesNotExist.
+    # SO the .get() method returns one model or raises an exception.
+    tag = get_object_or_404(Tag, name = tag_name)
+    
+    # Retrieve all of the Experiment objects with this tag. (Might be a tricky query.)
+    experiments = Experiment.objects.filter(tags__id__in=tags.values_list('id'))
+    
+    # Add experiments to the context dictionary.
+    context_dict['experiments'] = experiments
+    
+    # Go render the response and return it to the client.
+    return render_to_response('inventory/tag.html', context_dict, context)
+    
 def room_index(request):
     # Obtain the context from the HTTP request.
     context = RequestContext(request)

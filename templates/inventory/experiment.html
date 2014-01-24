@@ -9,7 +9,7 @@
         {% if experiment %}
             <h2>Text: {{ experiment.text}} - Author: {{ experiment.text.author }} - Manual: {{ experiment.text.manual }} - Year: {{ experiment.year }}
             {% if tags %}
-            <h3>Tags: {% for tag in tags.all %} {{tag.name}} {% endfor %}
+            <h3>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag_name }}</a> {% endfor %}
             {% else %}
             <h3>Tags: None</h3>
             {% endif %}

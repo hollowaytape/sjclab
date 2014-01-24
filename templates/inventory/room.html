@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!-- Consdier a view sorted by location? -->
+<html>
+    <head>
+        <title>Mellon {{ room_number }} - Inventory</title>
+    </head>
+
+    <body>
+        <h1>Mellon {{ room_number }}</h1>
+        {% if materials %}
+            <ul>
+            {% for material in materials.all %}
+                <li>{{material.name}} x{{material.count}}, {{material.location}}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            Room "{{ room_number }}" has no contents.
+        {% endif %}
+
+        <p><a href="{% url 'room_index' %}">Return to Room Index</a></p>
