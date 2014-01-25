@@ -77,10 +77,11 @@ def tag(request, tag_name):
     tag = get_object_or_404(Tag, name = tag_name)
     
     # Retrieve all of the Experiment objects with this tag.
-    # TODO: Find an iterable version of Experiment.objects.all().
+    # Maybe there is a more idiomatic way of doing this...
+    experiments = []
     for e in Experiment.objects.all():
-        if tag in e.tags.all:
-            experiments,append(e)
+        if tag in e.tags.all():
+            experiments.append(e)
     
     # Add experiments to the context dictionary.
     context_dict['experiments'] = experiments

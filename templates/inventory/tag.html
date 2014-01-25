@@ -9,8 +9,8 @@
             <h1>Experiments Tagged: {{ tag_name }}</h1>
             {% if experiments %}
                 <ul>
-                {% for experiment in experiments.all %}
-                    <li>{{ experiment.name }} ({{ experiment.text.author }}, <i>{{ experiment.text.name }}</i>)</li>
+                {% for experiment in experiments %}
+                    <li><a href="{% url 'experiment' experiment.title %}">{{ experiment.title }}</a> ({{ experiment.text.author }}, <i>{{ experiment.text.title }}</i>)</li>
                 {% endfor %}
                 </ul>
             {% else %}
@@ -18,5 +18,6 @@
             {% endif %}
         {% else %}
         <p>Tag "{{ tag_name }}" not found.</p>
+        {% endif %}
 
         <p><a href="{% url 'experiment_index' %}">Return to Experiment Index</a></p>
