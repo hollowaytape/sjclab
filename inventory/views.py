@@ -73,14 +73,20 @@ def tag(request, tag_name):
     
     # Can we find an experiment with the given name?
     # If we can't, the .get() raises DoesNotExist.
-    # SO the .get() method returns one model or raises an exception.
+    # So the .get() method returns one model or raises an exception.
     tag = get_object_or_404(Tag, name = tag_name)
     
-    # Retrieve all of the Experiment objects with this tag. (Might be a tricky query.)
-    experiments = Experiment.objects.filter(tags__id__in=tags.values_list('id'))
+    # Retrieve all of the Experiment objects with this tag.
+    # TODO: Find an iterable version of Experiment.objects.all().
+    for e in Experiment.objects.all():
+        if tag in e.tags.all:
+            experiments,append(e)
     
     # Add experiments to the context dictionary.
     context_dict['experiments'] = experiments
+    
+    # Also add the tag, so we can check if it exists.
+    context_dict['tag'] = tag
     
     # Go render the response and return it to the client.
     return render_to_response('inventory/tag.html', context_dict, context)
@@ -112,7 +118,7 @@ def room(request, room_number):
     room = get_object_or_404(Room, number=room_number)
     
     # Retrieve all of the materials in the room.
-    materials = Material.objects.filter(room=room)
+    materials = Material.objects.filter(room=room).order_by('location')
     
     # Add materials/procedure to the context dictionary.
     context_dict['materials'] = materials

@@ -5,15 +5,18 @@
     </head>
 
     <body>
-        <h1>Experiments Tagged: {{ tag_name }}</h1>
-        {% if experiments %}
-            <ul>
-            {% for experiment in experiments.all %}
-                <li>{{ experiment.name }} ({{ experiment.text.author }}, <i>{{ experiment.text.name }}</i>)</li>
-            {% endfor %}
-            </ul>
+        {% if tag %}
+            <h1>Experiments Tagged: {{ tag_name }}</h1>
+            {% if experiments %}
+                <ul>
+                {% for experiment in experiments.all %}
+                    <li>{{ experiment.name }} ({{ experiment.text.author }}, <i>{{ experiment.text.name }}</i>)</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>Tag {{ tag_name }} has no associated experiments.</p>
+            {% endif %}
         {% else %}
-           Tag {{ tag_name }} has no associated experiments.
-        {% endif %}
+        <p>Tag "{{ tag_name }}" not found.</p>
 
         <p><a href="{% url 'experiment_index' %}">Return to Experiment Index</a></p>
