@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^experiments/tagged/(?P<tag_name>\w+)/$', views.tag, name='tag'),
     url(r'^rooms/$', views.room_index, name='room_index'),
     url(r'^rooms/(?P<room_number>\w+)/$', views.room, name='room'),
+    url(r'^rooms/all/%', views.rooms_all, name='rooms_all'),
 )
