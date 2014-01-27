@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- Sort them into different headers by room?-->
+<html>
+    <head>
+        <title>Full Inventory</title>
+    </head>
+
+    <body>
+    <h1>Full Inventory</h1>
+    {% if materials %}
+        <ul>
+        {% for material in materials.all %}
+        <!--TODO much later: JQuery function to show the locations of each material. -->
+            <li>{{material.name}}</li>
+        {% endfor %}
+        </ul>
+        {% else %}
+            Labs are empty.
+    {% endif %}
+
+    <p><a href="{% url 'room_index' %}">Return to Room Index</a></p>

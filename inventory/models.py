@@ -59,6 +59,7 @@ class Experiment(models.Model):
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
     resources = models.FileField(upload_to=('/inventory/resources/'), null=True, blank=True)
+    on_program = models.BooleanField(default=True)
     tags = models.ManyToManyField('Tag', null=True, blank=True)
 
     def __unicode__(self):
