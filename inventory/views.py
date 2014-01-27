@@ -1,8 +1,14 @@
 from django.template import RequestContext
-
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from inventory.models import Experiment, Material, Text, Room, Tag
+from inventory.forms import ExperimentForm, RoomForm
+
+# Imports for add-or-edit object form.
+from django.core.urlresolvers import reverse
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.utils.translation import ugettext as _
 
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
@@ -63,6 +69,50 @@ def experiment(request, experiment_name_url):
     
     # Go render the response and return it to the client.
     return render_to_response('inventory/experiment.html', context_dict, context)
+    
+"""def add_experiment(request):
+    context = RequestContext(request)
+    
+    # A HTTP POST?
+    if request.method == 'POST':
+        form = ExperimenForm(request.POST)
+        
+        # Valid form?
+        if form.is_valid():
+            # Save the new exp to the database.
+            form.save(commit=True)
+            
+            # Now call the index() view.
+            # The user will be shown the homepage.
+            return index(request)
+        else:
+            print form.errors
+    else:
+        # If the request is not a POST, display the form to enter details.
+        form = ExperimentForm()
+    return render_to_response('inventory/add_experiment.html', {'form': form}, context)"""
+    
+def experiment_edit(request, id=None, template_name='inventory/experiment_edit.html'):
+    if id:
+        experiment = get_object_or_404(Experiment, pk=id)
+    else:
+        experiment = Experiment()
+ 
+    if request.POST:
+        form = ExperimentForm(request.POST, instance=experiment)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, _('Experiment correctly saved.'))
+            # If the save was successful, redirect to another page
+            redirect_url = reverse('experiment_index')
+            return HttpResponseRedirect(redirect_url)
+ 
+    else:
+        form = ExperimentForm(instance=experiment)
+ 
+    return render_to_response(template_name, {
+        'form': form,
+    }, context_instance=RequestContext(request))
     
 def tag(request, tag_name):
     context = RequestContext(request)

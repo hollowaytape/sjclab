@@ -53,6 +53,7 @@ class Tag(models.Model):
 
 
 class Experiment(models.Model):
+    # The "session" field will be depreciated - there should be a better way to add off-program experiments.
     title = models.CharField(max_length=200)
     text = models.ForeignKey('Text', null=True, blank=True)
     session = models.IntegerField(null=True, blank=True)

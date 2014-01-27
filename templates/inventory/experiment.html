@@ -31,5 +31,6 @@
         {% else %}
             Experiment "{{ experiment_name }}" does not exist.
         {% endif %}
-
+        
+        <p><a href="{% url 'experiment_edit' experiment.id %}">Edit the experiment</a></p>
         <p><a href="{% url 'experiment_index' %}">Return to Experiment Index</a></p>
