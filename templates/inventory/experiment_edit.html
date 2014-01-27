@@ -13,9 +13,9 @@
                 {% endfor %}
                 
                 {% for field in form.visible_fields %}
-                    {{ field.errors }}
                     {{ field.help_text }}
                     {{ field }}
+                    {{ field.errors }}<br>
                 {% endfor %}
                 
                 <input type="submit" name="submit" value = "Create Experiment" />

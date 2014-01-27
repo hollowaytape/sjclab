@@ -10,7 +10,7 @@
             {% if experiments %}
                 <ul>
                 {% for experiment in experiments %}
-                    <li><a href="{% url 'experiment' experiment.title %}">{{ experiment.title }}</a> ({{ experiment.text.author }}, <i>{{ experiment.text.title }}</i>)</li>
+                    <li><a href="{% url 'experiment' experiment.url%}">{{ experiment.title }}</a> ({{ experiment.text.author }}, <i>{{ experiment.text.title }}</i>)</li>
                 {% endfor %}
                 </ul>
             {% else %}

@@ -69,28 +69,7 @@ def experiment(request, experiment_name_url):
     
     # Go render the response and return it to the client.
     return render_to_response('inventory/experiment.html', context_dict, context)
-    
-"""def add_experiment(request):
-    context = RequestContext(request)
-    
-    # A HTTP POST?
-    if request.method == 'POST':
-        form = ExperimenForm(request.POST)
-        
-        # Valid form?
-        if form.is_valid():
-            # Save the new exp to the database.
-            form.save(commit=True)
-            
-            # Now call the index() view.
-            # The user will be shown the homepage.
-            return index(request)
-        else:
-            print form.errors
-    else:
-        # If the request is not a POST, display the form to enter details.
-        form = ExperimentForm()
-    return render_to_response('inventory/add_experiment.html', {'form': form}, context)"""
+
     
 def experiment_edit(request, id=None, template_name='inventory/experiment_edit.html'):
     if id:
@@ -131,6 +110,7 @@ def tag(request, tag_name):
     experiments = []
     for e in Experiment.objects.all():
         if tag in e.tags.all():
+            e.url = url_safe(e.title)
             experiments.append(e)
     
     # Add experiments to the context dictionary.
