@@ -53,13 +53,16 @@ class Tag(models.Model):
 
 
 class Experiment(models.Model):
-    # The "session" field will be depreciated - there should be a better way to add off-program experiments.
     title = models.CharField(max_length=200)
     text = models.ForeignKey('Text', null=True, blank=True)
+    # session refers to which part of the text the experiment goes with.
     session = models.IntegerField(null=True, blank=True)
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
+    # pictures, videos, pdfs.
     resources = models.FileField(upload_to=('/inventory/resources/'), null=True, blank=True)
+    # on_program - is it a part of the manuals or official "sequence" of SJC? Then True.
+    # If it's something the tutors/students came up with, then False.
     on_program = models.BooleanField(default=True)
     tags = models.ManyToManyField('Tag', null=True, blank=True)
 

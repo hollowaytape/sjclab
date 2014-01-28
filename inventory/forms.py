@@ -2,14 +2,16 @@ from django import forms
 from inventory.models import Experiment, Room, Material, Tag, Text
 
 class ExperimentForm(forms.ModelForm):
-    title = forms.CharField(max_length=200, help_text="Title")
-    text = forms.CharField(max_length=200, help_text="Text")
+    error_css_class = 'error'
+    
+    title = forms.CharField(help_text="Title")
+    text = forms.ModelChoiceField(help_text="Text", queryset=Text.objects.all())
     session = forms.IntegerField(help_text="Session")
-    procedure = forms.CharField(max_length=2000, help_text="Procedure")
-    materials = forms.CharField(max_length=400, help_text="Materials")
+    procedure = forms.CharField(widget=forms.Textarea, help_text="Procedure")
+    materials = forms.ModelMultipleChoiceField(help_text="Materials", queryset=Material.objects.all())
     resources = forms.FileField(help_text="Resources")
     on_program = forms.BooleanField(help_text="On Program?")
-    tags = forms.CharField(max_length=200, help_text="Tags")
+    tags = forms.ModelMultipleChoiceField(help_text="Tags", queryset=Tag.objects.all())
     
     # An inline class to provide additional information on the form.
     class Meta:
