@@ -1,5 +1,6 @@
 from django import forms
 from inventory.models import Experiment, Room, Material, Tag, Text
+from django.forms.models import inlineformset_factory
 
 class ExperimentForm(forms.ModelForm):
     error_css_class = 'error'
