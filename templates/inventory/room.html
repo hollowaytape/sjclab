@@ -1,11 +1,9 @@
-<!DOCTYPE html>
+{% extends 'inventory/base.html' %}
 <!-- Consider a view sorted by location? -->
-<html>
-    <head>
-        <title>Mellon {{ room_number }} - Inventory</title>
-    </head>
+{% block title %} Mellon {{ room_number }} - Inventory {% endblock %}
 
-    <body>
+{% block body_block %}
+<div class="hero-unit">
         <h1>Mellon {{ room_number }}</h1>
         {% if materials %}
             <ul>
@@ -18,3 +16,5 @@
         {% endif %}
 
         <p><a href="{% url 'room_index' %}">Return to Room Index</a></p>
+</div>
+{% endblock %}

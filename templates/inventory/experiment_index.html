@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+{% extends 'inventory/base.html' %}
 
-<html>
-    <head>
-        <title>Experiment Index</title>
+{% block title %}Experiment Index{% endblock %}
+{% block body_block %}
+<div class="hero-unit">
     </head>
     <body>
         <h1>Experiments</h1>
@@ -18,5 +18,5 @@
         {% endif%}
         <p><a href="{% url 'experiment_edit' %}">Add an experiment</a></p>
         <p><a href="{% url 'index' %}">Return to Front Page</a></p>
-    </body>
-</html>
+</div>
+{% endblock %}

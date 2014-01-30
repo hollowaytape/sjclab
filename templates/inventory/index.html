@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-
+{% extends 'inventory/base.html' %}
 {% load static %}
 
-<html>
-
-	<head>
-		<title>St. John's College Lab</title>
-	</head>
 	
-	<body>
-        <img src="{% static "uneven_scale.png" %}" alt="Uneven scales from Measurement & Equilibrium"/>
+{% block body_block %}
+<div class="hero-unit">
+    <img src="{% static "img/uneven_scale.png" %}" alt="Uneven scales from Measurement & Equilibrium"/>
 		<p align="center"><a href="{% url 'room_index' %}">Inventory</a> | <a href="{% url 'experiment_index' %}">Experiments</a></p>
-	</body>
-
-</html>
+</div>
+{% endblock %}

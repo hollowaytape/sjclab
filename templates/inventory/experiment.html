@@ -1,36 +1,37 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{ experiment_name }} - Lab Experiment</title>
-    </head>
+{% extends 'inventory/base.html' %}
 
-    <body>
-        <h1>{{ experiment_name }}</h1>
-        {% if experiment %}
-            <h2>{{ experiment.text.author }}, <i>{{ experiment.text}}</i> - {{ experiment.text.year }}, {{ experiment.text.manual }}
-            {% if tags %}
-            <h3>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}
-            {% else %}
-            <h3>Tags: None</h3>
-            {% endif %}
+{% block title %} {{ experiment_name }} - Lab Experiment {% endblock %}
 
-            <h3>Materials:</h3>
-            {% if materials %}
-                <ul>
-                {% for material in materials.all %}
-                    <li>{{ material.name }} ({{ material.count}}x in Room {{ material.room }}, {{material.location}})</li>     <!-- TODO: Link to material page? -->
-                {% endfor %}
-                </ul>
-            {% else %}
-                No materials found. Update the inventory database.
-            {% endif %}
-            <h3>Procedure:</h3>
-            {% for step in procedure %}
-                <li>{{ step }}</li>
-            {% endfor %}
+{% block body_block %}
+    <div class="hero-unit">
+    <h1>{{ experiment_name }}</h1>
+    {% if experiment %}
+        <h2>{{ experiment.text.author }}, <i>{{ experiment.text}}</i> - {{ experiment.text.year }}, {{ experiment.text.manual }}
+        {% if tags %}
+        <h3>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}
         {% else %}
-            Experiment "{{ experiment_name }}" does not exist.
+        <h3>Tags: None</h3>
         {% endif %}
+
+        <h3>Materials:</h3>
+        {% if materials %}
+            <ul>
+            {% for material in materials.all %}
+                <li>{{ material.name }} ({{ material.count}}x in Room {{ material.room }}, {{material.location}})</li>     <!-- TODO: Link to material page? -->
+            {% endfor %}
+            </ul>
+        {% else %}
+            No materials found. Update the inventory database.
+        {% endif %}
+        <h3>Procedure:</h3>
+        {% for step in procedure %}
+            <li>{{ step }}</li>
+        {% endfor %}
+    {% else %}
+        Experiment "{{ experiment_name }}" does not exist.
+    {% endif %}
         
-        <p><a href="{% url 'experiment_edit' experiment.id %}">Edit the experiment</a></p>
-        <p><a href="{% url 'experiment_index' %}">Return to Experiment Index</a></p>
+    <p><a href="{% url 'experiment_edit' experiment.id %}">Edit the experiment</a></p>
+    <p><a href="{% url 'experiment_index' %}">Return to Experiment Index</a></p>
+    </div>
+{% endblock %}

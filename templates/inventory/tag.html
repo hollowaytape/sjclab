@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{ tag_name }} - Experiments</title>
-    </head>
+{% extends 'inventory/base.html' %}
+{% block title %} {{ tag_name }} - Experiments {% endblock %}
 
-    <body>
+{% block body_block %}
+<div class="hero-unit">
         {% if tag %}
             <h1>Experiments Tagged: {{ tag_name }}</h1>
             {% if experiments %}
@@ -21,3 +19,5 @@
         {% endif %}
 
         <p><a href="{% url 'experiment_index' %}">Return to Experiment Index</a></p>
+</div>
+ {% endblock %}
