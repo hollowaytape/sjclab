@@ -41,6 +41,8 @@ class Text(models.Model):
     year = models.CharField(max_length=8,
                             choices=YEAR_CHOICES)
     author = models.CharField(max_length=20, null=True, default='Manual Authors')
+    # The session refers to the sequence that the text comes in.
+    session = models.IntegerField()
 
     def __unicode__(self):
         return self.title

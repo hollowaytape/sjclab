@@ -26,12 +26,26 @@ def experiment_index(request):
     # Order the experiments by session in ascending order.
     # Place the list in our context_dict dictionary,
     # which will be passed to the template engine.
-    experiment_list = Experiment.objects.order_by('session')
-    context_dict = {'experiments': experiment_list}
+    fr_experiments, jr_experiments, sr_experiments = [], [], []
+    
+    for e in Experiment.objects.filter(text__year="Freshman").order_by('session'):
+        fr_experiments.append(e)
+    
+    for e in Experiment.objects.filter(text__year="Junior").order_by('session'):
+        jr_experiments.append(e)
+    
+    for e in Experiment.objects.filter(text__year="Senior").order_by('session'):
+        sr_experiments.append(e)
+    
+    context_dict = {}
+    context_dict['fr_experiments'] = fr_experiments
+    context_dict['jr_experiments'] = jr_experiments
+    context_dict['sr_experiments'] = sr_experiments
     
     # Sanitize experiment names for use in urls.
-    for experiment in experiment_list:
-        experiment.url = url_safe(experiment.title)
+    for year in (fr_experiments, jr_experiments, sr_experiments):
+        for experiment in year:
+            experiment.url = url_safe(experiment.title)
     
     # Render the response and send it back!
     return render_to_response('inventory/experiment_index.html', context_dict, context)

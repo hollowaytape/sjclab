@@ -3,20 +3,45 @@
 {% block title %}Experiment Index{% endblock %}
 {% block body_block %}
 <div class="hero-unit">
-    </head>
-    <body>
         <h1>Experiments</h1>
-        <h2>Freshman Experiments</h2>
-        {% if experiments %}
-            <ul>
-            {% for experiment in experiments %}
-                <li><a href="{% url 'experiment' experiment.url %}">{{ experiment.title }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p><strong>No experiments are available.</strong></p>
-        {% endif%}
-        <p><a href="{% url 'experiment_edit' %}">Add an experiment</a></p>
-        <p><a href="{% url 'index' %}">Return to Front Page</a></p>
 </div>
+    <div class="row-fluid">
+        <div class="span4">
+            <h2>Freshman</h2>
+                {% if fr_experiments %}
+                <ul>
+                    {% for experiment in fr_experiments %}
+                        <li><a href="{% url 'experiment' experiment.url %}">{{ experiment.title }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p><strong>No experiments are available.</strong></p>
+                {% endif%}
+        </div>
+        <div class="span4">
+            <h2>Junior</h2>
+                {% if jr_experiments %}
+                <ul>
+                    {% for experiment in jr_experiments %}
+                        <li><a href="{% url 'experiment' experiment.url %}">{{ experiment.title }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p><strong>No experiments are available.</strong></p>
+                {% endif%}
+        </div>
+        <div class="span4">
+            <h2>Senior</h2>
+                {% if sr_experiments %}
+                <ul>
+                    {% for experiment in sr_experiments %}
+                        <li><a href="{% url 'experiment' experiment.url %}">{{ experiment.title }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p><strong>No experiments are available.</strong></p>
+                {% endif%}
+        </div>
+    </div>
+<p><a href="{% url 'experiment_edit' %}">Add an experiment</a></p>
 {% endblock %}
