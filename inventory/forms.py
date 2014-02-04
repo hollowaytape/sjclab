@@ -19,7 +19,10 @@ class ExperimentForm(forms.ModelForm):
         model = Experiment
         
 class RoomForm(forms.ModelForm):
+    error_css_class = 'error'
     number = forms.IntegerField()
     
     class Meta:
         model = Room
+
+MaterialFormSet = inlineformset_factory(Room, Material)

@@ -2,7 +2,7 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from inventory.models import Experiment, Material, Text, Room, Tag
-from inventory.forms import ExperimentForm, RoomForm
+from inventory.forms import ExperimentForm, RoomForm, MaterialFormSet
 
 # Imports for add-or-edit object form.
 from django.core.urlresolvers import reverse
@@ -181,3 +181,29 @@ def rooms_all(request):
     
     # Render the response and send it back!
     return render_to_response('inventory/rooms_all.html', context_dict, context)
+
+def room_edit(request, number=None, template_name='inventory/room_edit.html'):
+    if number:
+        room = get_object_or_404(Room, number=number)
+    else:
+        room = Room()
+ 
+    if request.POST:
+        form = RoomForm(request.POST, instance=room)
+        material_form = MaterialFormSet(request.POST)
+        if form.is_valid() and material_form.is_valid():
+            form.save()
+            material_form.instance = self.object
+            material_form.save()
+            messages.add_message(request, messages.SUCCESS, _('Room correctly saved.'))
+            # If the save was successful, redirect to another page
+            redirect_url = reverse('room_index')
+            return HttpResponseRedirect(redirect_url)
+ 
+    else:
+        form = RoomForm(instance=room)
+        material_form = MaterialFormSet()
+ 
+    return render_to_response(template_name, {
+        'form': form, 'material_form': material_form,
+    }, context_instance=RequestContext(request))

@@ -30,7 +30,7 @@ def populate():
         author = sheet.cell(row_index, 2).value
         manual = sheet.cell(row_index, 3).value
         year = sheet.cell(row_index, 4).value
-        session = sheet.cell(row_index, 0)
+        session = sheet.cell(row_index, 0).value
         
         add_text(title, author, manual, year, session)
 

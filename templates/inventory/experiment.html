@@ -1,4 +1,5 @@
 {% extends 'inventory/base.html' %}
+<!-- TODO: Display gallery of resources. -->
 
 {% block title %} {{ experiment_name }} - Lab Experiment {% endblock %}
 
@@ -17,7 +18,7 @@
         {% if materials %}
             <ul>
             {% for material in materials.all %}
-                <li>{{ material.name }} ({{ material.count}}x in Room {{ material.room }}, {{material.location}})</li>     <!-- TODO: Link to material page? -->
+                <li>{{ material.name }} ({{ material.count}}x in Room {{ material.room }}, {{material.location}})</li>     <!-- TODO: JQuery explanation of material locations. -->
             {% endfor %}
             </ul>
         {% else %}
