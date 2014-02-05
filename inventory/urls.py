@@ -12,6 +12,5 @@ urlpatterns = patterns('',
     url(r'^rooms/$', views.room_index, name='room_index'),
     url(r'^rooms/all/$', views.rooms_all, name='rooms_all'),
     url(r'^rooms/(?P<room_number>\d+)/$', views.room, name='room'),
-    url(r'^rooms/add/$', views.room_edit, {}, 'room_edit'),
     url(r'^rooms/edit/(?P<number>\d+)/$', views.room_edit, {}, 'room_edit'),
 )

@@ -182,15 +182,13 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
         'form': form,
     }, context_instance=RequestContext(request))
     
-def room_edit(request, number=None, template_name='inventory/room_edit.html'):
-    if number:
-        room = get_object_or_404(Room, number=number)
-    else:
-        room = Room()
+def room_edit(request, number, template_name='inventory/room_edit.html'):
+    room = get_object_or_404(Room, number=number)
+    materials = Material.objects.filter(room=room)
  
     if request.POST:
         form = RoomForm(request.POST, instance=room)
-        material_form = MaterialFormSet(request.POST)
+        material_form = MaterialFormSet(request.POST, instance=material)
         if form.is_valid() and material_form.is_valid():
             form.save()
             material_form.instance = self.object

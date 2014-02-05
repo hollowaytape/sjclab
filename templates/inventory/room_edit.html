@@ -1,30 +1,38 @@
 {% extends 'inventory/base.html' %}
+{% block extra_scripts %}
+{% load bootstrap %}
+<script type="text/javascript">
+    $(function() {
+        $(".inline.{{ material_form.prefix }}").formset({
+            prefix: "{{ material_form.prefix }}",
+            })
+    })
+</script>
+<script src="{{ STATIC_URL }}/js/jquery.formset.js' %}"></script>
+{% endblock %}
 {% block title %} Edit Room {% endblock %}
 {% block body_block %}
 <div class="hero-unit">
         <h1>Edit Room</h1>        
             <form id="room_form" enctype="multipart/form-data" method="post" action="">
                 {% csrf_token %}
-                {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-                
-                {% for field in form.visible_fields %}
-                    {{ field.help_text }}
-                    {{ field }}
-                    {{ field.errors }}<br>
-                {% endfor %}
-                
-                {% for hidden in material_form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-                
-                {% for field in material_form.visible_fields %}
-                    {{ field.help_text }}
-                    {{ field }}
-                    {{ field.errors }}<br>
-                {% endfor %}
-                
+                <div>
+                    {{ form.as_p}}
+                </div>
+                <fieldset>
+                    <legend>Material</legend>
+                    {{ material_form.management_form }}
+                    {{ material_form.non_form_errors }}
+                    {% for form in material_form %}
+                        {% for field in form %}
+                            <div class="inline {{material_form.prefix }}">
+                                {{ field.errors }}
+                                {{ field.label_tag }}
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </fieldset>
                 <input type="submit" name="submit" value = "Save Changes" />
             </form>
 </div>
