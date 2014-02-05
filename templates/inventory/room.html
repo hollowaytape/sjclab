@@ -1,5 +1,6 @@
 {% extends 'inventory/base.html' %}
 <!-- Consider a view sorted by location? -->
+<!-- I forget to pass in "room" in the context dict. Whoops. -->
 {% block title %} Mellon {{ room_number }} - Inventory {% endblock %}
 
 {% block body_block %}
@@ -14,8 +15,7 @@
         {% else %}
             Room "{{ room_number }}" has no contents.
         {% endif %}
-        
-        <p><a href="{% url 'room_edit' room.id %}">Add Experiment</a></p>
+        <p><a href="{% url 'room_edit' room_number %}">Edit room contents</a></p>
         <p><a href="{% url 'room_index' %}">Return to Room Index</a></p>
 </div>
 {% endblock %}

@@ -85,28 +85,6 @@ def experiment(request, experiment_name_url):
     return render_to_response('inventory/experiment.html', context_dict, context)
 
     
-def experiment_edit(request, id=None, template_name='inventory/experiment_edit.html'):
-    if id:
-        experiment = get_object_or_404(Experiment, pk=id)
-    else:
-        experiment = Experiment()
- 
-    if request.POST:
-        form = ExperimentForm(request.POST, instance=experiment)
-        if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, _('Experiment correctly saved.'))
-            # If the save was successful, redirect to another page
-            redirect_url = reverse('experiment_index')
-            return HttpResponseRedirect(redirect_url)
- 
-    else:
-        form = ExperimentForm(instance=experiment)
- 
-    return render_to_response(template_name, {
-        'form': form,
-    }, context_instance=RequestContext(request))
-    
 def tag(request, tag_name):
     context = RequestContext(request)
     
@@ -182,6 +160,28 @@ def rooms_all(request):
     # Render the response and send it back!
     return render_to_response('inventory/rooms_all.html', context_dict, context)
 
+def experiment_edit(request, id=None, template_name='inventory/experiment_edit.html'):
+    if id:
+        experiment = get_object_or_404(Experiment, pk=id)
+    else:
+        experiment = Experiment()
+ 
+    if request.POST:
+        form = ExperimentForm(request.POST, instance=experiment)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, _('Experiment correctly saved.'))
+            # If the save was successful, redirect to another page
+            redirect_url = reverse('experiment_index')
+            return HttpResponseRedirect(redirect_url)
+ 
+    else:
+        form = ExperimentForm(instance=experiment)
+ 
+    return render_to_response(template_name, {
+        'form': form,
+    }, context_instance=RequestContext(request))
+    
 def room_edit(request, number=None, template_name='inventory/room_edit.html'):
     if number:
         room = get_object_or_404(Room, number=number)
