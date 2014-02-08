@@ -5,34 +5,35 @@
 
 {% block body_block %}
     <div class="hero-unit">
-    <h1>{{ experiment_name }}</h1>
     {% if experiment %}
-        <h2>{{ experiment.text.author }}, <i>{{ experiment.text}}</i> - {{ experiment.text.year }}, {{ experiment.text.manual }}
-        {% if tags %}
-        <h3>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}
-        {% else %}
-        <h3>Tags: None</h3>
-        {% endif %}
+    <h1>{{ experiment_name }}</h1>
+        <h3>{{ experiment.text.author }} - <em>{{ experiment.text}}</em><br>
+        {{ experiment.text.year }} Year, {{ experiment.text.manual }}</h3>
+    </div>
+    {% if tags %}
+    <h4>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}</h4>
+    {% else %}
+    <h4>Tags: None</h4>
+    {% endif %}
 
-        <h3>Materials:</h3>
-        {% if materials %}
-            <ul>
-            {% for material in materials.all %}
-                <li>{{ material.name }} ({{ material.count}}x in Room {{ material.room }}, {{material.location}})</li>     <!-- TODO: JQuery explanation of material locations. -->
-            {% endfor %}
-            </ul>
-        {% else %}
-            No materials found. Update the inventory database.
-        {% endif %}
-        <h3>Procedure:</h3>
-        {% for step in procedure %}
-            <li>{{ step }}</li>
+    <h4>Materials:</h4>
+    {% if materials %}
+        <ul>
+        {% for material in materials.all %}
+            <li>{{ material.name }} ({{ material.count}}x in Room {{ material.room }}, {{material.location}})</li>     <!-- TODO: JQuery explanation of material locations. -->
         {% endfor %}
+        </ul>
+    {% else %}
+        No materials found. Update the inventory database.
+    {% endif %}
+    <h4>Procedure:</h4>
+    {% for step in procedure %}
+        <li>{{ step }}</li>
+    {% endfor %}
     {% else %}
         Experiment "{{ experiment_name }}" does not exist.
     {% endif %}
         
-    <p><a href="{% url 'experiment_edit' experiment.id %}">Edit the experiment</a></p>
-    <p><a href="{% url 'experiment_index' %}">Return to Experiment Index</a></p>
-    </div>
+    <p><a href="{% url 'experiment_edit' experiment.id %}" class="btn btn-primary btn-lg">Edit the experiment</a>
+    <a href="{% url 'experiment_index' %}" class="btn btn-primary btn-lg">Return to Experiment Index</a></p>
 {% endblock %}

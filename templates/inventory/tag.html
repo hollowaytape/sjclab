@@ -4,7 +4,8 @@
 {% block body_block %}
 <div class="hero-unit">
         {% if tag %}
-            <h1>Experiments Tagged: {{ tag_name }}</h1>
+            <h1>Tag: {{ tag_name }}</h1>
+</div>
             {% if experiments %}
                 <ul>
                 {% for experiment in experiments %}
@@ -18,6 +19,5 @@
         <p>Tag "{{ tag_name }}" not found.</p>
         {% endif %}
 
-        <p><a href="{% url 'experiment_index' %}">Return to Experiment Index</a></p>
-</div>
+        <p><a href="{% url 'experiment_index' %}" class="btn btn-primary btn-lg">Return to Experiment Index</a></p>
  {% endblock %}
