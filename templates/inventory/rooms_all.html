@@ -1,10 +1,10 @@
 {% extends 'inventory/base.html' %}
 <!-- Sort them into different headers by room?-->
 {% block title %} Full Inventory {% endblock %}
-
-{% block body_block %}
-<div class="hero-unit">
+{% block jumbotron %}
     <h1>Full Inventory</h1>
+{% endblock %}
+{% block body_block %}
     {% if materials %}
         <ul>
         {% for material in materials.all %}
@@ -17,5 +17,4 @@
     {% endif %}
 
     <p><a href="{% url 'room_index' %}" class="btn btn-primary btn-lg">Return to Room Index</a></p>
-</div>
 {% endblock %}

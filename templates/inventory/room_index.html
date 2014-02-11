@@ -1,9 +1,10 @@
 {% extends 'inventory/base.html' %}
 {% block title %} Room Index {% endblock %}
-{% block body_block %}
-<div class="hero-unit">
+
+{% block jumbotron %}
         <h1>Rooms</h1>
-</div>
+{% endblock %}
+{% block body_block %}
         {% if rooms %}
             <ul>
             {% for room in rooms %}
@@ -15,5 +16,4 @@
         {% endif%}
         <p><a href="{% url 'rooms_all' %}">See all room contents</a></p>
         <p><a href="{% url 'index' %}">Return to Front Page</a></p>
-</div>
 {% endblock %}

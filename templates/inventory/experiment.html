@@ -3,19 +3,20 @@
 
 {% block title %} {{ experiment_name }} - Lab Experiment {% endblock %}
 
-{% block body_block %}
-    <div class="hero-unit">
+{% block jumbotron %}
     {% if experiment %}
     <h1>{{ experiment_name }}</h1>
         <h3>{{ experiment.text.author }} - <em>{{ experiment.text}}</em><br>
         {{ experiment.text.year }} Year, {{ experiment.text.manual }}</h3>
-    </div>
+
     {% if tags %}
     <h4>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}</h4>
     {% else %}
     <h4>Tags: None</h4>
     {% endif %}
-
+    {% endif %}
+{% endblock %}
+{% block body %}
     <h4>Materials:</h4>
     {% if materials %}
         <ul>
@@ -30,9 +31,6 @@
     {% for step in procedure %}
         <li>{{ step }}</li>
     {% endfor %}
-    {% else %}
-        Experiment "{{ experiment_name }}" does not exist.
-    {% endif %}
         
     <p><a href="{% url 'experiment_edit' experiment.id %}" class="btn btn-primary btn-lg">Edit the experiment</a>
     <a href="{% url 'experiment_index' %}" class="btn btn-primary btn-lg">Return to Experiment Index</a></p>

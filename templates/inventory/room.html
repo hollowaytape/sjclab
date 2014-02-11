@@ -3,10 +3,11 @@
 <!-- I forget to pass in "room" in the context dict. Whoops. -->
 {% block title %} Mellon {{ room_number }} - Inventory {% endblock %}
 
-{% block body_block %}
-<div class="hero-unit">
+
+{% block jumbotron %}
         <h1>Mellon {{ room_number }}</h1>
-</div>
+{% endblock %}
+{% block body_block %}
         {% if materials %}
             <table class="table">
                 <tr>
@@ -28,5 +29,4 @@
         
         <p><a href="{% url 'room_edit' room_number %}" class="btn btn-primary btn-lg">Edit room contents</a>
         <a href="{% url 'room_index' %}" class="btn btn-default btn-lg">Return to Room Index</a></p>
-</div>
 {% endblock %}
