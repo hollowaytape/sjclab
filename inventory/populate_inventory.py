@@ -26,13 +26,12 @@ def populate():
     # Then, add the Texts.
     sheet = open_workbook(experiment_sheet).sheet_by_index(1)
     for row_index in range(1, sheet.nrows):
-        title = sheet.cell(row_index, 1).value
-        author = sheet.cell(row_index, 2).value
-        manual = sheet.cell(row_index, 3).value
-        year = sheet.cell(row_index, 4).value
-        session = sheet.cell(row_index, 0).value
+        title = sheet.cell(row_index, 0).value
+        author = sheet.cell(row_index, 1).value
+        manual = sheet.cell(row_index, 2).value
+        year = sheet.cell(row_index, 3).value
         
-        add_text(title, author, manual, year, session)
+        add_text(title, author, manual, year)
 
     # Finally, add the experiments themselves. They require the most associations with other objects, so they go last.
     sheet = open_workbook(experiment_sheet).sheet_by_index(0)
@@ -41,8 +40,9 @@ def populate():
         procedure = sheet.cell(row_index, 3).value
         text = sheet.cell(row_index, 2).value
         materials = sheet.cell(row_index, 4).value.split(', ')
+        session = int(sheet.cell(row_index, 0).value)
 
-        add_experiment(title=title, procedure=procedure)
+        add_experiment(title=title, procedure=procedure, session=session)
 
         add_text_to_experiment(text, experiment_title=title)
         add_materials_to_experiment(materials, experiment_title=title)
@@ -76,14 +76,14 @@ def add_material(name, count, location):
     return m
 
 
-def add_experiment(title, procedure, resources=None):
-    e = Experiment.objects.get_or_create(title=title,
+def add_experiment(title, procedure, session, resources=None):
+    e = Experiment.objects.get_or_create(title=title, session=session,
                                          procedure=procedure, resources=resources)[0]
     return e
 
 
-def add_text(title, author, manual, year, session):
-    t = Text.objects.get_or_create(title=title, author=author, manual=manual, year=year, session=session)[0]
+def add_text(title, author, manual, year):
+    t = Text.objects.get_or_create(title=title, author=author, manual=manual, year=year)[0]
     return t
 
 

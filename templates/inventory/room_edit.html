@@ -1,40 +1,40 @@
 {% extends 'inventory/base.html' %}
-{% block extra_scripts %}
-{% load bootstrap %}
-<script type="text/javascript">
-    $(function() {
-        $(".inline.{{ material_form.prefix }}").formset({
-            prefix: "{{ material_form.prefix }}",
-            })
-    })
-</script>
-<script src="{{ STATIC_URL }}/js/jquery.formset.js' %}"></script>
-{% endblock %}
 {% block title %} Edit Room {% endblock %}
+{% block jumbotron %}
+<h1>Edit Room {{ room }} Contents</h1>     
+{% endblock %}
 {% block body_block %}
-<div class="hero-unit">
-        <h1>Edit Room</h1>     
-</div>        
-            <form id="room_form" enctype="multipart/form-data" method="post" action="">
-                {% csrf_token %}
-                <div>
-                    {{ form.as_p}}
-                </div>
-                <fieldset>
-                    <legend>Material</legend>
-                    {{ material_form.management_form }}
-                    {{ material_form.non_form_errors }}
-                    {% for form in material_form %}
-                        {% for field in form %}
-                            <div class="inline {{material_form.prefix }}">
-                                {{ field.errors }}
-                                {{ field.label_tag }}
-                                {{ field }}
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                </fieldset>
-                <input type="submit" name="submit" value = "Save Changes" />
-            </form>
-</div>
+<form id="experiment_form" enctype="multipart/form-data" method="post" action="">
+<fieldset class="module aligned ">
+<table>
+    <tr>
+    {% csrf_token %}
+    {% for field in formset.forms.0 %}
+        {% if not field.is_hidden %}
+            <th>{{ field.label }}</th>
+        {% endif %}
+    {% endfor %}
+    </tr>
+    <!-- Not sure if the management form things are showing up quite right. -->
+    {% for f in formset.management_form %}
+        {{ f }}
+    {% endfor %}
+    {% for f in formset.forms %}
+        <tr>
+        {% for field in f %}
+            {% if not field.is_hidden %}
+                <td>
+                {{ field.errors }}
+                {{ field }}
+                </td>
+            {% else %}
+                <td valign="bottom">{{ field }}</td>
+            {% endif %}
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+</fieldset>
+<input type="submit" name="submit" value = "Save Changes" />
+</form
 {% endblock %}

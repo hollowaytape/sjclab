@@ -41,8 +41,6 @@ class Text(models.Model):
     year = models.CharField(max_length=8,
                             choices=YEAR_CHOICES)
     author = models.CharField(max_length=20, null=True, default='Manual Authors')
-    # The session refers to the sequence that the text comes in.
-    session = models.IntegerField()
 
     def __unicode__(self):
         return self.title
@@ -57,7 +55,6 @@ class Tag(models.Model):
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
     text = models.ForeignKey('Text', null=True, blank=True)
-    # session refers to which part of the text the experiment goes with.
     session = models.IntegerField(null=True, blank=True)
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)

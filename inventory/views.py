@@ -2,7 +2,8 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from inventory.models import Experiment, Material, Text, Room, Tag
-from inventory.forms import ExperimentForm, RoomForm, MaterialFormSet
+from inventory.forms import ExperimentForm, RoomForm, MaterialForm
+from django.forms.models import modelformset_factory
 
 # Imports for add-or-edit object form.
 from django.core.urlresolvers import reverse
@@ -12,7 +13,7 @@ from django.utils.translation import ugettext as _
 
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
-    return string.replace(' ', '_')
+    return string.replace(' ', '_').replace("'", "").replace(".", "")
 
 def eye_safe(string):
     """ Undoes the operation of url_safe()."""
@@ -181,27 +182,54 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
     return render_to_response(template_name, {
         'form': form,
     }, context_instance=RequestContext(request))
+
+def room_edit(request, number):
+    room = Room.objects.get(number = number)
+    MaterialFormSet = modelformset_factory(Material, form = MaterialForm)
+    qset = Material.objects.filter(room = room)
+    # Not sure why it is reassigned in this way - test as one assignment statement later?
+    formset = MaterialFormSet(queryset = qset)
+    if request.method == 'POST':
+        # deal with posting the data
+        formset = PointFormset(request.POST)
+        if formset.is_valid():
+            # if it is not valid then the "errors" will fall through and be returned
+            formset.save()
+        return HttpResponseRedirect(reverse('room_index'))
+
+    context_dict = {'formset':formset,
+                    'room':room,
+                    }
+
+    return render_to_response('inventory/room_edit.html', context_dict)
     
-def room_edit(request, number, template_name='inventory/room_edit.html'):
-    room = get_object_or_404(Room, number=number)
-    materials = Material.objects.filter(room=room)
- 
-    if request.POST:
-        form = RoomForm(request.POST, instance=room)
-        material_form = MaterialFormSet(request.POST, instance=material)
-        if form.is_valid() and material_form.is_valid():
-            form.save()
-            material_form.instance = self.object
-            material_form.save()
-            messages.add_message(request, messages.SUCCESS, _('Room correctly saved.'))
-            # If the save was successful, redirect to another page
-            redirect_url = reverse('room_index')
-            return HttpResponseRedirect(redirect_url)
- 
+"""def room_edit(request, number=None): # Django snippets: "Form with one Formset example."
+    if number == None:
+        room = Room()
     else:
-        form = RoomForm(instance=room)
-        material_form = MaterialFormSet()
- 
-    return render_to_response(template_name, {
-        'form': form, 'material_form': material_form,
-    }, context_instance=RequestContext(request))
+        room = Room.objects.get(number = number)
+    
+    MaterialFormSet = inlineformset_factory(Room, Material, queryset=Material.objects.filter(room=room), can_delete=True)
+    
+    if request.method == "POST":
+        roomform = RoomForm(request.POST, instance=room)
+        materialformset = MaterialFormSet(request.POST, request.FILES, instance=room)
+
+        if roomform.is_valid() and materialformset.is_valid():
+            roomform.save()
+            materialformset.save()
+            
+            # Redirect somewhere
+            if '_save' in request.POST:
+                return HttpResponseRedirect(reverse('room_index'))
+            if '_addanother' in request.POST:
+                return HttpResponseRedirect(reverse('room_edit'))
+                
+    else:
+        roomform = RoomForm(instance=room)
+        materialformset = MaterialFormSet(instance=room)
+        
+    return render_to_response('inventory/room_edit.html', {
+        'roomform' : roomform,
+        'materialformset' : materialformset,
+    })"""

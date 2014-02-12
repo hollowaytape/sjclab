@@ -3,6 +3,7 @@ from inventory.models import Experiment, Room, Material, Tag, Text
 from django.forms.models import inlineformset_factory
 
 # The material formset currently does not display on the edit room page.
+# Can I add a kwarg that will specify the Bootstrap type of field for each?
 
 class ExperimentForm(forms.ModelForm):
     error_css_class = 'error'
@@ -29,4 +30,13 @@ class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
 
-MaterialFormSet = inlineformset_factory(Room, Material)
+class MaterialForm(forms.ModelForm):
+    error_css_class = 'error'
+    name = forms.CharField(help_text="Material")
+    count = forms.IntegerField(help_text="Count")
+    location = forms.CharField(help_text="Location")
+    room = forms.ModelChoiceField(help_text="Room", queryset=Room.objects.all())
+    
+    class Meta:
+        model = Material
+    
