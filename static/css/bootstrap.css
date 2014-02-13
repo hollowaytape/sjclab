@@ -732,6 +732,10 @@ a.text-success:focus {
   text-align: center;
 }
 
+h1 {
+    text-shadow: 1px 1px 1px $ccc;
+}
+
 h1,
 h2,
 h3,

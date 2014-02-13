@@ -8,7 +8,6 @@
     <link href="/static/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css" rel="stylesheet">
-    {% block extra_scripts %}{% endblock %}
         <title>{% block title %}Lab - St. John's College{% endblock %}</title>
     </head>
 
@@ -33,6 +32,7 @@
        </div>
    </div>
 </div>
+<!-- There is no div called "jumbotron." Look for some replacement div.-->
 <div class="jumbotron">
     <div class="container">
         {% block jumbotron %}
@@ -52,7 +52,7 @@
 <!--/.fluid-container-->
 
 <hr>
-        <script src="{% static 'js/jquery-2.0.0.min.js' %}></script>
+        <script src="{% static 'js/jquery-2.0.0.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}></script>
     </body>
 <footer>

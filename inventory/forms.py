@@ -2,7 +2,6 @@ from django import forms
 from inventory.models import Experiment, Room, Material, Tag, Text
 from django.forms.models import inlineformset_factory
 
-# The material formset currently does not display on the edit room page.
 # Can I add a kwarg that will specify the Bootstrap type of field for each?
 
 class ExperimentForm(forms.ModelForm):
