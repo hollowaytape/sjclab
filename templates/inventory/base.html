@@ -21,18 +21,28 @@
                <span class="icon-bar"></span>
            </button>
            <a class="brand" href="{% url 'index' %}">St. John's College Lab</a>
-
+           
            <div class="nav-collapse collapse">
+                <ul class="nav pull-right">
+                   {% if user.is_authenticated %}
+                    <li class="navbar-text">Welcome, {{ user.username }}!</li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                   {% else %}
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                   {% endif %}
+               </ul>
                <ul class="nav">
                     <li><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a></li>
-                    <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a></li>
+                    <li><a href="{% url 'room_index' %}"><i class="fa fa-list-ol"></i> Inventory</a></li>
+                    <!-- About page does not exist yet. -->
                </ul>
            </div>
            <!--/.nav-collapse -->
        </div>
    </div>
 </div>
-<!-- There is no div called "jumbotron." Look for some replacement div.-->
+<!-- The jumbotron's not showing up in most places... -->
 <div class="jumbotron">
     <div class="container">
         {% block jumbotron %}

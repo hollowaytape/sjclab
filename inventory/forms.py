@@ -1,5 +1,6 @@
 from django import forms
-from inventory.models import Experiment, Room, Material, Tag, Text
+from inventory.models import Experiment, Room, Material, Tag, Text, UserProfile
+from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 
 # Can I add a kwarg that will specify the Bootstrap type of field for each?
@@ -38,4 +39,15 @@ class MaterialForm(forms.ModelForm):
     
     class Meta:
         model = Material
-    
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('picture',)

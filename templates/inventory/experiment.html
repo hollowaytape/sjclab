@@ -1,5 +1,4 @@
 {% extends 'inventory/base.html' %}
-<!-- TODO: Display gallery of resources. -->
 
 {% block title %} {{ experiment_name }} - Lab Experiment {% endblock %}
 
@@ -17,6 +16,19 @@
     {% endif %}
 {% endblock %}
 {% block body_block %}
+<!-- This is a rough sketch of a resource gallery... to be refined when I have examples. -->
+    {% if resources %}
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+            {% for resource in resources.all %}
+    
+                <a href="{{ resource }}" class="thumbnail">
+                <img data-src="holder.js/100%x180" alt="...">
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
     <h4>Materials:</h4>
     {% if materials %}
         <ul>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from inventory.models import Material, Text, Experiment, Room
+from inventory.models import Material, Text, Experiment, Room, UserProfile
 # Tags do not make sense to put in the Admin, since they only have one attribute.
 
 class TextAdmin(admin.ModelAdmin):
@@ -30,3 +30,4 @@ class ExperimentAdmin(admin.ModelAdmin):
 admin.site.register(Text, TextAdmin)
 admin.site.register(Experiment, ExperimentAdmin)
 admin.site.register(Room, RoomAdmin)
+admin.site.register(UserProfile)
