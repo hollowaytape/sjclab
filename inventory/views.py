@@ -159,10 +159,13 @@ def room(request, room_number):
 def rooms_all(request):
     # Obtain the context from the HTTP request.
     context = RequestContext(request)
+    context_dict = {}
     
     # Then, get each type of Material and add it to the dict.
     material_types = Material.objects.values('name').order_by().distinct()
-    context_dict = {'materials': material_types}
+    for m in material_types:
+        locations = Material.objects.filter(name=m)
+        context_dict[m] = locations
     
     # Render the response and send it back!
     return render_to_response('inventory/rooms_all.html', context_dict, context)

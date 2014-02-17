@@ -4,11 +4,12 @@
     <h1>Full Inventory</h1>
 {% endblock %}
 {% block body_block %}
-    {% if materials %}
+    {% if dictionary.items %}
         <ul>
-        {% for material in materials.all %}
+        {% for key, value in dictionary.items %}
         <!--TODO much later: JQuery function to show the locations of each material. -->
-            <li>{{material.name}}</li>
+            <li>{{ value.name }}</li>
+                <div class="showhide">{{ value.count }}x in Room {{ value.room }}, {{ value.location }}
         {% endfor %}
         </ul>
         {% else %}
