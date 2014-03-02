@@ -4,9 +4,11 @@
 <html>
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/static/js/less.js"></script>
     <link href="/static/css/bootstrap-fluid-adj.css" rel="stylesheet">
     <link href="/static/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/css/lavish-bootstrap.css" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css" rel="stylesheet">
         <title>{% block title %}Lab - St. John's College{% endblock %}</title>
     </head>
@@ -42,9 +44,9 @@
        </div>
    </div>
 </div>
-<!-- The jumbotron's not showing up in most places... -->
-<div class="jumbotron">
-    <div class="container">
+<!-- The jumbotron's not showing up in some places... -->
+<div class="container">
+    <div class="jumbotron">
         {% block jumbotron %}
         {% endblock %}
     </div>
@@ -63,7 +65,8 @@
 
 <hr>
         <script src="{% static 'js/jquery-2.0.0.min.js' %}"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/showhide.js' %}"></script>
     </body>
 <footer>
     <div class="container">

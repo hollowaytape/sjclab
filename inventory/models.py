@@ -60,6 +60,7 @@ class Experiment(models.Model):
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
     # pictures, videos, pdfs.
+    main_photo = models.ImageField(upload_to=('/experiments/images/'), null=True, blank=True)
     resources = models.FileField(upload_to=('/inventory/resources/'), null=True, blank=True)
     # on_program - is it a part of the manuals or official "sequence" of SJC? Then True.
     # If it's something the tutors/students came up with, then False.
