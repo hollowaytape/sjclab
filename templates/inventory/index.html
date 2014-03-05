@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
 
     <title>St. John's College Lab</title>
 
@@ -43,6 +44,15 @@
            <a class="brand" href="{% url 'index' %}">St. John's College Lab</a>
 
            <div class="nav-collapse collapse">
+                <ul class="nav pull-right">
+                   {% if user.is_authenticated %}
+                        <li class="navbar-text">Welcome, {{ user.username }}!</li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                   {% else %}
+                        <li><a href="{% url 'register' %}"><i class="fa fa-angle-right"></i> Register</a></li>
+                        <li><a href="{% url 'login' %}"><i class="fa fa-angle-double-right"></i> Login</a></li>
+                   {% endif %}
+               </ul>
                <ul class="nav">
                     <li><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a></li>
                     <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a></li>

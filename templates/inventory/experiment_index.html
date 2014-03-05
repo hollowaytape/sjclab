@@ -12,7 +12,11 @@
                 {% if fr_experiments %}
                 <ul>
                     {% for experiment in fr_experiments %}
-                        <li><a href="{% url 'experiment' experiment.url %}">{{ experiment.title }}</a></li>
+                        {% if experiment.complete %}
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#878179">{{ experiment.title }}</a></li>
+                        {% else %}
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#BBBDB6">{{ experiment.title }}</a></li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
                 {% else %}
@@ -24,7 +28,11 @@
                 {% if jr_experiments %}
                 <ul>
                     {% for experiment in jr_experiments %}
-                        <li><a href="{% url 'experiment' experiment.url %}">{{ experiment.title }}</a></li>
+                        {% if experiment.complete %}
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#878179">{{ experiment.title }}</a></li>
+                        {% else %}
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#BBBDB6">{{ experiment.title }}</a></li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
                 {% else %}
@@ -36,7 +44,11 @@
                 {% if sr_experiments %}
                 <ul>
                     {% for experiment in sr_experiments %}
-                        <li><a href="{% url 'experiment' experiment.url %}">{{ experiment.title }}</a></li>
+                        {% if experiment.complete %}
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#878179">{{ experiment.title }}</a></li>
+                        {% else %}
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#BBBDB6">{{ experiment.title }}</a></li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
                 {% else %}

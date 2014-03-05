@@ -5,6 +5,9 @@
 {% block jumbotron %}
         {% if tag %}
             <h1>Tag: {{ tag_name }}</h1>
+        {% else %}
+            <p>Tag "{{ tag_name }}" not found.</p>
+        {% endif %}
 {% endblock %}
 {% block body_block %}
             {% if experiments %}
@@ -16,9 +19,6 @@
             {% else %}
                 <p>Tag {{ tag_name }} has no associated experiments.</p>
             {% endif %}
-        {% else %}
-        <p>Tag "{{ tag_name }}" not found.</p>
-        {% endif %}
 
         <p><a href="{% url 'experiment_index' %}" class="btn btn-primary btn-lg">Return to Experiment Index</a></p>
  {% endblock %}
