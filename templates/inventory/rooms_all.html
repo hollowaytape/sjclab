@@ -4,16 +4,15 @@
     <h1>Full Inventory</h1>
 {% endblock %}
 {% block body_block %}
-    {% if dictionary.items %}
+    {% if material_locations.items %}
         <ul>
-        {% for key, value in dictionary.items %}
-        <!--TODO much later: JQuery function to show the locations of each material. -->
-            <li><a href="#" class="show_hide" id="plus">{{ value.name }}</a></li>
-                <div class="slidingDiv" style="display: block;">{{ value.count }}x in Room {{ value.room }}, {{ value.location }}</div>
+        {% for key, value in material_locations.items %}
+            <li><a href="javascript:toggleDiv('locations_{{ key }}');">{{ key }}</a></li>
+                    <div class="locations_{{ key }}" style="display: block;">{{ value.count }}x in Room {{ value.room }}, {{ value.location }}</div>
         {% endfor %}
         </ul>
         {% else %}
-            Labs are empty.
+            <p>Labs are empty. You should probably call Public Safety if this isn't just a bug.</p>
     {% endif %}
 
     <p><a href="{% url 'room_index' %}" class="btn btn-primary btn-lg">Return to Room Index</a></p>

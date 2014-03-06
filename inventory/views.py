@@ -162,11 +162,15 @@ def rooms_all(request):
     context_dict = {}
     
     # Then, get each type of Material and add it to the dict.
-    material_types = Material.objects.values('name').order_by().distinct()
+    # By using values_list w/flat parameter, we get a list instead of an unhashable dict.
+    material_types = Material.objects.values_list('name', flat=True).order_by('name').distinct()
+    material_locations = []
     for m in material_types:
+        # This currently only gets one location for each material... hm.
         locations = Material.objects.filter(name=m)
-        context_dict[m] = locations
+        material_locations[m] = locations
     
+    context_dict['material_locations'] = material_locations
     # Render the response and send it back!
     return render_to_response('inventory/rooms_all.html', context_dict, context)
 
