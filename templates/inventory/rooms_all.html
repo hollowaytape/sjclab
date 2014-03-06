@@ -7,8 +7,12 @@
     {% if material_locations.items %}
         <ul>
         {% for key, value in material_locations.items %}
-            <li><a href="javascript:toggleDiv('locations_{{ key }}');">{{ key }}</a></li>
-                    <div class="locations_{{ key }}" style="display: block;">{{ value.count }}x in Room {{ value.room }}, {{ value.location }}</div>
+            <li><h5><strong>{{ key }}</strong></h5></a>
+                <ul>
+                    {% for instance in value %}
+                        <li>{{ instance.count }}x in Room {{ instance.room }}, {{ instance.location }}
+                    {% endfor %}
+                </ul>
         {% endfor %}
         </ul>
         {% else %}

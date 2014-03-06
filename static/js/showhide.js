@@ -1,3 +1,4 @@
-function toggleDiv(divId) {
-   $("#"+divId).toggle();
-}
+$('toggleDiv').click(function() {
+	$('.toggleDiv').slideToggle('fast');
+	return false;
+});

@@ -163,10 +163,9 @@ def rooms_all(request):
     
     # Then, get each type of Material and add it to the dict.
     # By using values_list w/flat parameter, we get a list instead of an unhashable dict.
-    material_types = Material.objects.values_list('name', flat=True).order_by('name').distinct()
-    material_locations = []
+    material_types = Material.objects.values_list('name', flat=True).distinct()
+    material_locations = {}
     for m in material_types:
-        # This currently only gets one location for each material... hm.
         locations = Material.objects.filter(name=m)
         material_locations[m] = locations
     
