@@ -71,8 +71,13 @@ def experiment(request, experiment_name_url):
     # SO the .get() method returns one model or raises an exception.
     experiment = get_object_or_404(Experiment, title=experiment_name)
     
-    # Retrieve all of the experiment's materials and tags.
+    # Retrieve all of the experiment's materials, as well as their locations.
     materials = experiment.materials
+    material_locations = {}
+    for m in materials
+        locations = Material.objects.filter(name=m)
+        material_locations[m] = locations
+    
     tags = experiment.tags
     resources = experiment.resources
     
@@ -81,6 +86,7 @@ def experiment(request, experiment_name_url):
     
     # Add materials/procedure to the context dictionary.
     context_dict['materials'] = materials
+    context_dict['material_locations'] = material_locations
     context_dict['tags'] = tags
     context_dict['procedure'] = procedure
     context_dict['resources'] = resources

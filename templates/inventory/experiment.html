@@ -32,7 +32,11 @@
     {% if materials %}
         <ul>
         {% for material in materials.all %}
-            <li>{{ material.name }} ({{ material.count}}x in Room {{ material.room }}, {{material.location}})</li>     <!-- TODO: JQuery explanation of material locations. -->
+            <li>{{ material.name }}
+                <ul>
+                {% for instance in material_locations %}
+                    <li>{{ instance.count }}x in Room {{ instance.room }}, {{ instance.location }}
+                {% endfor %}
         {% endfor %}
         </ul>
     {% else %}
