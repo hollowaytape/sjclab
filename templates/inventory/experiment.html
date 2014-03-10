@@ -37,6 +37,7 @@
                 {% for instance in material_locations %}
                     <li>{{ instance.count }}x in Room {{ instance.room }}, {{ instance.location }}
                 {% endfor %}
+                </ul>
         {% endfor %}
         </ul>
     {% else %}
@@ -47,6 +48,6 @@
         <li>{{ step }}</li>
     {% endfor %}
         
-    <p><a href="{% url 'experiment_edit' experiment.id %}" class="btn btn-primary btn-lg">Edit the experiment</a>
-    <a href="{% url 'experiment_index' %}" class="btn btn-primary btn-lg">Return to Experiment Index</a></p>
+    <p><a href="{% url 'experiment_edit' experiment.id %}" class="btn-custom">Edit the experiment</a>
+    <a href="{% url 'experiment_index' %}" class="btn-custom">Return to Experiment Index</a></p>
 {% endblock %}

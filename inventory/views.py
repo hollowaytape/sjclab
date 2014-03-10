@@ -72,9 +72,9 @@ def experiment(request, experiment_name_url):
     experiment = get_object_or_404(Experiment, title=experiment_name)
     
     # Retrieve all of the experiment's materials, as well as their locations.
-    materials = experiment.materials
+    materials = experiment.materials.all()
     material_locations = {}
-    for m in materials
+    for m in materials:
         locations = Material.objects.filter(name=m)
         material_locations[m] = locations
     
