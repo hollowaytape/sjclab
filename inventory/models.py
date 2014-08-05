@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
         
 class Room(models.Model):
     number = models.IntegerField()
+	# Add a "last modified" date to show how current the inventory is?
     
     def __unicode__(self):
         return str(self.number)

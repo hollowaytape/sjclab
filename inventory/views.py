@@ -224,7 +224,7 @@ def room_edit(request, number):
                     'room':room,
                     }
 
-    return render_to_response('inventory/room_edit.html', context_dict)
+    return render_to_response('inventory/room_edit.html', {'formset': formset, 'room': room}, RequestContext(request))
     
 
 def register(request):

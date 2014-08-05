@@ -16,8 +16,9 @@ class ExperimentForm(forms.ModelForm):
     resources = forms.FileField(help_text="Resources", required=False)
     on_program = forms.BooleanField(help_text="On Program?", required=False)
     tags = forms.ModelMultipleChoiceField(help_text="Tags", queryset=Tag.objects.all(), required=False)
+    complete = forms.BooleanField(help_text="Complete Page?", required=False)
     
-    fields = ['title', 'on_program', 'text', 'session', 'procedure', 'materials', 'resources', 'tags']
+    fields = ['title', 'on_program', 'text', 'session', 'procedure', 'materials', 'resources', 'tags', 'complete']
     
     # An inline class to provide additional information on the form.
     class Meta:

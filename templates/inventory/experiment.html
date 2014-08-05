@@ -2,11 +2,15 @@
 
 {% block title %} {{ experiment_name }} - Lab Experiment {% endblock %}
 
-{% block jumbotron %}
+{% block navbar %}
+                <li class="active"><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
+                <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a>
+{% endblock %}
+
+{% block head %}
     {% if experiment %}
-    <h1>{{ experiment_name }}</h1>
-        <h3>{{ experiment.text.author }} - <em>{{ experiment.text}}</em><br>
-        {{ experiment.text.year }} Year, {{ experiment.text.manual }}</h3>
+    <h1>{{ experiment_name }}</h1> <small>{{ experiment.text.author }} - <em>{{ experiment.text}}</em></small><br />
+        {{ experiment.text.year }} Year, {{ experiment.text.manual }}
 
     {% if tags %}
     <h4>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}</h4>
@@ -18,13 +22,15 @@
 {% block body_block %}
 <!-- This is a rough sketch of a resource gallery... to be refined when I have examples. -->
     {% if resources %}
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
+		<div class="container">
+			<div class="row-fluid">
+				<div class="span4">
             {% for resource in resources.all %}
                 <a href="{{ resource }}" class="thumbnail">
                 <img data-src="holder.js/100%x180" alt="...">
                 </a>
             {% endfor %}
+				</div>
         </div>
     </div>
     {% endif %}
@@ -35,7 +41,7 @@
             <li>{{ material.name }}
                 <ul>
                 {% for instance in material_locations %}
-                    <li>{{ instance.count }}x in Room {{ instance.room }}, {{ instance.location }}
+                    <li>{{ instance.count }}x in <a href="{% url 'room' instance.room %}">Room {{ instance.room }}</a>, {{ instance.location }}
                 {% endfor %}
                 </ul>
         {% endfor %}
@@ -43,11 +49,12 @@
     {% else %}
         No materials found. Update the inventory database.
     {% endif %}
+
     <h4>Procedure:</h4>
     {% for step in procedure %}
         <li>{{ step }}</li>
     {% endfor %}
-        
-    <p><a href="{% url 'experiment_edit' experiment.id %}" class="btn-custom">Edit the experiment</a>
-    <a href="{% url 'experiment_index' %}" class="btn-custom">Return to Experiment Index</a></p>
+    <br />
+    <p><a href="{% url 'experiment_edit' experiment.id %}" class="btn btn-primary btn-lg">Edit the Experiment</a>
+        <a href="{% url 'experiment_index' %}" class="btn btn-default btn-lg">Return to Experiment Index</a></p>
 {% endblock %}

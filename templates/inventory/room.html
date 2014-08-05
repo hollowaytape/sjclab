@@ -3,13 +3,24 @@
 <!-- I forget to pass in "room" in the context dict. Whoops. -->
 {% block title %} Mellon {{ room_number }} - Inventory {% endblock %}
 
+{% block navbar %}
+    <li><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
+    <li class="active"><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a>
+    {% if user.is_authenticated %}
+        <li class="navbar-text">Welcome, {{ user.username }}!
+        <li><a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <li><a href="{% url 'register' %}"><i class="fa fa-angle-right"></i> Register</a>
+        <li><a href="{% url 'login' %}"><i class="fa fa-angle-double-right"></i> Login</a>
+    {% endif %}
+{% endblock %}
 
 {% block jumbotron %}
         <h1>Mellon {{ room_number }}</h1>
 {% endblock %}
 {% block body_block %}
         {% if materials %}
-            <table class="table">
+            <table class="table table-hover">
                 <tr>
                     <th>Material</th>
                     <th>Count</th>

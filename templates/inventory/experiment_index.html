@@ -1,8 +1,12 @@
 {% extends 'inventory/base.html' %}
-<!-- TODO: Color the experiments differently depending on whether or not they are complete. -->
 {% block title %}Experiment Index{% endblock %}
 
-{% block jumbotron %}
+{% block navbar %}
+    <li class="active"><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
+    <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a>
+{% endblock %}
+
+{% block head %}
         <h1>Experiments</h1>
 {% endblock %}
 {% block body_block %}

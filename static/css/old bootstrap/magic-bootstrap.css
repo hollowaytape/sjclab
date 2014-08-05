@@ -3727,11 +3727,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-width: 1px 0 0;
 }
 .navbar-brand {
+  display: block;
   float: left;
   padding: 15px 15px;
-  font-size: 22px;
-  line-height: 20px;
-  height: 50px;
+  font-size: 20px;
 }
 .navbar-brand:hover,
 .navbar-brand:focus {
