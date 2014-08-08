@@ -27,11 +27,7 @@ def experiment_index(request):
     # Obtain the context from the HTTP request.
     context = RequestContext(request)
     
-    # Query the database for a list of all experiments.
-    # Order the experiments by session in ascending order.
-    # Place the list in our context_dict dictionary,
-    # which will be passed to the template engine.
-    fr_experiments, jr_experiments, sr_experiments = [], [], []
+    fr_experiments, jr_experiments, sr_experiments, tags = [], [], [], []
     
     for e in Experiment.objects.filter(text__year="Freshman").order_by('session'):
         fr_experiments.append(e)
@@ -41,11 +37,15 @@ def experiment_index(request):
     
     for e in Experiment.objects.filter(text__year="Senior").order_by('session'):
         sr_experiments.append(e)
+
+    for t in Tag.objects.order_by('name'):
+        tags.append(t)
     
     context_dict = {}
     context_dict['fr_experiments'] = fr_experiments
     context_dict['jr_experiments'] = jr_experiments
     context_dict['sr_experiments'] = sr_experiments
+    context_dict['tags'] = tags
     
     # Sanitize experiment names for use in urls.
     for year in (fr_experiments, jr_experiments, sr_experiments):
@@ -75,8 +75,9 @@ def experiment(request, experiment_name_url):
     materials = experiment.materials.all()
     material_locations = {}
     for m in materials:
-        locations = Material.objects.filter(name=m)
-        material_locations[m] = locations
+        if m.count > 0:
+            locations = Material.objects.filter(name=m)
+            material_locations[m] = locations
     
     tags = experiment.tags
     resources = experiment.resources
@@ -214,7 +215,7 @@ def room_edit(request, number):
     formset = MaterialFormSet(queryset = qset)
     if request.method == 'POST':
         # deal with posting the data
-        formset = PointFormset(request.POST)
+        formset = MaterialFormSet(request.POST, queryset = qset)
         if formset.is_valid():
             # if it is not valid then the "errors" will fall through and be returned
             formset.save()

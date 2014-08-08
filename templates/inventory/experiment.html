@@ -8,32 +8,24 @@
 {% endblock %}
 
 {% block head %}
-    {% if experiment %}
-    <h1>{{ experiment_name }}</h1> <small>{{ experiment.text.author }} - <em>{{ experiment.text}}</em></small><br />
-        {{ experiment.text.year }} Year, {{ experiment.text.manual }}
+    <h1>{{ experiment_name }}</h1> 
+{% endblock %}
+{% block body_block %}
+    <i class="fa fa-pencil"></i> {{ experiment.text.author }}, <i class="fa fa-book"></i> <em>{{ experiment.text.title }}</em><br />
+    <i class="fa fa-book"></i> {{ experiment.text.year }} Year, <i class="fa fa-file-text-o"></i> {{ experiment.text.manual }}
 
     {% if tags %}
     <h4>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}</h4>
     {% else %}
     <h4>Tags: None</h4>
     {% endif %}
-    {% endif %}
-{% endblock %}
-{% block body_block %}
-<!-- This is a rough sketch of a resource gallery... to be refined when I have examples. -->
-    {% if resources %}
-		<div class="container">
-			<div class="row-fluid">
-				<div class="span4">
-            {% for resource in resources.all %}
-                <a href="{{ resource }}" class="thumbnail">
-                <img data-src="holder.js/100%x180" alt="...">
-                </a>
-            {% endfor %}
-				</div>
-        </div>
+
+    {% if main_photo %}
+    <div class="well" style="align:center;">
+        <img src="{{ MEDIA_URL }}/{{ main_photo }}"/>
     </div>
     {% endif %}
+
     <h4>Materials:</h4>
     {% if materials %}
         <ul>

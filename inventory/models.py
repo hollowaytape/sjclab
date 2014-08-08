@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-        
+
 class Room(models.Model):
     number = models.IntegerField()
 	# Add a "last modified" date to show how current the inventory is?
@@ -45,7 +45,7 @@ class Text(models.Model):
     author = models.CharField(max_length=20, null=True, default='Manual Authors')
 
     def __unicode__(self):
-        return self.title
+        return "%s, %s" % (self.author, self.title)
         
 class Tag(models.Model):
     name = models.CharField(max_length=75)
@@ -57,17 +57,13 @@ class Tag(models.Model):
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
     text = models.ForeignKey('Text', null=True, blank=True)
-    session = models.IntegerField(null=True, blank=True)
+    session = models.IntegerField(null=True, blank=True)   # Essentially the index.
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
     main_photo = models.ImageField(upload_to=('/experiments/images/'), null=True, blank=True)
-    # pictures, videos, pdfs.
-    resources = models.FileField(upload_to=('/inventory/resources/'), null=True, blank=True)
-    # on_program - is it a part of the manuals or official "sequence" of SJC? Then True.
-    # If it's something the tutors/students came up with, then False.
-    on_program = models.BooleanField(default=True)
-    # complete: is the page all filled out with no placeholder info?
-    complete = models.BooleanField(default=False)
+    resources = models.FileField(upload_to=('/inventory/resources/'), null=True, blank=True)    # pdfs, videos, etc
+    on_program = models.BooleanField(default=True)         # Is it in the text? Or did a tutor/assistant come up with it?
+    complete = models.BooleanField(default=False)          # Mark true when all info filled out.
     tags = models.ManyToManyField('Tag', null=True, blank=True)
 
     def __unicode__(self):

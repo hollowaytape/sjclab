@@ -60,5 +60,11 @@
                 {% endif%}
         </div>
     </div>
+
+<h2>By Tag</h2>
+{% for tag in tags %} <!-- How to make them inline? -->
+    <a href="{% url 'tag' tag.name %}">{{ tag.name }} </a>
+{% endfor %}
+
 <p><a href="{% url 'experiment_edit' %}" class="btn btn-primary btn-lg">Add an Experiment</a></p>
 {% endblock %}

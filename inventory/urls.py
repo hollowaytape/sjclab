@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
 from inventory import views
+from baros import settings
 from django.views.generic import TemplateView
 
 urlpatterns = patterns('',
@@ -16,6 +17,8 @@ urlpatterns = patterns('',
     url(r'^rooms/all/$', views.rooms_all, name='rooms_all'),
     url(r'^rooms/(?P<room_number>\d+)/$', views.room, name='room'),
     url(r'^rooms/edit/(?P<number>\d+)/$', views.room_edit, {}, 'room_edit'),
+
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
