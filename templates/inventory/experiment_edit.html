@@ -5,24 +5,77 @@
     <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a>
 {% endblock %}
 
+{% block head %}
+<h1>Add an Experiment</h1>
 {% block body_block %}
 
-<div class="hero-unit">
-    <h1>Add an Experiment</h1> 
-</div>    
-            <form id="experiment_form" enctype="multipart/form-data" method="post" action="">
-            
+            <form id="experiment_form" class="form-horizontal" enctype="multipart/form-data" method="post" action="">
+            <!-- Still needs: main_photo, hidden last-updated field, resources -->
                 {% csrf_token %}
+                {{ form.non_field_errors }}
                 {% for hidden in form.hidden_fields %}
                     {{ hidden }}
                 {% endfor %}
-                
-                {% for field in form.visible_fields %}
-                    {{ field.help_text }}
-                    {{ field }}
-                    {{ field.errors }}<br>
-                {% endfor %}
-                
+
+                <div class="form-group">
+                    {{ form.title.erors }}
+                    <label for="title" class="col-lg2 control-label">Title</label>
+                    <div class="col-lg-10">
+                        {{ form.title }}
+                    </div>
+
+                    {{ form.session.erors }}
+                    <label for="session" class="col-lg2 control-label">Session #</label>
+                    <div class="col-lg-10">
+                        {{ form.session }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.text.errors }}
+                    <label for="text" class="col-lg-2 control-label">Text</label>
+                    <div class="col-lg-10">
+                        {{ form.text }}
+                    </div>
+
+                    {{ form.on_program.errors }}
+                    <div class="checkbox">
+                    <label>
+                        {{ form.on_program }} On Program?
+                    </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.materials.errors }}
+                    <label for="materials" class="col-lg-2 control-label">Materials</label>
+                    <div class="col-lg-10">
+                        {{ form.materials }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.procedure.errors }}
+                    <label for="procedure" class="col-lg-2 control-label">Procedure</label>
+                    <div class="col-lg-10">
+                        {{ form.procedure }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.tags.errors }}
+                    <label for="tags" class="col-lg-2 control-label">Tags</label>
+                    <div class="col-lg-10">
+                        {{ form.tags }}
+                    </div>
+
+                    {{ form.complete.errors }}
+                    <div class="checkbox">
+                    <label>
+                        {{ form.complete }} Mark this page as "complete?"
+                    </label>
+                    </div>
+                </div>
                 <input type="submit" name="submit" value = "Save Changes" />
             </form>
 </div>

@@ -43,9 +43,9 @@
     {% endif %}
 
     <h4>Procedure:</h4>
-    {% for step in procedure %}
-        <li>{{ step }}</li>
-    {% endfor %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+        <p>{{ procedure }}
     <br />
     <p><a href="{% url 'experiment_edit' experiment.id %}" class="btn btn-primary btn-lg">Edit the Experiment</a>
         <a href="{% url 'experiment_index' %}" class="btn btn-default btn-lg">Return to Experiment Index</a></p>

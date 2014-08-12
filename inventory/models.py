@@ -12,7 +12,7 @@ class Material(models.Model):
     name = models.CharField(max_length=25)
     room = models.ForeignKey('Room', null=True, blank=True)
     location = models.CharField(max_length=100, default="Somewhere")
-    count = models.IntegerField(default=1)        # Can't be like "2 pair".
+    count = models.IntegerField(default=1)
 
     def __unicode__(self):
         return self.name
@@ -57,7 +57,7 @@ class Tag(models.Model):
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
     text = models.ForeignKey('Text', null=True, blank=True)
-    session = models.IntegerField(null=True, blank=True)   # Essentially the index.
+    session = models.IntegerField(null=True, blank=True)   # Determines the order it's displayed in.
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
     main_photo = models.ImageField(upload_to=('/experiments/images/'), null=True, blank=True)

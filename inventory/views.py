@@ -156,8 +156,6 @@ def room(request, room_number):
     
     # Retrieve all of the materials in the room.
     materials = Material.objects.filter(room=room).order_by('location')
-    
-    # Add materials/procedure to the context dictionary.
     context_dict['materials'] = materials
     
     # Go render the response and return it to the client.

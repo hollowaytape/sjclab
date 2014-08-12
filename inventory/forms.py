@@ -3,8 +3,6 @@ from inventory.models import Experiment, Room, Material, Tag, Text, UserProfile
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 
-# Can I add a kwarg that will specify the Bootstrap type of field for each?
-
 class ExperimentForm(forms.ModelForm):
     error_css_class = 'error'
     
