@@ -5,8 +5,6 @@ from django.core.exceptions import ObjectDoesNotExist
 inventory_sheet = "Senior Lab Inventory.xls"
 experiment_sheet = "Freshman Experiments.xls"  # Includes FR texts on sheet 1.
 
-
-# Try adding the referenced items first? rooms -> materials -> texts -> experiments
 def populate():
     # First, add the Material and Room objects.
     sheet = open_workbook(inventory_sheet).sheet_by_index(0)

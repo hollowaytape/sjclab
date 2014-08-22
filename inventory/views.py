@@ -9,7 +9,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout
 
 # Imports for add-or-edit object form.
-# TODO: Fix the experiment-edit form to syntactically resemble the room-edit form.
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -194,7 +193,7 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
             
             messages.add_message(request, messages.SUCCESS, _('Experiment correctly saved.'))
             # If the save was successful, redirect to another page
-            redirect_url = reverse('experiment_index')
+            redirect_url = reverse('experiment', args=[url_safe(experiment.title)])
             return HttpResponseRedirect(redirect_url)
  
     else:

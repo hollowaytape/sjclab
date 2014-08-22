@@ -58,25 +58,25 @@ WSGI_APPLICATION = 'baros.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': DATABASE_PATH,
     }
-}"""
+}
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'db_baros',                      
-        'USER': 'markdaly',
+        'USER': 'max',
         'PASSWORD': '',
         'HOST': ''
     }
-}
+}"""
 
-import dj_database_url
-DATABASES['default'] = dj_database_url.config()
+#import dj_database_url
+#DATABASES['default'] = dj_database_url.config()
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
@@ -98,8 +98,6 @@ USE_TZ = True
 STATIC_PATH = os.path.join(PROJECT_PATH,'static')
 
 STATIC_URL = '/static/'
-
-STATIC_ROOT = 'staticfiles'
 
 STATICFILES_DIRS = (
     STATIC_PATH,
