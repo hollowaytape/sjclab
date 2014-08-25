@@ -78,22 +78,13 @@ def experiment(request, experiment_name_url):
             locations = Material.objects.filter(name=m)
             material_locations[m] = locations
     
-    tags = experiment.tags
-    resources = experiment.resources
-    
-    # Create a list with the steps of the procedure separated.
-    procedure = experiment.procedure.split('. ')
-    
-    # Add materials/procedure to the context dictionary.
+	context_dict['experiment'] = experiment
     context_dict['materials'] = materials
     context_dict['material_locations'] = material_locations
-    context_dict['tags'] = tags
-    context_dict['procedure'] = procedure
-    context_dict['resources'] = resources
-    
-    # Also add the experiment object.
-    context_dict['experiment'] = experiment
-    
+    context_dict['tags'] = experiment.tags
+    context_dict['procedure'] = experiment.procedure
+    context_dict['resources'] = experiment.resources
+
     # Go render the response and return it to the client.
     return render_to_response('inventory/experiment.html', context_dict, context)
 
@@ -216,7 +207,8 @@ def room_edit(request, number):
         if formset.is_valid():
             # if it is not valid then the "errors" will fall through and be returned
             formset.save()
-        return HttpResponseRedirect(reverse('room_index'))
+        redirect_url = reverse('room', args=[room.number])
+        return HttpResponseRedirect(redirect_url)
 
     context_dict = {'formset':formset,
                     'room':room,
@@ -255,11 +247,6 @@ def register(request):
             # This delays saving the model until we're ready to avoid integrity problems.
             profile = profile_form.save(commit=False)
             profile.user = user
-
-            # Did the user provide a profile picture?
-            # If so, we need to get it from the input form and put it in the UserProfile model.
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
 
             # Now we save the UserProfile model instance.
             profile.save()

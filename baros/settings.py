@@ -21,11 +21,11 @@ DATABASE_PATH = os.path.join(PROJECT_PATH, 'baros.db')
 SECRET_KEY = '@&v@6mq6b-4(97c8s^4g((t-&%k&@hi08u$x0w+(mnhre08m!='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['sjclab.herokuapp.com']
+ALLOWED_HOSTS = ['sjclab.herokuapp.com', 'http://127.0.0.1', 'localhost']
 
 
 # Application definition

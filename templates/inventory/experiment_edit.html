@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block head %}
-<h1>Add an Experiment</h1>
+<h1>Add/Edit an Experiment</h1>
 {% endblock %}
 
 {% block body_block %}
@@ -73,12 +73,11 @@
 
                     {{ form.complete.errors }}
                     <div class="checkbox">
-                    <label>
-                        {{ form.complete }} Mark this page as "complete?"
-                    </label>
+						<label>
+							{{ form.complete }} Mark this page as "complete?"
+						</label>
                     </div>
                 </div>
                 <input type="submit" name="submit" value = "Save Changes" />
             </form>
-</div>
 {% endblock %}
