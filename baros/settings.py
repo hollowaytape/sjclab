@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'baros.wsgi.application'
 }"""
 
 # Manual PS db
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'lab_db',                      
@@ -78,10 +78,11 @@ DATABASES = {
         'HOST': 'localhost',
 		'PORT': '5432',
     }
-}
+}"""
 
 # Weird Heroku color url trick
-DATABASES = {'default': dj_database_url.config(default=os.environ["HEROKU_POSTGRESQL_ROSE_URL"])}
+DATABASES = { 'default': dj_database_url.config(default="postgres://dnwpzmwrmfxotb:hJQeMnHEZE7VyKbRXwcSZsLkQn@ec2-107-20-234-127.compute-1.amazonaws.com:5432/d9q9m7er1gc7o9") }
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
