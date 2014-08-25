@@ -8,6 +8,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import os
+import dj_database_url
+
 SETTINGS_DIR = os.path.dirname(__file__)
 
 PROJECT_PATH = os.path.abspath(os.path.join(SETTINGS_DIR, os.pardir))
@@ -58,6 +60,7 @@ WSGI_APPLICATION = 'baros.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+# Old Sqlite db
 """DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -65,6 +68,7 @@ WSGI_APPLICATION = 'baros.wsgi.application'
     }
 }"""
 
+# Manual PS db
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -76,8 +80,8 @@ DATABASES = {
     }
 }
 
-#import dj_database_url
-#DATABASES['default'] = dj_database_url.config()
+# Weird Heroku color url trick
+DATABASES = {'default': dj_database_url.config(default=os.environ["HEROKU_POSTGRESQL_ROSE_URL"])}
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
