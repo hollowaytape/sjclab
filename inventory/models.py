@@ -9,7 +9,7 @@ class Room(models.Model):
         return str(self.number)
 
 class Material(models.Model): 
-    name = models.CharField(max_length=25)
+    name = models.CharField(max_length=100)
     room = models.ForeignKey('Room', null=True, blank=True)
     location = models.CharField(max_length=100, default="Somewhere")
     count = models.IntegerField(default=1)
@@ -37,12 +37,12 @@ class Text(models.Model):
 	('GENS', 'Genetics and Evolution')
 	]
 	
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=100)
     manual = models.CharField(max_length=30,
 	                          choices=MANUAL_CHOICES, null=True, default='NULL')
     year = models.CharField(max_length=8,
                             choices=YEAR_CHOICES)
-    author = models.CharField(max_length=20, null=True, default='Manual Authors')
+    author = models.CharField(max_length=80, null=True, default='Manual Authors')
 
     def __unicode__(self):
         return "%s, %s" % (self.author, self.title)

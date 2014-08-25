@@ -21,9 +21,9 @@ DATABASE_PATH = os.path.join(PROJECT_PATH, 'baros.db')
 SECRET_KEY = '@&v@6mq6b-4(97c8s^4g((t-&%k&@hi08u$x0w+(mnhre08m!='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = ['sjclab.herokuapp.com']
 
@@ -58,22 +58,23 @@ WSGI_APPLICATION = 'baros.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': DATABASE_PATH,
     }
-}
+}"""
 
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db_baros',                      
+        'NAME': 'lab_db',                      
         'USER': 'max',
-        'PASSWORD': '',
-        'HOST': ''
+        'PASSWORD': 'lab',
+        'HOST': 'localhost',
+		'PORT': '5432',
     }
-}"""
+}
 
 #import dj_database_url
 #DATABASES['default'] = dj_database_url.config()

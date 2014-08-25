@@ -2,8 +2,8 @@ import os
 from xlrd import open_workbook
 from django.core.exceptions import ObjectDoesNotExist
 
-inventory_sheet = "Senior Lab Inventory.xls"
-experiment_sheet = "Freshman Experiments.xls"  # Includes FR texts on sheet 1.
+inventory_sheet = "data/Senior Lab Inventory.xls"
+experiment_sheet = "data/Freshman Experiments.xls"  # Includes FR texts on sheet 1.
 
 def populate():
     # First, add the Material and Room objects.
