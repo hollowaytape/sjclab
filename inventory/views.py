@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
+from django.forms.models import inlineformset_factory
 
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
@@ -64,20 +65,21 @@ def experiment(request, experiment_name_url):
     # Contain the name of the experiment passed by the user.
     context_dict = {'experiment_name': experiment_name}
     
-    # Can we find an experiment with the given name?
-    # If we can't, the .get() raises DoesNotExist.
-    # SO the .get() method returns one model or raises an exception.
     experiment = get_object_or_404(Experiment, title=experiment_name)
     
-    # Retrieve all of the experiment's materials, as well as their locations.
+    # materials: each kind of material necessary for the experiment.
     materials = experiment.materials.all()
-    material_locations = {}
-    for m in materials:
-        if m.count > 0:
-            locations = Material.objects.filter(name=m)
-            material_locations[m] = locations
     
-	context_dict['experiment'] = experiment
+    # material_locations: dict with entries {material: [instance, instance]}.
+    material_locations = {}
+    
+    for m in materials:
+        locations = Material.objects.filter(name=m)
+        material_locations[m] = locations
+    
+    print materials    
+    print material_locations
+    context_dict['experiment'] = experiment
     context_dict['materials'] = materials
     context_dict['material_locations'] = material_locations
     context_dict['tags'] = experiment.tags
@@ -85,6 +87,7 @@ def experiment(request, experiment_name_url):
     context_dict['resources'] = experiment.resources
     context_dict['main_photo'] = experiment.main_photo
     context_dict['id'] = experiment.id
+    context_dict['text'] = experiment.text
 
     # Go render the response and return it to the client.
     return render_to_response('inventory/experiment.html', context_dict, context)
@@ -189,6 +192,8 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
             # If the save was successful, redirect to another page
             redirect_url = reverse('experiment', args=[url_safe(experiment.title)])
             return HttpResponseRedirect(redirect_url)
+        else:
+            messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. Please try again.'))
  
     else:
         form = ExperimentForm(instance=experiment)
@@ -200,22 +205,24 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
 @login_required
 def room_edit(request, number):
     room = Room.objects.get(number = number)
-    MaterialFormSet = formset_factory(MaterialForm, extra=10)
+    MaterialFormSet = inlineformset_factory(Material, Room, extra=1)
     materials = Material.objects.filter(room = room).values()
     formset = MaterialFormSet(initial=materials)
+    
     if request.method == 'POST':
         # deal with posting the data
         formset = MaterialFormSet(request.POST, queryset = qset)
         if formset.is_valid():
             # if it is not valid then the "errors" will fall through and be returned
             formset.save()
-        messages.add_message(request, messages.SUCCESS, _('Room successfully updated.'))
-        redirect_url = reverse('room', args=[room.number])
-        return HttpResponseRedirect(redirect_url)
-
+            messages.add_message(request, messages.SUCCESS, _('Room successfully updated.'))
+            redirect_url = reverse('room', args=[room.number])
+            return HttpResponseRedirect(redirect_url)
+        else:
+            messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. Please try again.'))
+    
     context_dict = {'formset':formset,
-                    'room':room,
-                    }
+                    'room':room}
 
     return render_to_response('inventory/room_edit.html', {'formset': formset, 'room': room}, RequestContext(request))
     
@@ -255,12 +262,14 @@ def register(request):
             profile.save()
 
             # Update our variable to tell the template registration was successful.
+            messages.add_message(request, messages.SUCCESS, _('Registration successful. Welcome!'))
             registered = True
 
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
         # They'll also be shown to the user.
         else:
+            messages.add_message(request, messages.ERROR, _('There was a problem registering. Please try again.'))
             print user_form.errors, profile_form.errors
 
     # Not a HTTP POST, so we render our form using two ModelForm instances.
@@ -305,8 +314,9 @@ def user_login(request):
                 return HttpResponse("Your account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
+            messages.add_message(request, messages.ERROR, _('Invalid login details supplied, please try again.'))
             print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            return render_to_response('inventory/login.html', {}, context)
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
@@ -321,5 +331,5 @@ def user_logout(request):
     logout(request)
 
     # Take the user back to the homepage.
-    messages.add_message(request, messages.SUCCESS, _('Experiment correctly saved.'))
+    messages.add_message(request, messages.SUCCESS, _('You have logged out.'))
     return HttpResponseRedirect('/inventory/')

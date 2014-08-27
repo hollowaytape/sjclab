@@ -11,8 +11,8 @@
     <h1>{{ experiment_name }}</h1> 
 {% endblock %}
 {% block body_block %}
-    <i class="fa fa-pencil"></i> {{ experiment.text.author }}, <i class="fa fa-book"></i> <em>{{ experiment.text.title }}</em><br />
-    <i class="fa fa-book"></i> {{ experiment.text.year }} Year, <i class="fa fa-file-text-o"></i> {{ experiment.text.manual }}
+    <i class="fa fa-pencil"></i> {{ text.author }}, <i class="fa fa-book"></i> <em>{{ text.title }}</em><br />
+    <i class="fa fa-book"></i> {{ text.year }} Year, <i class="fa fa-file-text-o"></i> {{ text.manual }}
 
     {% if tags %}
     <h4>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}</h4>
@@ -21,33 +21,49 @@
     {% endif %}
 
     {% if main_photo %}
-    <div class="well" style="align:center;">
-        <img src="{{ MEDIA_URL }}/{{ main_photo }}" alt="{{experiment.title}}"/>
+    <div class="col-lg-4 col-sm-6 col-xs-12" style="float:right">
+        <img src="{{ MEDIA_URL }}/{{ main_photo }}" alt="{{experiment.title}}" class="thumbnail img-responsive"/>
     </div>
     {% endif %}
 
     <h4>Materials:</h4>
     {% if materials %}
         <ul>
-        {% for material in materials.all %}
-            <li>{{ material.name }}
+        {% for key,value in material_locations.items %}
+            <li>{{ key.name }}
                 <ul>
-                {% for instance in material_locations %}
+                {% for instance in value %}
                     <li>{{ instance.count }}x in <a href="{% url 'room' instance.room %}">Room {{ instance.room }}</a>, {{ instance.location }}
                 {% endfor %}
                 </ul>
         {% endfor %}
         </ul>
     {% else %}
-        No materials found. Update the inventory database.
+        <ul>
+            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">What is needed for this experiment?</a></li>
+        </ul>
     {% endif %}
 
     <h4>Procedure:</h4>
     <div class="panel panel-default">
         <div class="panel-body">
-        <p>{{ procedure }}
+            {% if procedure %}
+                {{ procedure }}
+            {% else %}
+                <i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">How is this experiment performed?</a>
+            {% endif %}
 		</div>
 	</div>
+    
+    <h4>Other Resources:</h4>
+    <ul>
+        {% if resources %}
+            {% for r in resource %}
+                <li>{{ r }}</li>
+            {% endfor %}
+        {% else %}
+            <li><i class="fa fa-pencil"></i> Any videos or resources for this experiment?</li>
+        {% endif %}
 	<br />
     <p><a href="{% url 'experiment_edit' id %}" class="btn btn-primary btn-lg">Edit the Experiment</a>
         <a href="{% url 'experiment_index' %}" class="btn btn-default btn-lg">Return to Experiment Index</a></p>
