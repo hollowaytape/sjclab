@@ -1,88 +1,120 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico">
-    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
 
     <title>St. John's College Lab</title>
 
-    <!-- Modified Bootstrap core CSS -->
-    <link href="{% static "css/bootstrap-magic.css" %}" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="{% static "css/bootstrap-cover.css" %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/static/css/grayscale.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- Custom Fonts -->
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-  <style type="text/css"></style><style id="holderjs-style" type="text/css"></style></head>
 
-  <body style="">
-    <div class="site-wrapper">
-      <div class="site-wrapper-inner">
-        <div class="cover-container">
-              <div class="navbar navbar-inverse navbar-fixed-top">
-       <div class="navbar-inner">
-       <div class="container">
-           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-           </button>
-           <a class="brand" href="{% url 'index' %}">St. John's College Lab</a>
-           <div class="nav-collapse collapse">
-                <ul class="nav pull-right">
-                   {% if user.is_authenticated %}
-                        <li class="navbar-text">Welcome, {{ user.username }}!</li>
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
-                   {% else %}
-                        <li><a href="{% url 'register' %}"><i class="fa fa-angle-right"></i> Register</a></li>
-                        <li><a href="{% url 'login' %}"><i class="fa fa-angle-double-right"></i> Login</a></li>
-                   {% endif %}
-               </ul>
-               <ul class="nav">
-                    <li><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a></li>
-                    <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a></li>
-               </ul>
-           </div>
-           <!--/.nav-collapse -->
-       </div>
-   </div>
-</div>
+</head>
 
-          <div class="inner cover">
-            <h1 class="cover-heading">See with new eyes.</h1>
-            <p class="lead">Around the discussion table and in the dissection tray, the wonder of critically observing the natural world returns.</p>
-            <p class="lead">
-              <a href="{% url 'experiment_index' %}" class="btn btn-lg btn-default">Begin the quantification</a>
-            </p>
-          </div>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Inventory for St. John's College Lab, by Max Silbiger</p>.
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                    <i class="fa fa-play-circle"></i>  <span class="light">Start</span> Bootstrap
+                </a>
             </div>
-          </div>
 
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#download">Download</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
+        <!-- /.container -->
+    </nav>
 
-      </div>
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="brand-heading">St. John's College Lab</h1>
+                        <p class="intro-text"><a href="{% url 'experiment_index' %}">Experiments</a> | <a href="{% url 'room_index' %}">Inventory</a></p>
+                        <a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    </div>
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>About Grayscale</h2>
+                <p>Grayscale is a free Bootstrap 3 theme created by Start Bootstrap. It can be yours right now, simply download the template on <a href="http://startbootstrap.com/template-overviews/grayscale/">the preview page</a>. The theme is open source, and you can use it for any purpose, personal or commercial.</p>
+                <p>This theme features stock photos by <a href="http://gratisography.com/">Gratisography</a> along with a custom Google Maps skin courtesy of <a href="http://snazzymaps.com/">Snazzy Maps</a>.</p>
+                <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy customization.</p>
+            </div>
+        </div>
+    </section>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{% static 'js/jquery-2.0.0.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/docs.min.js' %}"></script>
-  
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>Copyright &copy; Max Silbiger 2014</p>
+        </div>
+    </footer>
 
-</body></html>
+    <!-- jQuery Version 1.11.0 -->
+    <script src="/static/js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/static/js/jquery.easing.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/static/js/grayscale.js"></script>
+
+</body>
+
+</html>

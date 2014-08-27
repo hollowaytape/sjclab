@@ -11,19 +11,33 @@
         {% else %}
         <strong>Create an account to edit experiments and the inventory.</strong><br />
 
-        <form id="user_form" method="post" action="/inventory/register/"
-                enctype="multipart/form-data">
-
+        <form class="form-horizontal" id="user_form" method="post" action="/inventory/register/">
             {% csrf_token %}
-
-            <!-- Display each form. The as_p method wraps each element in a paragraph
-                 (<p>) element. This ensures each element appears on a new line,
-                 making everything look neater. -->
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
-
-            <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Register" />
+            <fieldset>
+                <div class="form-group">
+                    <label for="inputUsername" class="col-lg-2 control-label">Username</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Username">
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="email" class="form-control" id="inputEmail" placeholder="Email">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                    <div class="col-lg-10">
+                        <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+                        <br />
+                        <input type="submit" name="submit" value="Register" />
+                    </div>
+                </div>
+            </fieldset>
+            {{ profile_form.as_p }}  
         </form>
         {% endif %}
 {% endblock %}

@@ -15,8 +15,9 @@ class ExperimentForm(forms.ModelForm):
     on_program = forms.BooleanField(help_text="On Program?", required=False)
     tags = forms.ModelMultipleChoiceField(help_text="Tags", queryset=Tag.objects.all(), required=False)
     complete = forms.BooleanField(help_text="Complete Page?", required=False)
+    main_photo = forms.FileField(help_text="Picture", required=False)
     
-    fields = ['title', 'on_program', 'text', 'session', 'procedure', 'materials', 'resources', 'tags', 'complete']
+    fields = ['title', 'on_program', 'text', 'session', 'procedure', 'materials', 'resources', 'tags', 'complete', 'main_photo']
     
     # An inline class to provide additional information on the form.
     class Meta:
@@ -34,10 +35,11 @@ class MaterialForm(forms.ModelForm):
     name = forms.CharField(help_text="Material")
     count = forms.IntegerField(help_text="Count")
     location = forms.CharField(help_text="Location")
-    room = forms.ModelChoiceField(help_text="Room", queryset=Room.objects.all())
+    #room = forms.ModelChoiceField(help_text="Room", queryset=Room.objects.all())
     
     class Meta:
         model = Material
+        exclude = ('room',)
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

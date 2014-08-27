@@ -10,7 +10,8 @@
 {% endblock %}
 
 {% block body_block %}
-
+    <div class="panel panel-default">
+        <div class="panel-body">
             <form id="experiment_form" class="form-horizontal" enctype="multipart/form-data" method="post" action="">
             <!-- Still needs: main_photo, hidden last-updated field, resources -->
                 {% csrf_token %}
@@ -21,7 +22,7 @@
 
                 <div class="form-group">
                     {{ form.title.erors }}
-                    <label for="title" class="col-lg2 control-label">Title</label>
+                    <label for="title" class="col-lg-2 control-label">Title</label>
                     <div class="col-lg-10">
                         {{ form.title }}
                     </div>
@@ -29,7 +30,7 @@
 				
 				<div class="form-group">
 				    {{ form.session.erors }}
-                    <label for="session" class="col-lg2 control-label">Session #</label>
+                    <label for="session" class="col-lg-2 control-label">Session #</label>
                     <div class="col-lg-10">
                         {{ form.session }}
                     </div>
@@ -93,4 +94,6 @@
 				
                 <input type="submit" name="submit" value = "Save Changes" />
             </form>
+        </div>
+    
 {% endblock %}

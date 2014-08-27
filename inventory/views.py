@@ -4,11 +4,10 @@ from django.shortcuts import render_to_response, get_object_or_404
 from inventory.models import Experiment, Material, Text, Room, Tag
 from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm
 from django.forms.models import modelformset_factory
+from django.forms.formsets import formset_factory
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout
-
-# Imports for add-or-edit object form.
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -84,6 +83,8 @@ def experiment(request, experiment_name_url):
     context_dict['tags'] = experiment.tags
     context_dict['procedure'] = experiment.procedure
     context_dict['resources'] = experiment.resources
+    context_dict['main_photo'] = experiment.main_photo
+    context_dict['id'] = experiment.id
 
     # Go render the response and return it to the client.
     return render_to_response('inventory/experiment.html', context_dict, context)
@@ -176,13 +177,15 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
         experiment = Experiment()
  
     if request.POST:
-        form = ExperimentForm(request.POST, instance=experiment)
+        form = ExperimentForm(request.POST, request.FILES, instance=experiment)
         if form.is_valid():
-            form.save()
             if 'resources' in request.FILES:
-                profile.resources = request.FILES['resources']
-            
-            messages.add_message(request, messages.SUCCESS, _('Experiment correctly saved.'))
+                form.resources = request.FILES['resources']
+            if 'main_photo' in request.FILES:
+                form.main_photo = request.FILES['main_photo']
+            form.save()
+
+            messages.add_message(request, messages.SUCCESS, _('Experiment successfully updated.'))
             # If the save was successful, redirect to another page
             redirect_url = reverse('experiment', args=[url_safe(experiment.title)])
             return HttpResponseRedirect(redirect_url)
@@ -197,16 +200,16 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
 @login_required
 def room_edit(request, number):
     room = Room.objects.get(number = number)
-    MaterialFormSet = modelformset_factory(Material, form = MaterialForm)
-    qset = Material.objects.filter(room = room)
-    # Not sure why it is reassigned in this way - test as one assignment statement later?
-    formset = MaterialFormSet(queryset = qset)
+    MaterialFormSet = formset_factory(MaterialForm, extra=10)
+    materials = Material.objects.filter(room = room).values()
+    formset = MaterialFormSet(initial=materials)
     if request.method == 'POST':
         # deal with posting the data
         formset = MaterialFormSet(request.POST, queryset = qset)
         if formset.is_valid():
             # if it is not valid then the "errors" will fall through and be returned
             formset.save()
+        messages.add_message(request, messages.SUCCESS, _('Room successfully updated.'))
         redirect_url = reverse('room', args=[room.number])
         return HttpResponseRedirect(redirect_url)
 
@@ -318,4 +321,5 @@ def user_logout(request):
     logout(request)
 
     # Take the user back to the homepage.
+    messages.add_message(request, messages.SUCCESS, _('Experiment correctly saved.'))
     return HttpResponseRedirect('/inventory/')

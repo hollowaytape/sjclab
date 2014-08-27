@@ -60,8 +60,8 @@ class Experiment(models.Model):
     session = models.IntegerField(null=True, blank=True)   # Determines the order it's displayed in.
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
-    main_photo = models.ImageField(upload_to=('/experiments/images/'), null=True, blank=True)
-    resources = models.FileField(upload_to=('/inventory/resources/'), null=True, blank=True)    # pdfs, videos, etc
+    main_photo = models.ImageField(upload_to=('experiments/images/'), null=True, blank=True)
+    resources = models.FileField(upload_to=('inventory/resources/'), null=True, blank=True)    # pdfs, videos, etc
     on_program = models.BooleanField(default=True)         # Is it in the text? Or did a tutor/assistant come up with it?
     complete = models.BooleanField(default=False)          # Mark true when all info filled out.
     tags = models.ManyToManyField('Tag', null=True, blank=True)

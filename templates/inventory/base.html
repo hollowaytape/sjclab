@@ -51,6 +51,13 @@
 	</div>
 </div>
 <div class="container">
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+             <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        </ul>
+    {% endif %}
     <div class="row marketing">
         {% block body_block %}
         {% endblock %}
