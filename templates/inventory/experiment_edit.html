@@ -21,7 +21,7 @@
                 {% endfor %}
 
                 <div class="form-group">
-                    {{ form.title.erors }}
+                    {{ form.title.errors }}
                     <label for="title" class="col-lg-2 control-label">Title</label>
                     <div class="col-lg-10">
                         {{ form.title }}
@@ -29,7 +29,7 @@
 				</div>
 				
 				<div class="form-group">
-				    {{ form.session.erors }}
+				    {{ form.session.errors }}
                     <label for="session" class="col-lg-2 control-label">Session #</label>
                     <div class="col-lg-10">
                         {{ form.session }}
@@ -39,15 +39,15 @@
                 <div class="form-group">
                     {{ form.text.errors }}
                     <label for="text" class="col-lg-2 control-label">Text</label>
-                    <div class="col-lg-10">
                         {{ form.text }}
-                    </div>
+                    <div class="col-lg-10">
+                   {{ form.on_program.errors }}
 
-                    {{ form.on_program.errors }}
                     <div class="checkbox">
                     <label>
                         {{ form.on_program }} On Program?
                     </label>
+                    </div>
                     </div>
                 </div>
 
@@ -74,15 +74,7 @@
                         {{ form.tags }}
                     </div> 
                 </div>
-				
-				<div class="form-group">
-					{{ form.complete.errors }}
-					<div class="checkbox">
-						<label>
-							{{ form.complete }} Mark this page as "complete?"
-						</label>
-                    </div>
-				</div>
+			
 				
 				<div class="form-group">
 					{{ form.main_photo.errors }}
@@ -90,6 +82,13 @@
 					<div class="col-lg-10">
 						{{ form.main_photo }}
 					</div>
+                    
+                    {{ form.complete.errors }}
+					<div class="checkbox">
+						<label>
+							{{ form.complete }} Page Complete?
+						</label>
+                    </div>
 				</div>
 				
                 <input type="submit" name="submit" value = "Save Changes" />
