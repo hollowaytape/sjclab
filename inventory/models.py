@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 class Room(models.Model):
     number = models.IntegerField()
-	# Add a "last modified" date to show how current the inventory is?
+    date_modified = models.DateTimeField(default=datetime.datetime.now)
     
     def __unicode__(self):
         return str(self.number)
@@ -38,10 +39,8 @@ class Text(models.Model):
 	]
 	
     title = models.CharField(max_length=100)
-    manual = models.CharField(max_length=30,
-	                          choices=MANUAL_CHOICES, null=True, default='NULL')
-    year = models.CharField(max_length=8,
-                            choices=YEAR_CHOICES)
+    manual = models.CharField(max_length=30, choices=MANUAL_CHOICES, null=True, default='NULL')
+    year = models.CharField(max_length=8, choices=YEAR_CHOICES)
     author = models.CharField(max_length=80, null=True, default='Manual Authors')
 
     def __unicode__(self):

@@ -1,6 +1,8 @@
 import os
+import django
 from xlrd import open_workbook
 from django.core.exceptions import ObjectDoesNotExist
+import datetime
 
 inventory_sheet = "data/Senior Lab Inventory.xls"
 experiment_sheet = "data/Freshman Experiments.xls"  # Includes FR texts on sheet 1.
@@ -86,7 +88,7 @@ def add_text(title, author, manual, year):
 
 
 def add_room(number):
-    r = Room.objects.get_or_create(number=number)[0]
+    r = Room.objects.get_or_create(number=number, date_modified=datetime.date.today())[0]
     return r
 
 
@@ -136,5 +138,7 @@ if __name__ == '__main__':
     print "Starting inventory population script..."
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'baros.settings')
     from inventory.models import Material, Experiment, Text, Room, Tag
+    
+    django.setup()
 
     populate()

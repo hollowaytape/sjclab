@@ -12,7 +12,8 @@
     
 {% block body_block %}
 <form class="form-horizontal" id="login_form" method="post" action="/inventory/login/">
-{% csrf_token %}   
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ NEXT }}" />  
 <fieldset>
 <div class="form-group">
     <label for="inputUsername" class="col-lg-2 control-label">Username</label>

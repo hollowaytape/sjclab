@@ -62,7 +62,7 @@
                 <li>{{ r }}</li>
             {% endfor %}
         {% else %}
-            <li><i class="fa fa-pencil"></i> Any videos or resources for this experiment?</li>
+            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">Any videos or resources for this experiment?</a></li>
         {% endif %}
 	<br />
     <p><a href="{% url 'experiment_edit' id %}" class="btn btn-primary btn-lg">Edit the Experiment</a>

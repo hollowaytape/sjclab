@@ -285,11 +285,16 @@ def register(request):
             context)
             
 def user_login(request):
+    NEXT = ""
+
+    if 'next' in request.GET:
+        NEXT = request.GET['next']
+        
     # Like before, obtain the context for the user's request.
     context = RequestContext(request)
 
     # If the request is a HTTP POST, try to pull out the relevant information.
-    if request.method == 'POST':
+    if request.POST:
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
         username = request.POST['username']
@@ -303,19 +308,13 @@ def user_login(request):
         # If None (Python's way of representing the absence of a value), no user
         # with matching credentials was found.
         if user is not None:
-            # Is the account active? It could have been disabled.
-            if user.is_active:
-                # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
-                login(request, user)
-                return HttpResponseRedirect('/inventory/')
+            login(request, user)
+            if request.POST['next']:
+                return HttpResponseRedirect(request.POST['next'])
             else:
-                # An inactive account was used - no logging in!
-                return HttpResponse("Your account is disabled.")
+                return HttpResponseRedirect('/inventory/')
         else:
-            # Bad login details were provided. So we can't log the user in.
             messages.add_message(request, messages.ERROR, _('Invalid login details supplied, please try again.'))
-            print "Invalid login details: {0}, {1}".format(username, password)
             return render_to_response('inventory/login.html', {}, context)
 
     # The request is not a HTTP POST, so display the login form.

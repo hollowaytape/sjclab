@@ -60,27 +60,6 @@ WSGI_APPLICATION = 'baros.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-# Old Sqlite db
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DATABASE_PATH,
-    }
-}"""
-
-# Manual PS db
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'lab_db',                      
-        'USER': 'max',
-        'PASSWORD': 'lab',
-        'HOST': 'localhost',
-		'PORT': '5432',
-    }
-}"""
-
-# Weird Heroku color url trick
 DATABASES = { 'default': dj_database_url.config(default="postgres://dnwpzmwrmfxotb:hJQeMnHEZE7VyKbRXwcSZsLkQn@ec2-107-20-234-127.compute-1.amazonaws.com:5432/d9q9m7er1gc7o9") }
 DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
@@ -109,7 +88,6 @@ STATICFILES_DIRS = (
     STATIC_PATH,
 )
 
-
 TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
 
 TEMPLATE_DIRS = (
@@ -118,6 +96,14 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     TEMPLATE_PATH,
     )
+    
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+)
 
 LOGIN_URL = '/inventory/login/'
 

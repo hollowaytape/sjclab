@@ -13,6 +13,9 @@
 {% block body_block %}
 <form id="experiment_form" action="" method="post">
     {% csrf_token %}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
     {{ item_forms.management_form }}
 <div id="items-form-container">
     <fieldset class="module aligned ">
