@@ -35,6 +35,8 @@
             Room "{{ room_number }}" has no contents.
         {% endif %}
         
+        <p style="color:grey;">Last updated {{ room.date_modified }}</p> <br />
+        
         <p><a href="{% url 'room_edit' room_number %}" class="btn btn-primary btn-lg">Edit room contents</a>
         <a href="{% url 'room_index' %}" class="btn btn-default btn-lg">Return to Room Index</a></p>
 {% endblock %}

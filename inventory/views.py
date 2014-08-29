@@ -16,11 +16,11 @@ from django.forms.models import inlineformset_factory
 
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
-    return string.replace(' ', '_').replace("'", "").replace(".", "")
+    return string.replace(' ', '_').replace("'", "&27").replace(".", "")
 
 def eye_safe(string):
     """ Undoes the operation of url_safe()."""
-    return string.replace('_', ' ')
+    return string.replace('_', ' ').replace("&27", "'")
 
 def experiment_index(request):
     # Obtain the context from the HTTP request.
@@ -77,8 +77,6 @@ def experiment(request, experiment_name_url):
         locations = Material.objects.filter(name=m)
         material_locations[m] = locations
     
-    print materials    
-    print material_locations
     context_dict['experiment'] = experiment
     context_dict['materials'] = materials
     context_dict['material_locations'] = material_locations
@@ -150,6 +148,7 @@ def room(request, room_number):
     
     # Retrieve all of the materials in the room.
     materials = Material.objects.filter(room=room).order_by('location')
+    context_dict['room'] = room
     context_dict['materials'] = materials
     
     # Go render the response and return it to the client.
