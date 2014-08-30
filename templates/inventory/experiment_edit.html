@@ -74,24 +74,22 @@
                         {{ form.tags }}
                     </div> 
                 </div>
-			
 				
 				<div class="form-group">
 					{{ form.main_photo.errors }}
 					<label for="main_photo" class="col-lg-2 control-label">Picture</label>
-					<div class="col-lg-10">
-						{{ form.main_photo }}
-					</div>
+                    <p>{{ form.main_photo }}
                     
-                    {{ form.complete.errors }}
+                    <p>{{ form.complete.errors }}
 					<div class="checkbox">
 						<label>
 							{{ form.complete }} Page Complete?
 						</label>
                     </div>
+                    <input type="submit" name="submit" value="Save Changes" />
 				</div>
 				
-                <input type="submit" name="submit" value = "Save Changes" />
+
             </form>
         </div>
     

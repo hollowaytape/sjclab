@@ -2,7 +2,6 @@ from django import forms
 import datetime
 from inventory.models import Experiment, Room, Material, Tag, Text, UserProfile
 from django.contrib.auth.models import User
-from django.forms.models import inlineformset_factory
 
 class ExperimentForm(forms.ModelForm):
     error_css_class = 'error'

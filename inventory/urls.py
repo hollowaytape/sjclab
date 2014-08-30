@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from inventory import views
+import views
 from baros import settings
 from django.views.generic import TemplateView
 

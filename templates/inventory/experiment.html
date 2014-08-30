@@ -13,17 +13,16 @@
 {% block body_block %}
     <i class="fa fa-pencil"></i> {{ text.author }}, <i class="fa fa-book"></i> <em>{{ text.title }}</em><br />
     <i class="fa fa-book"></i> {{ text.year }} Year, <i class="fa fa-file-text-o"></i> {{ text.manual }}
-
-    {% if tags %}
-    <h4>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}</h4>
-    {% else %}
-    <h4>Tags: None</h4>
-    {% endif %}
-
     {% if main_photo %}
     <div class="col-lg-4 col-sm-6 col-xs-12" style="float:right">
         <img src="{{ MEDIA_URL }}/{{ main_photo }}" alt="{{experiment.title}}" class="thumbnail img-responsive"/>
     </div>
+    {% endif %}
+    
+    {% if tags %}
+    <h4>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}</h4>
+    {% else %}
+    <h4>Tags: None</h4>
     {% endif %}
 
     <h4>Materials:</h4>
@@ -40,12 +39,12 @@
         </ul>
     {% else %}
         <ul>
-            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">What is needed for this experiment?</a></li>
+            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">What materials are needed for this experiment?</a></li>
         </ul>
     {% endif %}
 
-    <h4>Procedure:</h4>
     <div class="panel panel-default">
+        <legend>Procedure:</legend>
         <div class="panel-body">
             {% if procedure %}
                 {{ procedure }}
@@ -58,7 +57,7 @@
     <h4>Other Resources:</h4>
     <ul>
         {% if resources %}
-            {% for r in resource %}
+            {% for r in resources %}
                 <li>{{ r }}</li>
             {% endfor %}
         {% else %}

@@ -16,11 +16,11 @@ from django.forms.models import inlineformset_factory
 
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
-    return string.replace(' ', '_').replace("'", "&27").replace(".", "")
+    return string.replace(' ', '_').replace(".", "")
 
 def eye_safe(string):
     """ Undoes the operation of url_safe()."""
-    return string.replace('_', ' ').replace("&27", "'")
+    return string.replace('_', ' ')
 
 def experiment_index(request):
     # Obtain the context from the HTTP request.
@@ -136,14 +136,7 @@ def room_index(request):
 
 def room(request, room_number):
     context = RequestContext(request)
-    
-    # Context dictionary to pass to the template.
-    # Contain the name of the room passed by the user.
     context_dict = {'room_number': room_number}
-    
-    # Can we find an experiment with the given name?
-    # If we can't, the .get() raises DoesNotExist.
-    # SO the .get() method returns one model or raises an exception.
     room = get_object_or_404(Room, number=room_number)
     
     # Retrieve all of the materials in the room.
@@ -204,7 +197,7 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
 @login_required
 def room_edit(request, number):
     room = Room.objects.get(number = number)
-    MaterialFormSet = inlineformset_factory(Material, Room, extra=1)
+    MaterialFormSet = inlineformset_factory(Room, Material, form=MaterialForm, extra=1)
     materials = Material.objects.filter(room = room).values()
     formset = MaterialFormSet(initial=materials)
     
