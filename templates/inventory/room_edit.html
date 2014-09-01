@@ -16,12 +16,12 @@
     {% for hidden in form.hidden_fields %}
         {{ hidden }}
     {% endfor %}
-    {{ item_forms.management_form }}
-<div id="items-form-container">
+    {{ material_forms.management_form }}
+<div id="materials-form-container">
     <fieldset class="module aligned ">
     <table>     
     {% for material_form in material_forms %}
-        <div id="item-{{ forloop.counter0 }}">
+        <div id="material-{{ forloop.counter0 }}">
             <tr>
                 {% for field in material_form %}
                     <td>
@@ -35,32 +35,32 @@
     </table>
     </fieldset>
 </div>
-<a href="#" id="add-item-button" class="btn btn-info add-item">Add Item</a>
+<a href="#" id="add-material-button" class="btn btn-info add-material">Add Material</a>
 <input type="submit" name="submit" value = "Save Changes" />
 </form>
 {% endblock %}
 
-<script type="text/html" id="item-template">
-<div id="item-__prefix__">
-    {{ item_forms.empty_form }}
+<script type="text/html" id="material-template">
+<div id="material-__prefix__">
+    {{ material_forms.empty_form }}
 </div>
 </script>
 
 <script>
 $(document).ready(function() {
-    $('.add-item').click(function(ev) {
+    $('.add-material').click(function(ev) {
         ev.preventDefault();
-        var count = $('#items-form-container').children().length;
-        var tmplMarkup = $('#item-template').html();
+        var count = $('#materials-form-container').children().length;
+        var tmplMarkup = $('#material-template').html();
         var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
-        $('div#items-form-container').append(compiledTmpl);
+        $('div#materials-form-container').append(compiledTmpl);
 
         // update form count
-        $('#id_item_items-TOTAL_FORMS').attr('value', count+1);
+        $('#id_material_materials-TOTAL_FORMS').attr('value', count+1);
 
         // some animate to scroll to view our new form
         $('html, body').animate({
-                scrollTop: $("#add-item-button").position().top-200
+                scrollTop: $("#add-material-button").position().top-200
             }, 800);
     });
 });
