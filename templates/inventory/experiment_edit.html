@@ -6,7 +6,11 @@
 {% endblock %}
 
 {% block head %}
-<h1>Add/Edit an Experiment</h1>
+    {% if experiment %}
+        <h1>Edit Experiment</h1>
+    {% else %}
+        <h1>Add an Experiment</h1>
+    {% endif %}
 {% endblock %}
 
 {% block body_block %}
@@ -86,13 +90,11 @@
 
                     {{ form.complete.errors }}
                     <div class="col-lg-10">
-					<div class="checkbox">
-						<label>
-							{{ form.complete }} Page Complete?
-						</label>
+                        <div class="checkbox">
+                            <label>{{ form.complete }} Page Complete?</label>
+                        </div>
                     </div>
-                    </div>
-                    <input type="submit" name="submit" value="Save Changes" />
+                    <div class="col-lg-10"><input type="submit" name="submit" value="Save Changes" /></div>
 				</div>
 				
 

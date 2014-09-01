@@ -11,57 +11,41 @@
 {% endblock %}
 
 {% block body_block %}
-<form id="experiment_form" action="" method="post">
+<form id="experiment_form" method="post" action="">
+<fieldset class="module aligned ">
+<table>
+    <tr>
     {% csrf_token %}
-    {% for hidden in form.hidden_fields %}
-        {{ hidden }}
+    {% for field in formset.forms.0 %}
+        {% if not field.is_hidden %}
+            <th>{{ field.label }}</th>
+        {% endif %}
     {% endfor %}
-    {{ material_forms.management_form }}
-<div id="materials-form-container">
-    <fieldset class="module aligned ">
-    <table>     
-    {% for material_form in material_forms %}
-        <div id="material-{{ forloop.counter0 }}">
-            <tr>
-                {% for field in material_form %}
-                    <td>
-                        {{ field.errors }}
-                        {{ field }}
-                    </td>
-                {% endfor %}
-            </tr>
-        </div>
+    </tr>
+    <!-- Not sure if the management form things are showing up quite right. -->
+    {% for f in formset.management_form %}
+        {{ f }}
     {% endfor %}
-    </table>
-    </fieldset>
-</div>
-<a href="#" id="add-material-button" class="btn btn-info add-material">Add Material</a>
+    {% for f in formset.forms %}
+        <tr>
+        {% for field in f %}
+            {% if not field.is_hidden %}
+                <td>
+                {{ field.errors }}
+                {{ field }}
+                </td>
+            {% else %}
+                <td valign="bottom">{{ field }}</td>
+            {% endif %}
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+</fieldset>
 <input type="submit" name="submit" value = "Save Changes" />
-</form>
+</form
 {% endblock %}
 
-<script type="text/html" id="material-template">
-<div id="material-__prefix__">
-    {{ material_forms.empty_form }}
-</div>
-</script>
-
-<script>
-$(document).ready(function() {
-    $('.add-material').click(function(ev) {
-        ev.preventDefault();
-        var count = $('#materials-form-container').children().length;
-        var tmplMarkup = $('#material-template').html();
-        var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
-        $('div#materials-form-container').append(compiledTmpl);
-
-        // update form count
-        $('#id_material_materials-TOTAL_FORMS').attr('value', count+1);
-
-        // some animate to scroll to view our new form
-        $('html, body').animate({
-                scrollTop: $("#add-material-button").position().top-200
-            }, 800);
-    });
-});
-</script>
+{% block scripts %}
+<script src="/static/js/jquery.formset.min.js"></script>
+{% endblock %}

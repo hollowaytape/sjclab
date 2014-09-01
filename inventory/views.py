@@ -167,8 +167,10 @@ def rooms_all(request):
 
 @login_required
 def experiment_edit(request, id=None, template_name='inventory/experiment_edit.html'):
+    context_dict = {}
     if id:
         experiment = get_object_or_404(Experiment, pk=id)
+        context_dict['experiment'] = experiment
     else:
         experiment = Experiment()
  
@@ -190,38 +192,38 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
  
     else:
         form = ExperimentForm(instance=experiment)
+    
+    context_dict['form'] = form
  
-    return render_to_response(template_name, {
-        'form': form,
-    }, context_instance=RequestContext(request))
+    return render_to_response(template_name, context_dict, context_instance=RequestContext(request))
 
 @login_required
 def room_edit(request, number):
     room = Room.objects.get(number = number)
-    materials = Material.objects.filter(room = room).values()
-    
-    MaterialFormSet = inlineformset_factory(Room, Material, form=MaterialForm, extra=1)
-    material_forms = MaterialFormSet(queryset=Material.objects.filter(room = room))
+    MaterialFormSet = modelformset_factory(Material, form = MaterialForm)
+    qset = Material.objects.filter(room = room)
+    # Not sure why it is reassigned in this way - test as one assignment statement later?
+    formset = MaterialFormSet(queryset = qset)
     
     if request.method == 'POST':
         # deal with posting the data
         formset = MaterialFormSet(request.POST, queryset = qset)
         if formset.is_valid():
             # if it is not valid then the "errors" will fall through and be returned
-            room = formset.save(commit=False)
-            room.last_modified = datetime.datetime.now()
+            fset = formset.save(commit=False)
+            room.date_modified = datetime.datetime.now()
             room.save()
+            for material in fset:
+                material.room = room
+                material.save()
             
             messages.add_message(request, messages.SUCCESS, _('Room successfully updated.'))
             redirect_url = reverse('room', args=[room.number])
             return HttpResponseRedirect(redirect_url)
         else:
             messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. Please try again.'))
-    
-    #context_dict = {'formset':formset,
-                    #'room':room}
 
-    return render_to_response('inventory/room_edit.html', {'material_forms': material_forms, 'room': room}, RequestContext(request))
+    return render_to_response('inventory/room_edit.html', {'formset': formset, 'room': room}, RequestContext(request))
     
 
 def register(request):
