@@ -44,12 +44,12 @@
     {% endif %}
 
     <div class="panel panel-default">
-        <legend>Procedure:</legend>
+        <h4>Procedure:</h4>
         <div class="panel-body">
             {% if procedure %}
                 {{ procedure }}
             {% else %}
-                <i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">How is this experiment performed?</a>
+                <p><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">How is this experiment performed?</a></p>
             {% endif %}
 		</div>
 	</div>

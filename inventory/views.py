@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
 from django.forms.models import inlineformset_factory
+import datetime
 
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
@@ -197,26 +198,30 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
 @login_required
 def room_edit(request, number):
     room = Room.objects.get(number = number)
-    MaterialFormSet = inlineformset_factory(Room, Material, form=MaterialForm, extra=1)
     materials = Material.objects.filter(room = room).values()
-    formset = MaterialFormSet(initial=materials)
+    
+    MaterialFormSet = inlineformset_factory(Room, Material, form=MaterialForm, extra=1)
+    material_forms = MaterialFormSet(queryset=Material.objects.filter(room = room))
     
     if request.method == 'POST':
         # deal with posting the data
         formset = MaterialFormSet(request.POST, queryset = qset)
         if formset.is_valid():
             # if it is not valid then the "errors" will fall through and be returned
-            formset.save()
+            room = formset.save(commit=False)
+            room.last_modified = datetime.datetime.now()
+            room.save()
+            
             messages.add_message(request, messages.SUCCESS, _('Room successfully updated.'))
             redirect_url = reverse('room', args=[room.number])
             return HttpResponseRedirect(redirect_url)
         else:
             messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. Please try again.'))
     
-    context_dict = {'formset':formset,
-                    'room':room}
+    #context_dict = {'formset':formset,
+                    #'room':room}
 
-    return render_to_response('inventory/room_edit.html', {'formset': formset, 'room': room}, RequestContext(request))
+    return render_to_response('inventory/room_edit.html', {'material_forms': material_forms, 'room': room}, RequestContext(request))
     
 
 def register(request):

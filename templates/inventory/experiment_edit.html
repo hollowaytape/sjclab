@@ -39,10 +39,12 @@
                 <div class="form-group">
                     {{ form.text.errors }}
                     <label for="text" class="col-lg-2 control-label">Text</label>
+                    <div style="width: 83.3333333%; position: relative; float:right;">
                         {{ form.text }}
+                    </div>
+                    
                     <div class="col-lg-10">
-                   {{ form.on_program.errors }}
-
+                    {{ form.on_program.errors }}
                     <div class="checkbox">
                     <label>
                         {{ form.on_program }} On Program?
@@ -78,13 +80,17 @@
 				<div class="form-group">
 					{{ form.main_photo.errors }}
 					<label for="main_photo" class="col-lg-2 control-label">Picture</label>
-                    <p>{{ form.main_photo }}
-                    
-                    <p>{{ form.complete.errors }}
+                    <div style="width: 83.3333333%; position: relative; float:right;">
+                    {{ form.main_photo }}
+                    </div>
+
+                    {{ form.complete.errors }}
+                    <div class="col-lg-10">
 					<div class="checkbox">
 						<label>
 							{{ form.complete }} Page Complete?
 						</label>
+                    </div>
                     </div>
                     <input type="submit" name="submit" value="Save Changes" />
 				</div>

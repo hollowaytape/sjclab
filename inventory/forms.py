@@ -15,9 +15,10 @@ class ExperimentForm(forms.ModelForm):
     on_program = forms.BooleanField(help_text="On Program?", required=False)
     tags = forms.ModelMultipleChoiceField(help_text="Tags", queryset=Tag.objects.all(), required=False)
     complete = forms.BooleanField(help_text="Complete Page?", required=False)
-    main_photo = forms.FileField(help_text="Picture", required=False)
+    main_photo = forms.ImageField(help_text="Picture", required=False)
+    resources = forms.FileField(help_text="Resources", required=False)
     
-    fields = ['title', 'on_program', 'text', 'session', 'procedure', 'materials', 'resources', 'tags', 'complete', 'main_photo']
+    fields = ['title', 'on_program', 'text', 'session', 'procedure', 'materials', 'resources', 'tags', 'complete', 'main_photo', 'resources']
     
     # An inline class to provide additional information on the form.
     class Meta:
@@ -26,7 +27,6 @@ class ExperimentForm(forms.ModelForm):
 class RoomForm(forms.ModelForm):
     error_css_class = 'error'
     number = forms.IntegerField()
-    date_modified = forms.DateField(initial=datetime.date.today(), widget=forms.widgets.HiddenInput())
     
     class Meta:
         model = Room

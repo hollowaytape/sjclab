@@ -137,7 +137,7 @@ a:focus {
     height: auto;
     padding: 100px 0;
     text-align: center;
-    color: #fff;
+    color: FireBrick;
     background: url(../img/old_cover.jpg) no-repeat bottom center scroll;
     background-color: #000;
     -webkit-background-size: cover;
