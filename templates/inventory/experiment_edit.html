@@ -7,7 +7,7 @@
 
 {% block head %}
     {% if experiment %}
-        <h1>Edit Experiment</h1>
+        <h1>Edit {{ experiment }}</h1>
     {% else %}
         <h1>Add an Experiment</h1>
     {% endif %}
@@ -17,7 +17,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <form id="experiment_form" class="form-horizontal" enctype="multipart/form-data" method="post" action="">
-            <!-- Still needs: main_photo, hidden last-updated field, resources -->
+            <!-- Still needs: hidden last-updated field, resources -->
                 {% csrf_token %}
                 {{ form.non_field_errors }}
                 {% for hidden in form.hidden_fields %}
@@ -94,11 +94,11 @@
                             <label>{{ form.complete }} Page Complete?</label>
                         </div>
                     </div>
-                    <div class="col-lg-10"><input type="submit" name="submit" value="Save Changes" /></div>
-				</div>
+                    <!--<button class="btn btn-default">Cancel</button>-->
+                </div>
+                
+                <div class="col-lg-10"><button type="submit" class="btn btn-primary">Submit</button></div>
 				
-
             </form>
         </div>
-    
 {% endblock %}

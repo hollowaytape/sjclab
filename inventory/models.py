@@ -12,7 +12,7 @@ class Room(models.Model):
 class Material(models.Model): 
     name = models.CharField(max_length=100)
     room = models.ForeignKey('Room', null=True, blank=True)
-    location = models.CharField(max_length=100, default="Somewhere")
+    location = models.CharField(max_length=100, null=True, default="Somewhere")
     count = models.IntegerField(default=1)
 
     def __unicode__(self):

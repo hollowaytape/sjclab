@@ -13,7 +13,8 @@
 {% block body_block %}
 <form id="experiment_form" method="post" action="">
 <fieldset class="module aligned ">
-<table>
+<table class="table table-hover">
+    <thead>
     <tr>
     {% csrf_token %}
     {% for field in formset.forms.0 %}
@@ -22,10 +23,9 @@
         {% endif %}
     {% endfor %}
     </tr>
-    <!-- Not sure if the management form things are showing up quite right. -->
-    {% for f in formset.management_form %}
-        {{ f }}
-    {% endfor %}
+    </thead>
+    
+    <tbody>
     {% for f in formset.forms %}
         <tr>
         {% for field in f %}
@@ -40,12 +40,19 @@
         {% endfor %}
         </tr>
     {% endfor %}
+    </tbody>
 </table>
 </fieldset>
+{{ formset.management_form }}
 <input type="submit" name="submit" value = "Save Changes" />
-</form
+</form>
 {% endblock %}
 
 {% block scripts %}
-<script src="/static/js/jquery.formset.min.js"></script>
+<script src="/static/js/jquery.formset.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#experiment_form tbody tr').formset();
+    })
+</script>
 {% endblock %}

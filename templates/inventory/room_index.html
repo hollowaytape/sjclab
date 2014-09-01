@@ -20,6 +20,6 @@
         {% else %}
             <p><strong>No rooms are available.</strong></p>
         {% endif%}
-        <p><a href="{% url 'rooms_all' %}">See all room contents</a></p>
-        <p><a href="{% url 'index' %}">Return to Front Page</a></p>
+        <p><a href="{% url 'rooms_all' %}" class="btn btn-primary btn-lg">See all room contents</a>
+        <a href="{% url 'index' %}" class="btn btn-default btn-lg">Return to Front Page</a></p>
 {% endblock %}
