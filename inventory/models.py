@@ -2,6 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 
+class Image(models.Model):
+    path = models.ImageField(upload_to=('experiments/images/'))
+    experiment = models.ForeignKey('Experiment')
+    
+class Resource(models.Model):
+    path = models.FileField(upload_to=('experiments/resources/'))
+    experiment = models.ForeignKey('Experiment')
+    
+class Link(models.Model):
+    path = models.CharField(max_length=400)
+    experiment = models.ForeignKey('Experiment')
+
 class Room(models.Model):
     number = models.IntegerField()
     date_modified = models.DateTimeField(default=datetime.datetime.now)

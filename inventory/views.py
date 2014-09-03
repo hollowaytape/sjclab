@@ -2,7 +2,7 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from inventory.models import Experiment, Material, Text, Room, Tag
-from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm
+from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm, TextForm
 from django.forms.models import modelformset_factory
 from django.forms.formsets import formset_factory
 from django.contrib.auth import authenticate, login
@@ -197,6 +197,26 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
  
     return render_to_response(template_name, context_dict, context_instance=RequestContext(request))
 
+@login_required
+def text_edit(request):
+    text = Text()
+    
+    if request.POST:
+        form = TextForm(request.POST, instance=text)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, _('Text successfully added.'))
+            redirect_url = reverse('experiment_index')
+            return HttpResponseRedirect(redirect_url)
+        else:
+            messages.add_message(request, messages.ERROR, _('There was a problem saving the text. Please try again.'))
+            
+    else:
+        form = TextForm(instance=text)
+        
+    context_dict['form'] = form
+    return render_to_response(template_name, context_dict, context_instance=RequestContext(request))
+    
 @login_required
 def room_edit(request, number):
     room = Room.objects.get(number = number)

@@ -40,8 +40,17 @@ class MaterialForm(forms.ModelForm):
     
     class Meta:
         model = Material
-        exclude = ('room',)
 
+class TextForm(forms.ModelForm):
+    error_css_class = 'error'
+    title = forms.CharField(help_text="Text Name")
+    author = forms.CharField(help_text="Author")
+    manual = forms.CharField(help_text="Manual")  # Selects?
+    year = forms.CharField(help_text="Year")      # Selects?
+    
+    class Meta:
+        model: Year
+        
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 

@@ -87,6 +87,12 @@
                     <div style="width: 83.3333333%; position: relative; float:right;">
                     {{ form.main_photo }}
                     </div>
+                    
+                    {{ form.resources.errors }}
+                    <label for="resources" class="col-lg-2 control-label">Resources</label>
+                    <div style="width: 83.3333333%; position:relative; float:right;">
+                    {{ form.resources }}
+                    </div>
 
                     {{ form.complete.errors }}
                     <div class="col-lg-10">
