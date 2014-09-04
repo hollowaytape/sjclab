@@ -49,7 +49,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="/static/js/jquery.formset.js"></script>
+<script src="{{STATIC_URL}}js/jquery.formset.js"></script>
 <script type="text/javascript">
     $(function() {
         $('#experiment_form tbody tr').formset();
