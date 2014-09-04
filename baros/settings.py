@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'inventory',
     'storages',
+    's3_folder_storage',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -108,14 +109,22 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 LOGIN_URL = '/inventory/login/'
 
-MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+#MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 
-MEDIA_URL = '/media/'
+#MEDIA_URL = '/media/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # AWS S3 Storage
-AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-STATIC_URL = S3_URL
+DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
+DEFAULT_S3_PATH = "media"
+STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+STATIC_S3_PATH = "static"
+AWS_ACCESS_KEY_ID = "AKIAIP5A2YR7BMTZBSLA"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "sjclab-assets"
+
+MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
+MEDIA_URL = '//s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
+STATIC_ROOT = "/%s/" % STATIC_S3_PATH
+STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME

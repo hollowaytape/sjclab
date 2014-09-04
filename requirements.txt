@@ -9,3 +9,4 @@ static3==0.5.1
 xlrd==0.9.3
 boto==2.32.1
 django-storages==1.1.8
+django-s3-folder-storage==0.1
