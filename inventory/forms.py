@@ -49,7 +49,7 @@ class TextForm(forms.ModelForm):
     year = forms.CharField(help_text="Year")      # Selects?
     
     class Meta:
-        model: Year
+        model = Text
         
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
