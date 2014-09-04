@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^inventory/', include('inventory.urls')),
 	url(r'^admin/', include(admin.site.urls)),
+    url('^registration/', include('registration.urls')),
 )
 
 urlpatterns += staticfiles_urlpatterns()

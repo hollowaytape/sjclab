@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'inventory',
     'storages',
     's3_folder_storage',
+    'registration',
+    'registration.supplements.default',
 )
 
 MIDDLEWARE_CLASSES = (

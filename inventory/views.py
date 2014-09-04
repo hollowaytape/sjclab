@@ -26,13 +26,13 @@ def eye_safe(string):
 def experiment_index(request):
     fr_experiments, jr_experiments, sr_experiments, tags = [], [], [], []
     
-    for e in Experiment.objects.filter(text__year="Freshman").order_by('session'):
+    for e in Experiment.objects.filter(text__year="Freshman").order_by('title'):
         fr_experiments.append(e)
     
-    for e in Experiment.objects.filter(text__year="Junior").order_by('session'):
+    for e in Experiment.objects.filter(text__year="Junior").order_by('title'):
         jr_experiments.append(e)
     
-    for e in Experiment.objects.filter(text__year="Senior").order_by('session'):
+    for e in Experiment.objects.filter(text__year="Senior").order_by('title'):
         sr_experiments.append(e)
 
     for t in Tag.objects.order_by('name'):

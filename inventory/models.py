@@ -3,19 +3,23 @@ from django.contrib.auth.models import User
 import datetime
 
 class Image(models.Model):
+    caption = models.CharField(max_length=100)
     path = models.ImageField(upload_to=('experiments/images/'))
     experiment = models.ForeignKey('Experiment')
     
 class Resource(models.Model):
+    name = models.CharField(max_length=100)
     path = models.FileField(upload_to=('experiments/resources/'))
     experiment = models.ForeignKey('Experiment')
     
 class Link(models.Model):
-    path = models.CharField(max_length=400)
+    title = models.CharField(max_length=200)
+    url = models.CharField(max_length=400)
     experiment = models.ForeignKey('Experiment')
 
 class Room(models.Model):
     number = models.IntegerField()
+    location = models.CharField(max_length=40)
     date_modified = models.DateTimeField(default=datetime.datetime.now)
     
     def __unicode__(self):
@@ -68,7 +72,6 @@ class Tag(models.Model):
 class Experiment(models.Model):
     title = models.CharField(max_length=200)
     text = models.ForeignKey('Text', null=True, blank=True)
-    session = models.IntegerField(null=True, blank=True)   # Determines the order it's displayed in.
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
     main_photo = models.ImageField(upload_to=('experiments/images/'), null=True, blank=True)
@@ -76,6 +79,10 @@ class Experiment(models.Model):
     on_program = models.BooleanField(default=True)         # Is it in the text? Or did a tutor/assistant come up with it?
     complete = models.BooleanField(default=False)          # Mark true when all info filled out.
     tags = models.ManyToManyField('Tag', null=True, blank=True)
+    
+    images = models.ManyToManyField('Image', null=True, blank=True)
+    resource = models.ManyToManyField('Resource', null=True, blank=True)
+    link = models.ManyToManyField('Link', null=True, blank=True)
 
     def __unicode__(self):
         return self.title
