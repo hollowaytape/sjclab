@@ -1,6 +1,6 @@
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from inventory.models import Experiment, Material, Text, Room, Tag
 from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm, TextForm
 from django.forms.models import modelformset_factory
@@ -24,9 +24,6 @@ def eye_safe(string):
     return string.replace('_', ' ')
 
 def experiment_index(request):
-    # Obtain the context from the HTTP request.
-    context = RequestContext(request)
-    
     fr_experiments, jr_experiments, sr_experiments, tags = [], [], [], []
     
     for e in Experiment.objects.filter(text__year="Freshman").order_by('session'):
@@ -53,12 +50,10 @@ def experiment_index(request):
             experiment.url = url_safe(experiment.title)
     
     # Render the response and send it back!
-    return render_to_response('inventory/experiment_index.html', context_dict, context)
+    return render(request, 'inventory/experiment_index.html', context_dict)
 
     
 def experiment(request, experiment_name_url):
-    context = RequestContext(request)
-    
     # Change underscores in the experiment name to spaces.
     experiment_name = eye_safe(experiment_name_url)
     
@@ -89,12 +84,10 @@ def experiment(request, experiment_name_url):
     context_dict['text'] = experiment.text
 
     # Go render the response and return it to the client.
-    return render_to_response('inventory/experiment.html', context_dict, context)
+    return render(request, 'inventory/experiment.html', context_dict)
 
     
 def tag(request, tag_name):
-    context = RequestContext(request)
-    
     # Context dictionary to pass to the template.
     # Contain the name of the room passed by the user.
     context_dict = {'tag_name': tag_name}
@@ -119,12 +112,9 @@ def tag(request, tag_name):
     context_dict['tag'] = tag
     
     # Go render the response and return it to the client.
-    return render_to_response('inventory/tag.html', context_dict, context)
+    return render(request, 'inventory/tag.html', context_dict)
     
 def room_index(request):
-    # Obtain the context from the HTTP request.
-    context = RequestContext(request)
-    
     # Query the database for a list of all rooms.
     # Order the rooms by number.
     # Place the list in our context_dict dictionary,
@@ -133,10 +123,9 @@ def room_index(request):
     context_dict = {'rooms': room_list}
     
     # Render the response and send it back!
-    return render_to_response('inventory/room_index.html', context_dict, context)
+    return render(request, 'inventory/room_index.html', context_dict)
 
 def room(request, room_number):
-    context = RequestContext(request)
     context_dict = {'room_number': room_number}
     room = get_object_or_404(Room, number=room_number)
     
@@ -146,11 +135,9 @@ def room(request, room_number):
     context_dict['materials'] = materials
     
     # Go render the response and return it to the client.
-    return render_to_response('inventory/room.html', context_dict, context)
+    return render(request, 'inventory/room.html', context_dict)
     
 def rooms_all(request):
-    # Obtain the context from the HTTP request.
-    context = RequestContext(request)
     context_dict = {}
     
     # Then, get each type of Material and add it to the dict.
@@ -163,7 +150,7 @@ def rooms_all(request):
     
     context_dict['material_locations'] = material_locations
     # Render the response and send it back!
-    return render_to_response('inventory/rooms_all.html', context_dict, context)
+    return render(request, 'inventory/rooms_all.html', context_dict)
 
 @login_required
 def experiment_edit(request, id=None, template_name='inventory/experiment_edit.html'):
@@ -195,7 +182,7 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
     
     context_dict['form'] = form
  
-    return render_to_response(template_name, context_dict, context_instance=RequestContext(request))
+    return render(request, template_name, context_dict)
 
 @login_required
 def text_edit(request):
@@ -215,7 +202,7 @@ def text_edit(request):
         form = TextForm(instance=text)
         
     context_dict['form'] = form
-    return render_to_response(template_name, context_dict, context_instance=RequestContext(request))
+    return render(request, template_name, context_dict)
     
 @login_required
 def room_edit(request, number):
@@ -243,13 +230,10 @@ def room_edit(request, number):
         else:
             messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. Please try again.'))
 
-    return render_to_response('inventory/room_edit.html', {'formset': formset, 'room': room}, RequestContext(request))
+    return render(request, 'inventory/room_edit.html', {'formset': formset, 'room': room})
     
 
 def register(request):
-    # Like before, get the request's context.
-    context = RequestContext(request)
-
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
     registered = False
@@ -298,19 +282,15 @@ def register(request):
         profile_form = UserProfileForm()
 
     # Render the template depending on the context.
-    return render_to_response(
+    return render(request, 
             'inventory/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
-            context)
+            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
             
 def user_login(request):
     NEXT = ""
 
     if 'next' in request.GET:
         NEXT = request.GET['next']
-        
-    # Like before, obtain the context for the user's request.
-    context = RequestContext(request)
 
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.POST:
@@ -334,14 +314,14 @@ def user_login(request):
                 return HttpResponseRedirect('/inventory/')
         else:
             messages.add_message(request, messages.ERROR, _('Invalid login details supplied, please try again.'))
-            return render_to_response('inventory/login.html', {}, context)
+            return render(request, 'inventory/login.html', {})
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render_to_response('inventory/login.html', {}, context)
+        return render(request, 'inventory/login.html', {})
         
 @login_required
 def user_logout(request):
