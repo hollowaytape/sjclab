@@ -14,7 +14,7 @@ SETTINGS_DIR = os.path.dirname(__file__)
 
 PROJECT_PATH = os.path.abspath(os.path.join(SETTINGS_DIR, os.pardir))
 
-DATABASE_PATH = os.path.join(PROJECT_PATH, 'baros.db')
+#DATABASE_PATH = os.path.join(PROJECT_PATH, 'baros.db')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
@@ -121,8 +121,6 @@ DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
 DEFAULT_S3_PATH = "media"
 STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
 STATIC_S3_PATH = "static"
-AWS_ACCESS_KEY_ID = "AKIAIP5A2YR7BMTZBSLA"
-AWS_SECRET_ACCESS_KEY = "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"
 AWS_STORAGE_BUCKET_NAME = "sjclab-assets"
 
 MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
