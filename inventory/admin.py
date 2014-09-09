@@ -3,8 +3,6 @@ from inventory.models import Material, Text, Experiment, Room, UserProfile
 # Tags do not make sense to put in the Admin, since they only have one attribute.
 
 class TextAdmin(admin.ModelAdmin):
-    # There is no attribute that would allow ordering them by their experiments' session,
-    # since there are multiple experiments citing each text...
     ordering = ['manual', 'author']
     fields = ['title', 'author', 'manual', 'year']
 
@@ -14,15 +12,15 @@ class MaterialInline(admin.TabularInline):
 class RoomAdmin(admin.ModelAdmin):
     ordering = ['number']
     fieldsets = [
-        (None,               {'fields': ['number']})]
+        (None,               {'fields': ['number', 'location']})]
     inlines = [MaterialInline]
 
 class ExperimentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'text', 'session')
-    ordering = ['session']
+    list_display = ('title', 'text')
+    ordering = ['title']
     fieldsets = [
         (None,               {'fields': ['title']}),
-        ('Preparation',      {'fields': ['text', 'session']}),
+        ('Preparation',      {'fields': ['text']}),
         ('Process',          {'fields': ['materials', 'procedure']}),
         ('Additional',       {'fields': ['tags', 'resources']})]
 

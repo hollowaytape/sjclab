@@ -40,6 +40,7 @@ class MaterialForm(forms.ModelForm):
     
     class Meta:
         model = Material
+        exclude = ['room']
 
 class TextForm(forms.ModelForm):
     error_css_class = 'error'

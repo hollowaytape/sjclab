@@ -19,7 +19,7 @@ class Link(models.Model):
 
 class Room(models.Model):
     number = models.IntegerField()
-    location = models.CharField(max_length=40)
+    location = models.CharField(max_length=40, default="Mellon Physics Hall")
     date_modified = models.DateTimeField(default=datetime.datetime.now)
     
     def __unicode__(self):
@@ -39,6 +39,7 @@ class Text(models.Model):
         ('FR', 'Freshman'),
         ('JR', 'Junior'),
         ('SR', 'Senior'),
+        ('OT', 'Other'),
     )
 	
     MANUAL_CHOICES = [
@@ -79,10 +80,6 @@ class Experiment(models.Model):
     on_program = models.BooleanField(default=True)         # Is it in the text? Or did a tutor/assistant come up with it?
     complete = models.BooleanField(default=False)          # Mark true when all info filled out.
     tags = models.ManyToManyField('Tag', null=True, blank=True)
-    
-    images = models.ManyToManyField('Image', null=True, blank=True)
-    resource = models.ManyToManyField('Resource', null=True, blank=True)
-    link = models.ManyToManyField('Link', null=True, blank=True)
 
     def __unicode__(self):
         return self.title

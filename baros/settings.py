@@ -20,7 +20,7 @@ PROJECT_PATH = os.path.abspath(os.path.join(SETTINGS_DIR, os.pardir))
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@&v@6mq6b-4(97c8s^4g((t-&%k&@hi08u$x0w+(mnhre08m!='
+SECRET_KEY = os.environ['SJCLAB_DJANGO_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,8 +42,6 @@ INSTALLED_APPS = (
     'inventory',
     'storages',
     's3_folder_storage',
-    'registration',
-    'registration.supplements.default',
 )
 
 MIDDLEWARE_CLASSES = (

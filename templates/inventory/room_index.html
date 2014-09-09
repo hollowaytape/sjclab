@@ -11,15 +11,23 @@
 {% endblock %}
 
 {% block body_block %}
-        {% if rooms %}
-            <ul>
-            {% for room in rooms %}
-                <li><a href="{% url 'room' room.number %}">{{ room }}</a></li>
+        {% if room_locations.items %}
+            <div class="row-fluid">
+            {% for key, value in room_locations.items %}
+                <div class="span3">
+                    <h2>{{ key }}</h2>
+                    <ul>
+                    {% for room in value %}
+                        <li><a href="{% url 'room' room.number %}">{{ room }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
             {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <p><strong>No rooms are available.</strong></p>
         {% endif%}
+        
         <p><a href="{% url 'rooms_all' %}" class="btn btn-primary btn-lg">See all room contents</a>
         <a href="{% url 'index' %}" class="btn btn-default btn-lg">Return to Front Page</a></p>
 {% endblock %}

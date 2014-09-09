@@ -24,7 +24,8 @@ def eye_safe(string):
     return string.replace('_', ' ')
 
 def experiment_index(request):
-    fr_experiments, jr_experiments, sr_experiments, tags = [], [], [], []
+    # TODO: Do this with a loop instead.
+    fr_experiments, jr_experiments, sr_experiments, ot_experiments, tags = [], [], [], [], []
     
     for e in Experiment.objects.filter(text__year="Freshman").order_by('title'):
         fr_experiments.append(e)
@@ -34,6 +35,9 @@ def experiment_index(request):
     
     for e in Experiment.objects.filter(text__year="Senior").order_by('title'):
         sr_experiments.append(e)
+        
+    for e in Experiment.objects.filter(text__year="Other").order_by('title'):
+        ot_experiments.append(e)
 
     for t in Tag.objects.order_by('name'):
         tags.append(t)
@@ -42,10 +46,11 @@ def experiment_index(request):
     context_dict['fr_experiments'] = fr_experiments
     context_dict['jr_experiments'] = jr_experiments
     context_dict['sr_experiments'] = sr_experiments
+    context_dict['ot_experiments'] = ot_experiments
     context_dict['tags'] = tags
     
     # Sanitize experiment names for use in urls.
-    for year in (fr_experiments, jr_experiments, sr_experiments):
+    for year in (fr_experiments, jr_experiments, sr_experiments, ot_experiments):
         for experiment in year:
             experiment.url = url_safe(experiment.title)
     
@@ -70,8 +75,7 @@ def experiment(request, experiment_name_url):
     material_locations = {}
     
     for m in materials:
-        locations = Material.objects.filter(name=m)
-        material_locations[m] = locations
+        material_locations[m] = Material.objects.filter(name=m)
     
     context_dict['experiment'] = experiment
     context_dict['materials'] = materials
@@ -88,13 +92,8 @@ def experiment(request, experiment_name_url):
 
     
 def tag(request, tag_name):
-    # Context dictionary to pass to the template.
-    # Contain the name of the room passed by the user.
     context_dict = {'tag_name': tag_name}
     
-    # Can we find an experiment with the given name?
-    # If we can't, the .get() raises DoesNotExist.
-    # So the .get() method returns one model or raises an exception.
     tag = get_object_or_404(Tag, name = tag_name)
     
     # Retrieve all of the Experiment objects with this tag.
@@ -105,24 +104,23 @@ def tag(request, tag_name):
             e.url = url_safe(e.title)
             experiments.append(e)
     
-    # Add experiments to the context dictionary.
-    context_dict['experiments'] = experiments
-    
-    # Also add the tag, so we can check if it exists.
+    context_dict['experiments'] = experiments  
     context_dict['tag'] = tag
     
-    # Go render the response and return it to the client.
     return render(request, 'inventory/tag.html', context_dict)
     
 def room_index(request):
-    # Query the database for a list of all rooms.
-    # Order the rooms by number.
-    # Place the list in our context_dict dictionary,
-    # which will be passed to the template engine.
-    room_list = Room.objects.order_by('number')
-    context_dict = {'rooms': room_list}
+    halls = Room.objects.values_list('location', flat=True).distinct()
+    print halls
+    room_locations = {}
     
-    # Render the response and send it back!
+    for h in halls:
+        room_locations[h] = Room.objects.filter(location=h)
+        
+    print room_locations
+
+    context_dict = {'room_locations': room_locations}
+    
     return render(request, 'inventory/room_index.html', context_dict)
 
 def room(request, room_number):

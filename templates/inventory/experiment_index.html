@@ -11,7 +11,7 @@
 {% endblock %}
 {% block body_block %}
     <div class="row-fluid">
-        <div class="span4">
+        <div class="span3">
             <h2>Freshman</h2>
                 {% if fr_experiments %}
                 <ul>
@@ -27,7 +27,7 @@
                     <p><strong>No experiments are available.</strong></p>
                 {% endif%}
         </div>
-        <div class="span4">
+        <div class="span3">
             <h2>Junior</h2>
                 {% if jr_experiments %}
                 <ul>
@@ -43,11 +43,27 @@
                     <p><a href="{% url 'experiment_edit' %}">Add an Experiment</a></p>
                 {% endif%}
         </div>
-        <div class="span4">
+        <div class="span3">
             <h2>Senior</h2>
                 {% if sr_experiments %}
                 <ul>
                     {% for experiment in sr_experiments %}
+                        {% if experiment.complete %}
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#878179">{{ experiment.title }}</a></li>
+                        {% else %}
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#BBBDB6">{{ experiment.title }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p><a href="{% url 'experiment_edit' %}">Add an Experiment</a></p>
+                {% endif%}
+        </div>
+        <div class="span3">
+            <h2>Other</h2>
+                {% if ot_experiments %}
+                <ul>
+                    {% for experiment in ot_experiments %}
                         {% if experiment.complete %}
                             <li><a href="{% url 'experiment' experiment.url %}" style="color:#878179">{{ experiment.title }}</a></li>
                         {% else %}

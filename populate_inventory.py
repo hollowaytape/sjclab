@@ -40,9 +40,8 @@ def populate():
         procedure = sheet.cell(row_index, 3).value
         text = sheet.cell(row_index, 2).value
         materials = sheet.cell(row_index, 4).value.split(', ')
-        session = int(sheet.cell(row_index, 0).value)
 
-        add_experiment(title=title, procedure=procedure, session=session)
+        add_experiment(title=title, procedure=procedure)
 
         add_text_to_experiment(text, experiment_title=title)
         add_materials_to_experiment(materials, experiment_title=title)
@@ -76,8 +75,8 @@ def add_material(name, count, location):
     return m
 
 
-def add_experiment(title, procedure, session, resources=None):
-    e = Experiment.objects.get_or_create(title=title, session=session,
+def add_experiment(title, procedure, resources=None):
+    e = Experiment.objects.get_or_create(title=title,
                                          procedure=procedure, resources=resources)[0]
     return e
 
