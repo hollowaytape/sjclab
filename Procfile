@@ -1,1 +1,1 @@
-web: gunicorn baros.wsgi
+web: waitress-serve --port=$PORT baros.wsgi:application

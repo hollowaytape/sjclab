@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'inventory',
     'storages',
     's3_folder_storage',
+    'gunicorn',
 )
 
 MIDDLEWARE_CLASSES = (
