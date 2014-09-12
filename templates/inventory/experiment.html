@@ -55,14 +55,18 @@
 	</div>
     
     <h4>Other Resources:</h4>
-    <ul>
-        {% if resources %}
-            {% for r in resources %}
-                <li>{{ r }}</li>
-            {% endfor %}
-        {% else %}
-            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">Any videos or resources for this experiment?</a></li>
-        {% endif %}
+    {% if resources %}
+        <ul>
+        {% for r in resources %}
+            <li><a href="{{ MEDIA_URL }}{{ r.path }}">{{ r }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <ul>
+        <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">Any videos or resources for this experiment?</a></li>
+        </ul>
+    {% endif %}
+    
 	<br />
     <p><a href="{% url 'experiment_edit' id %}" class="btn btn-primary btn-lg">Edit the Experiment</a>
         <a href="{% url 'experiment_index' %}" class="btn btn-default btn-lg">Return to Experiment Index</a></p>

@@ -1,8 +1,8 @@
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from inventory.models import Experiment, Material, Text, Room, Tag
-from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm, TextForm
+from inventory.models import Experiment, Material, Text, Room, Tag, Image, Resource, Link
+from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm, TextForm, ResourceForm, ImageForm
 from django.forms.models import modelformset_factory
 from django.forms.formsets import formset_factory
 from django.contrib.auth import authenticate, login
@@ -24,33 +24,17 @@ def eye_safe(string):
     return string.replace('_', ' ')
 
 def experiment_index(request):
-    # TODO: Do this with a loop instead.
-    fr_experiments, jr_experiments, sr_experiments, ot_experiments, tags = [], [], [], [], []
-    
-    for e in Experiment.objects.filter(text__year="Freshman").order_by('title'):
-        fr_experiments.append(e)
-    
-    for e in Experiment.objects.filter(text__year="Junior").order_by('title'):
-        jr_experiments.append(e)
-    
-    for e in Experiment.objects.filter(text__year="Senior").order_by('title'):
-        sr_experiments.append(e)
-        
-    for e in Experiment.objects.filter(text__year="Other").order_by('title'):
-        ot_experiments.append(e)
-
-    for t in Tag.objects.order_by('name'):
-        tags.append(t)
-    
     context_dict = {}
-    context_dict['fr_experiments'] = fr_experiments
-    context_dict['jr_experiments'] = jr_experiments
-    context_dict['sr_experiments'] = sr_experiments
-    context_dict['ot_experiments'] = ot_experiments
-    context_dict['tags'] = tags
+    
+    context_dict['fr_experiments'] = Experiment.objects.filter(text__year="Freshman").order_by('title')
+    context_dict['jr_experiments'] = Experiment.objects.filter(text__year="Junior").order_by('title')
+    context_dict['sr_experiments'] = Experiment.objects.filter(text__year="Senior").order_by('title')
+    context_dict['ot_experiments'] = Experiment.objects.filter(text__year="Other").order_by('title')
+
+    context_dict['tags'] = Tag.objects.order_by('name')
     
     # Sanitize experiment names for use in urls.
-    for year in (fr_experiments, jr_experiments, sr_experiments, ot_experiments):
+    for year in (context_dict['fr_experiments'], context_dict['jr_experiments'], context_dict['sr_experiments'], context_dict['ot_experiments']):
         for experiment in year:
             experiment.url = url_safe(experiment.title)
     
@@ -71,7 +55,7 @@ def experiment(request, experiment_name_url):
     # materials: each kind of material necessary for the experiment.
     materials = experiment.materials.all()
     
-    # material_locations: dict with entries {material: [instance, instance]}.
+    # material_locations: dict with entries {material: [instance1, instance2]}.
     material_locations = {}
     
     for m in materials:
@@ -82,10 +66,11 @@ def experiment(request, experiment_name_url):
     context_dict['material_locations'] = material_locations
     context_dict['tags'] = experiment.tags
     context_dict['procedure'] = experiment.procedure
-    context_dict['resources'] = experiment.resources
     context_dict['main_photo'] = experiment.main_photo
     context_dict['id'] = experiment.id
     context_dict['text'] = experiment.text
+    context_dict['images'] = Image.objects.filter(experiment=experiment)
+    context_dict['resources'] = Resource.objects.filter(experiment=experiment)
 
     # Go render the response and return it to the client.
     return render(request, 'inventory/experiment.html', context_dict)
@@ -111,13 +96,10 @@ def tag(request, tag_name):
     
 def room_index(request):
     halls = Room.objects.values_list('location', flat=True).distinct()
-    print halls
     room_locations = {}
     
     for h in halls:
         room_locations[h] = Room.objects.filter(location=h)
-        
-    print room_locations
 
     context_dict = {'room_locations': room_locations}
     
@@ -139,7 +121,7 @@ def rooms_all(request):
     context_dict = {}
     
     # Then, get each type of Material and add it to the dict.
-    # By using values_list w/flat parameter, we get a list instead of an unhashable dict.
+    # By using values_list w/"flat" param, we get a list instead of an unhashable dict.
     material_types = Material.objects.values_list('name', flat=True).distinct()
     material_locations = {}
     for m in material_types:
@@ -155,34 +137,64 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
     context_dict = {}
     if id:
         experiment = get_object_or_404(Experiment, pk=id)
-        context_dict['experiment'] = experiment
+        
+        ResourceFormSet = modelformset_factory(Resource, form = ResourceForm)
+        resource_qset = Resource.objects.filter(experiment = experiment)
+        resource_formset = ResourceFormSet(queryset = resource_qset, prefix='resources')
+        
+        ImageFormSet = modelformset_factory(Image, form = ImageForm)
+        image_qset = Image.objects.filter(experiment=experiment)
+        image_formset = ImageFormSet(queryset=image_qset, prefix='images')
+        
     else:
         experiment = Experiment()
+        
+        ResourceFormSet = modelformset_factory(Resource, form = ResourceForm)
+        resource_formset = ResourceFormSet(queryset=Resource.objects.none(), prefix='resources')
+        
+        ImageFormSet = modelformset_factory(Image, form=ImageForm)
+        image_formset = ImageFormSet(queryset=Image.objects.none(), prefix='images')
  
     if request.POST:
         form = ExperimentForm(request.POST, request.FILES, instance=experiment)
-        if form.is_valid():
-            if 'resources' in request.FILES:
-                form.resources = request.FILES['resources']
+        resource_formset = ResourceFormSet(request.POST, request.FILES, prefix='resources')
+        image_formset = ImageFormSet(request.POST, request.FILES, prefix='images')
+        
+        if form.is_valid() and resource_formset.is_valid() and image_formset.is_valid():
             if 'main_photo' in request.FILES:
                 form.main_photo = request.FILES['main_photo']
             form.save()
-
+            
+            resource_fset = resource_formset.save(commit=False)
+            for r in resource_fset:
+                r.experiment = experiment
+                r.save()
+                
+            image_fset = image_formset.save(commit=False)
+            for i in image_fset:
+                i.experiment = experiment
+                i.save()
+                
             messages.add_message(request, messages.SUCCESS, _('Experiment successfully updated.'))
             # If the save was successful, redirect to another page
             redirect_url = reverse('experiment', args=[url_safe(experiment.title)])
             return HttpResponseRedirect(redirect_url)
         else:
-            messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. Please try again.'))
+            print form.errors
+            print resource_formset.errors
+            messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. See errors below and please try again.'))
  
     else:
         form = ExperimentForm(instance=experiment)
     
+    context_dict['experiment'] = experiment
     context_dict['form'] = form
+    context_dict['resource_formset'] = resource_formset
+    context_dict['image_formset'] = image_formset
  
     return render(request, template_name, context_dict)
 
-@login_required
+"""@login_required
 def text_edit(request):
     text = Text()
     
@@ -200,7 +212,7 @@ def text_edit(request):
         form = TextForm(instance=text)
         
     context_dict['form'] = form
-    return render(request, template_name, context_dict)
+    return render(request, template_name, context_dict)"""
     
 @login_required
 def room_edit(request, number):

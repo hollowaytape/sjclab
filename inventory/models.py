@@ -5,21 +5,30 @@ import datetime
 class Image(models.Model):
     caption = models.CharField(max_length=100)
     path = models.ImageField(upload_to=('experiments/images/'))
-    experiment = models.ForeignKey('Experiment')
+    experiment = models.ForeignKey('Experiment', blank=True, null=True)
+    
+    def __unicode__(self):
+        return self.caption
     
 class Resource(models.Model):
     name = models.CharField(max_length=100)
     path = models.FileField(upload_to=('experiments/resources/'))
-    experiment = models.ForeignKey('Experiment')
+    experiment = models.ForeignKey('Experiment', blank=True, null=True)
+    
+    def __unicode__(self):
+        return self.name
     
 class Link(models.Model):
     title = models.CharField(max_length=200)
     url = models.CharField(max_length=400)
-    experiment = models.ForeignKey('Experiment')
+    experiment = models.ForeignKey('Experiment', blank=True, null=True)
+    
+    def __unicode__(self):
+        return self.title
 
 class Room(models.Model):
     number = models.IntegerField()
-    location = models.CharField(max_length=40, default="Mellon Physics Hall")
+    location = models.CharField(max_length=40, default="First Floor")
     date_modified = models.DateTimeField(default=datetime.datetime.now)
     
     def __unicode__(self):

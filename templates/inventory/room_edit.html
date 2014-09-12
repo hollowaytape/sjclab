@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body_block %}
-<form id="experiment_form" method="post" action="">
+<form id="room_form" method="post" action="">
 <fieldset class="module aligned ">
 <table class="table table-hover">
     <thead>
@@ -44,7 +44,7 @@
 </table>
 </fieldset>
 {{ formset.management_form }}
-<input type="submit" name="submit" value = "Save Changes" />
+<button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
 {% endblock %}
 
@@ -52,7 +52,7 @@
 <script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
 <script type="text/javascript">
     $(function() {
-        $('#experiment_form tbody tr').formset();
+        $('#room_form tbody tr').formset();
     })
 </script>
 {% endblock %}

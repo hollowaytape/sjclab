@@ -17,7 +17,6 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <form id="experiment_form" class="form-horizontal" enctype="multipart/form-data" method="post" action="">
-            <!-- Still needs: hidden last-updated field, resources -->
                 {% csrf_token %}
                 {{ form.non_field_errors }}
                 {% for hidden in form.hidden_fields %}
@@ -81,12 +80,37 @@
                     </div>
                 </div>
                 
-                <div class="form-group">                   
-                    {{ form.resources.errors }}
+                <div class="form-group">
+                    <label for="images" class="col-lg-2 control-label">Images</label>
+                        <table border="0" cellpadding="0" cellspacing="0" id="image_formset">
+                            <tbody>
+                            {% for image_form in image_formset.forms %}
+                                {{ image_form.errors }}
+                                <tr>
+                                    <td>{{ image_form.id }}{{ image_form.caption }}</td>
+                                    <td>{{ image_form.path }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {{ image_formset.management_form }}
+                </div>
+                
+                <div class="form-group">
                     <label for="resources" class="col-lg-2 control-label">Resources</label>
-                    <div style="width: 83.3333333%; position:relative; float:right;">
-                    {{ form.resources }}
-                    </div>
+                        <table border="0" cellpadding="0" cellspacing="0" id="resource_formset">
+                            <tbody>
+                            {% for resource_form in resource_formset.forms %}
+                                {{ resource_form.errors }}
+                                <tr>
+                                    <td>{{ resource_form.id }}{{ resource_form.name }}</td>
+                                    <td>{{ resource_form.path }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {{ resource_formset.management_form }}
+                </div>
 
                     {{ form.complete.errors }}
                     <div class="col-lg-10">
@@ -104,4 +128,18 @@
 				
             </form>
         </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#resource_formset tbody tr').formset({
+            prefix: '{{ resource_formset.prefix }}'
+        });
+        $('#image_formset tbody tr').formset({
+            prefix: '{{ image_formset.prefix }}'
+        });
+    })
+</script>
 {% endblock %}
