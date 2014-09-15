@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'storages',
     's3_folder_storage',
     'gunicorn',
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -128,3 +129,8 @@ MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
 MEDIA_URL = '//s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
 STATIC_ROOT = "/%s/" % STATIC_S3_PATH
 STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
+
+# django-(inspectional-)registration
+REGISTRATION_SUPPLEMENT_CLASS = None
+
+ACCOUNT_ACTIVATION_DAYS = 14
