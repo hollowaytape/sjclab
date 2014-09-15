@@ -297,31 +297,29 @@ def register(request):
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
             
 def user_login(request):
-    NEXT = ""
+    next = ""
 
     if 'next' in request.GET:
-        NEXT = request.GET['next']
+        next = request.GET['next']
 
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.POST:
-        # Gather the username and password provided by the user.
-        # This information is obtained from the login form.
         username = request.POST['username']
         password = request.POST['password']
 
-        # Use Django's machinery to attempt to see if the username/password
-        # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
 
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value), no user
-        # with matching credentials was found.
         if user is not None:
-            login(request, user)
-            if request.POST['next']:
-                return HttpResponseRedirect(request.POST['next'])
+            if user.is_active:
+                login(request, user)
+                messages.add_message(request, messages.SUCCESS, _('Welcome, %s!' % username))
+                if next == "":
+                    return HttpResponseRedirect('/inventory/experiments/')
+                else:
+                    request.user = user
+                    return HttpResponseRedirect(request.POST.get('next'))
             else:
-                return HttpResponseRedirect('/inventory/')
+                messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. See errors below and please try again.'))
         else:
             messages.add_message(request, messages.ERROR, _('Invalid login details supplied, please try again.'))
             return render(request, 'inventory/login.html', {})
@@ -331,7 +329,14 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'inventory/login.html', {})
+        return render_to_response(
+        'registration/login.html',
+        {
+        'username': username,
+        'next': next,
+        },
+        context_instance=RequestContext(request)
+        )
         
 @login_required
 def user_logout(request):

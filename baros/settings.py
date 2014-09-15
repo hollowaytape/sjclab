@@ -110,7 +110,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static"
 )
 
-LOGIN_URL = '/inventory/login/'
+LOGIN_URL = '/registration/login/'
 
 #MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 
@@ -134,3 +134,5 @@ STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
 REGISTRATION_SUPPLEMENT_CLASS = None
 
 ACCOUNT_ACTIVATION_DAYS = 14
+
+LOGIN_REDIRECT_URL = '/inventory/experiments/'
