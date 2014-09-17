@@ -110,7 +110,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static"
 )
 
-LOGIN_URL = '/registration/login/'
+LOGIN_URL = '/accounts/login/'
 
 #MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 

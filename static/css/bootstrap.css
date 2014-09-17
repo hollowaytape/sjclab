@@ -6295,3 +6295,8 @@ legend {
 .modal .close {
   color: #333333;
 }
+
+/* add a little bottom space under the images */
+.thumbnail {
+	margin-bottom:7px;
+}

@@ -54,6 +54,15 @@
 		</div>
 	</div>
     
+    {% if images %}
+        <div class="row">
+        {% for i in images %}
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+                <img src="{{ MEDIA_URL}}{{ i.path }}" class="thumbnail img-responsive" />
+            </div>
+        {% endfor %}
+    {% endif %}
+    
     <h4>Other Resources:</h4>
     {% if resources %}
         <ul>

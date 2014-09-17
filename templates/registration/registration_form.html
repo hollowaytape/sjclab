@@ -1,0 +1,38 @@
+{% extends 'inventory/base.html' %}
+{% block title %} Register {% endblock %}
+
+{% block head %}
+<h2> Register </h2>
+{% endblock %}
+{% block body_block %}
+        <strong>Create an account to edit experiments and the inventory.</strong><br />
+
+        <form class="form-horizontal" id="user_form" method="post" action="">
+            {% csrf_token %}
+            <fieldset>
+                <div class="form-group">
+                    <label for="id_username" class="col-lg-2 control-label">Username</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="username" class="form-control" id="id_username" maxlength="30" placeholder="Username">
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label for="id_email1" class="col-lg-2 control-label">Email</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="email" class="form-control" id="id_email1" placeholder="Email" maxlength="75">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_email2" class="col-lg-2 control-label">Email (again)</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="email" class="form-control" id="id_email2" placeholder="Email" maxlength="75">
+                    </div>
+                </div>
+            </fieldset>
+
+            {{ supplement_form.as_p }}
+            <p><input type="submit" value="Register"></p>
+        </form>
+{% endblock %}

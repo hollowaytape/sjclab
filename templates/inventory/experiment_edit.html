@@ -135,10 +135,12 @@
 <script type="text/javascript">
     $(function() {
         $('#resource_formset tbody tr').formset({
-            prefix: '{{ resource_formset.prefix }}'
+            prefix: '{{ resource_formset.prefix }}',
+            formCssClass: "resources-form"
         });
         $('#image_formset tbody tr').formset({
-            prefix: '{{ image_formset.prefix }}'
+            prefix: '{{ image_formset.prefix }}',
+            formCssClass: "images-form"
         });
     })
 </script>
