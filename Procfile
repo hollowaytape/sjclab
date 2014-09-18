@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT baros.wsgi:application
+web: gunicorn baros.wsgi --log-file -
