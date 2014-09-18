@@ -3,6 +3,17 @@ import datetime
 from inventory.models import Experiment, Room, Material, Tag, Text, UserProfile, Resource, Image, Link
 from django.contrib.auth.models import User
 
+class LinkForm(forms.ModelForm):
+    error_css_class = 'error'
+    
+    title = forms.CharField(help_text="Title")
+    path = forms.CharField(help_text="Links", required=False)
+    
+    fields = ['title', 'path']
+    
+    class Meta:
+        model = Link
+
 class ImageForm(forms.ModelForm):
     error_css_class = 'error'
     

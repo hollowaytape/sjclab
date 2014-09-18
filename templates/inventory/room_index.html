@@ -11,22 +11,52 @@
 {% endblock %}
 
 {% block body_block %}
-        {% if room_locations.items %}
-            <div class="row-fluid">
-            {% for key, value in room_locations.items %}
-                <div class="span3">
-                    <h2>{{ key }}</h2>
-                    <ul>
-                    {% for room in value %}
-                        <li><a href="{% url 'room' room.number %}">{{ room }}</a></li>
-                    {% endfor %}
-                    </ul>
-                </div>
-            {% endfor %}
-            </div>
-        {% else %}
-            <p><strong>No rooms are available.</strong></p>
-        {% endif%}
+    <div class="row-fluid">
+        <div class="span4">
+        <h2>First Floor</h2>
+            {% if first_phys %}
+                <h4>Physics Hall</h4>
+                <ul>
+                {% for room in first_phys %}
+                    <li><a href="{% url 'room' room.url %}">{{ room }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            
+            <br />
+            
+            {% if first_bio %}
+                <h4>Biology Hall</h4>
+                <ul>
+                {% for room in first_bio %}
+                    <li><a href="{% url 'room' room.url %}">{{ room }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+                
+        <div class="span4">
+        <h2>Second Floor</h2>
+            {% if second %}
+                <ul>
+                {% for room in second %}
+                    <li><a href="{% url 'room' room.url %}">{{ room }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="span4">
+        <h2>Ground Floor</h2>
+            {% if ground %}
+                <ul>
+                {% for room in ground %}
+                    <li><a href="{% url 'room' room.url %}">{{ room }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
         
         <p><a href="{% url 'rooms_all' %}" class="btn btn-primary btn-lg">See all room contents</a>
         <a href="{% url 'index' %}" class="btn btn-default btn-lg">Return to Front Page</a></p>

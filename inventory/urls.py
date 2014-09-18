@@ -15,8 +15,8 @@ urlpatterns = patterns('',
     
     url(r'^rooms/$', views.room_index, name='room_index'),
     url(r'^rooms/all/$', views.rooms_all, name='rooms_all'),
-    url(r'^rooms/(?P<room_number>\d+)/$', views.room, name='room'),
-    url(r'^rooms/edit/(?P<number>\d+)/$', views.room_edit, {}, 'room_edit'),
+    url(r'^rooms/(?P<room_url>\w+)/$', views.room, name='room'),
+    url(r'^rooms/edit/(?P<room_url>\w+)/$', views.room_edit, {}, 'room_edit'),
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     

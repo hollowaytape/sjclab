@@ -2,7 +2,7 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from inventory.models import Experiment, Material, Text, Room, Tag, Image, Resource, Link
-from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm, TextForm, ResourceForm, ImageForm
+from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm, TextForm, ResourceForm, ImageForm, LinkForm
 from django.forms.models import modelformset_factory
 from django.forms.formsets import formset_factory
 from django.contrib.auth import authenticate, login
@@ -95,26 +95,31 @@ def tag(request, tag_name):
     return render(request, 'inventory/tag.html', context_dict)
     
 def room_index(request):
-    halls = Room.objects.values_list('location', flat=True).distinct()
-    room_locations = {}
+    context_dict = {}
     
-    for h in halls:
-        room_locations[h] = Room.objects.filter(location=h)
-
-    context_dict = {'room_locations': room_locations}
+    context_dict['first_bio'] = Room.objects.filter(hall="Biology").order_by('number')
+    context_dict['first_phys'] = Room.objects.filter(hall="Physics").order_by('number')
+    context_dict['second'] = Room.objects.filter(floor="Second Floor").order_by('number')
+    context_dict['ground'] = Room.objects.filter(floor="Ground Floor").order_by('number')
+    
+    for hall in (context_dict['first_bio'], context_dict['first_phys'], context_dict['second'], context_dict['ground']):
+        for room in hall:
+            room.url = url_safe(room.number)
     
     return render(request, 'inventory/room_index.html', context_dict)
 
-def room(request, room_number):
-    context_dict = {'room_number': room_number}
+def room(request, room_url):
+    room_number = eye_safe(room_url)
     room = get_object_or_404(Room, number=room_number)
+    room.url = url_safe(room_number)
+    
+    context_dict = {'room_number': room_number}
     
     # Retrieve all of the materials in the room.
     materials = Material.objects.filter(room=room).order_by('location')
     context_dict['room'] = room
     context_dict['materials'] = materials
     
-    # Go render the response and return it to the client.
     return render(request, 'inventory/room.html', context_dict)
     
 def rooms_all(request):
@@ -215,7 +220,8 @@ def text_edit(request):
     return render(request, template_name, context_dict)"""
     
 @login_required
-def room_edit(request, number):
+def room_edit(request, room_url):
+    number = eye_safe(room_url)
     room = Room.objects.get(number = number)
     MaterialFormSet = modelformset_factory(Material, form = MaterialForm)
     qset = Material.objects.filter(room = room)

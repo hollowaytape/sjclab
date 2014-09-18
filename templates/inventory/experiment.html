@@ -61,6 +61,7 @@
                 <img src="{{ MEDIA_URL}}{{ i.path }}" class="thumbnail img-responsive" />
             </div>
         {% endfor %}
+        </div>
     {% endif %}
     
     <h4>Other Resources:</h4>
@@ -72,7 +73,20 @@
         </ul>
     {% else %}
         <ul>
-        <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">Any videos or resources for this experiment?</a></li>
+        <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">Upload a file related to this experiment...</a></li>
+        </ul>
+    {% endif %}
+    
+    <h4>Links:</h4>
+    {% if links %}
+        <ul>
+        {% for l in links %}
+            <li><a href="{{ l.path }}">{{ l.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <ul>
+        <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">Add a link...</a></li>
         </ul>
     {% endif %}
     

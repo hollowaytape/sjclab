@@ -24,24 +24,25 @@
                 {% endfor %}
 
                 <div class="form-group">
-                    {{ form.title.errors }}
+                    
                     <label for="title" class="col-lg-2 control-label">Title</label>
                     <div class="col-lg-10">
+                        {{ form.title.errors }}
                         {{ form.title }}
                     </div>
 				</div>
 
                 <div class="form-group">
-                    {{ form.text.errors }}
                     <label for="text" class="col-lg-2 control-label">Text</label>
                     <div style="width: 83.3333333%; position: relative; float:right;">
+                        {{ form.text.errors }}
                         {{ form.text }}
                     </div>
                     
                     <div class="col-lg-10">
-                    {{ form.on_program.errors }}
                     <div class="checkbox">
                     <label>
+                        {{ form.on_program.errors }}
                         {{ form.on_program }} On Program?
                     </label>
                     </div>
@@ -49,33 +50,33 @@
                 </div>
 
                 <div class="form-group">
-                    {{ form.materials.errors }}
                     <label for="materials" class="col-lg-2 control-label">Materials</label>
                     <div class="col-lg-10">
+                        {{ form.materials.errors }}
                         {{ form.materials }}
                     </div>
                 </div>
 
                 <div class="form-group">
-                    {{ form.procedure.errors }}
                     <label for="procedure" class="col-lg-2 control-label">Procedure</label>
                     <div class="col-lg-10">
+                        {{ form.procedure.errors }}
                         {{ form.procedure }}
                     </div>
                 </div>
 
                 <div class="form-group">
-                    {{ form.tags.errors }}
                     <label for="tags" class="col-lg-2 control-label">Tags</label>
                     <div class="col-lg-10">
+                        {{ form.tags.errors }}
                         {{ form.tags }}
                     </div> 
                 </div>
 				
 				<div class="form-group">
-					{{ form.main_photo.errors }}
 					<label for="main_photo" class="col-lg-2 control-label">Picture</label>
                     <div style="width: 83.3333333%; position: relative; float:right;">
+                    {{ form.main_photo.errors }}
                     {{ form.main_photo }}
                     </div>
                 </div>
@@ -85,10 +86,10 @@
                         <table border="0" cellpadding="0" cellspacing="0" id="image_formset">
                             <tbody>
                             {% for image_form in image_formset.forms %}
-                                {{ image_form.errors }}
                                 <tr>
                                     <td>{{ image_form.id }}{{ image_form.caption }}</td>
                                     <td>{{ image_form.path }}</td>
+                                    <td>{{ image_form.errors }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -101,10 +102,10 @@
                         <table border="0" cellpadding="0" cellspacing="0" id="resource_formset">
                             <tbody>
                             {% for resource_form in resource_formset.forms %}
-                                {{ resource_form.errors }}
                                 <tr>
                                     <td>{{ resource_form.id }}{{ resource_form.name }}</td>
                                     <td>{{ resource_form.path }}</td>
+                                    <td>{{ resource_form.errors }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -112,8 +113,9 @@
                     {{ resource_formset.management_form }}
                 </div>
 
-                    {{ form.complete.errors }}
+                    
                     <div class="col-lg-10">
+                        {{ form.complete.errors }}
                         <div class="checkbox">
                             <label>{{ form.complete }} Page Complete?</label>
                         </div>

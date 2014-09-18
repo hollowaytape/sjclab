@@ -27,12 +27,13 @@ class Link(models.Model):
         return self.title
 
 class Room(models.Model):
-    number = models.IntegerField()
-    location = models.CharField(max_length=40, default="First Floor")
+    floor = models.CharField(max_length=40, default="First Floor")
+    hall = models.CharField(max_length=20, blank=True, null=True)
+    number = models.CharField(max_length=20)    # Not quite a number, also things like "Music Library"
     date_modified = models.DateTimeField(default=datetime.datetime.now)
     
     def __unicode__(self):
-        return str(self.number)
+        return self.number
 
 class Material(models.Model): 
     name = models.CharField(max_length=100)

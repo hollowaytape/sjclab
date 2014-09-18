@@ -2,15 +2,8 @@
 {% block title %} {{ tag_name }} - Experiments {% endblock %}
 
 {% block navbar %}
-    <li class="active"><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
-    <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a>
-    {% if user.is_authenticated %}
-        <li class="navbar-text">Welcome, {{ user.username }}!
-        <li><a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-        <li><a href="{% url 'register' %}"><i class="fa fa-angle-right"></i> Register</a>
-        <li><a href="{% url 'login' %}"><i class="fa fa-angle-double-right"></i> Login</a>
-    {% endif %}
+                <li class="active"><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
+                <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a>
 {% endblock %}
 
 {% block head %}

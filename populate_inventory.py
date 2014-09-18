@@ -6,9 +6,20 @@ import datetime
 
 inventory_sheet = "data/Senior Lab Inventory.xls"
 experiment_sheet = "data/Freshman Experiments.xls"  # Includes FR texts on sheet 1.
+room_sheet = "data/Rooms.xls"
 
 def populate():
-    # First, add the Material and Room objects.
+    # Add rooms.
+    sheet = open_workbook(room_sheet).sheet_by_index(0)
+    for row_index in range(1, sheet.nrows):
+        floor = sheet.cell(row_index, 0).value
+        hall = sheet.cell(row_index, 1).value
+        number = str(sheet.cell(row_index, 2).value).rstrip("0").rstrip(".")
+        print number
+        
+        add_room(floor, hall, number)
+        
+    # Add materials.
     sheet = open_workbook(inventory_sheet).sheet_by_index(0)
     for row_index in range(1, sheet.nrows):           # Skip the 0th row, which gives column names.
         name = sheet.cell(row_index, 2).value
@@ -17,8 +28,8 @@ def populate():
 
         add_material(name, count, location)
 
-        room = int(sheet.cell(row_index, 1).value)
-        add_room(room)
+        room = str(sheet.cell(row_index, 1).value).rstrip("0").rstrip(".")
+        print room
 
         # Finally, now that both objects are created, place the Room object in the Material's ForeignKey.
         add_room_to_material(name, count, location, room)
@@ -50,7 +61,7 @@ def populate():
         for tag in tag_list:
             add_tag(tag)
         add_tags_to_experiment(tag_list, title)
-
+        
     # Print out the contents of the database... not just what you've added at this point.
     print "\nTexts:"
     for t in Text.objects.all():
@@ -86,8 +97,8 @@ def add_text(title, author, manual, year):
     return t
 
 
-def add_room(number):
-    r = Room.objects.get_or_create(number=number, date_modified=datetime.date.today())[0]
+def add_room(floor, hall, number):
+    r = Room.objects.get_or_create(floor=floor, hall=hall, number=number, date_modified=datetime.datetime.now())[0]
     return r
 
 
