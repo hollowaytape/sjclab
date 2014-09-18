@@ -108,10 +108,19 @@ STATIC_S3_PATH = "static"
 AWS_STORAGE_BUCKET_NAME = "sjclab-assets"
 
 MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
-MEDIA_URL = '//s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
+#MEDIA_URL = '//s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
+MEDIA_URL = 'https://sjclab-assets.s3.amazonaws.com/media/'
 STATIC_ROOT = "/%s/" % STATIC_S3_PATH
-STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
+#STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
+STATIC_URL = 'https://sjclab-assets.s3.amazonaws.com/'
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+
+AWS_AUTO_CREATE_BUCKET = True
+AWS_S3_FILE_OVERWRITE = False
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_SECURE_URLS = True
+AWS_REDUCED_REDUNDANCY = False
+AWS_IS_GZIPPED = False
 
 # django-(inspectional-)registration
 REGISTRATION_SUPPLEMENT_CLASS = None
