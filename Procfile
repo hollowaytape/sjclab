@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT baros.wsgi:application
+web: waitress-serve --port=$PORT baros.wsgi.py:application
