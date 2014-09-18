@@ -29,7 +29,6 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['sjclab.herokuapp.com', 'http://127.0.0.1', 'localhost']
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -42,8 +41,6 @@ INSTALLED_APPS = (
     'inventory',
     'storages',
     's3_folder_storage',
-    'gunicorn',
-    'waitress',
     'registration',
 )
 
