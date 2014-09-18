@@ -1,4 +1,4 @@
-git+https://github.com/django/django.git@1.7b1
+git+https://github.com/django/django.git@1.7
 Pillow==2.5.3
 dj-database-url==0.3.0
 dj-static==0.0.6
