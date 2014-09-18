@@ -3,16 +3,28 @@ from django.contrib.auth.models import User
 import datetime
 
 class Image(models.Model):
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 5.0
+        if filesize > megabyte_limit*1024*1024:
+            raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
+
     caption = models.CharField(max_length=100)
-    path = models.ImageField(upload_to=('experiments/images/'))
+    path = models.ImageField(upload_to=('experiments/images/'), validators=[validate_image])
     experiment = models.ForeignKey('Experiment', blank=True, null=True)
     
     def __unicode__(self):
         return self.caption
     
 class Resource(models.Model):
+    def validate_resource(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 5.0
+        if filesize > megabyte_limit*1024*1024:
+            raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
+            
     name = models.CharField(max_length=100)
-    path = models.FileField(upload_to=('experiments/resources/'))
+    path = models.FileField(upload_to=('experiments/resources/'), validators=[validate_resource])
     experiment = models.ForeignKey('Experiment', blank=True, null=True)
     
     def __unicode__(self):

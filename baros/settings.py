@@ -80,18 +80,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/dev/howto/static-files/
-
-"""STATIC_PATH = os.path.join(PROJECT_PATH,'static')
-
- STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    STATIC_PATH,
-)"""
-
 TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
 
 TEMPLATE_DIRS = (
@@ -113,10 +101,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 LOGIN_URL = '/accounts/login/'
 
-#MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
-
-#MEDIA_URL = '/media/'
-
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # AWS S3 Storage
@@ -130,6 +114,7 @@ MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
 MEDIA_URL = '//s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
 STATIC_ROOT = "/%s/" % STATIC_S3_PATH
 STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 # django-(inspectional-)registration
 REGISTRATION_SUPPLEMENT_CLASS = None
