@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'storages',
     's3_folder_storage',
     'gunicorn',
+    'waitress',
     'registration',
 )
 
