@@ -7,9 +7,9 @@ class LinkForm(forms.ModelForm):
     error_css_class = 'error'
     
     title = forms.CharField(help_text="Title")
-    path = forms.CharField(help_text="Links", required=False)
+    url = forms.CharField(help_text="Links")
     
-    fields = ['title', 'path']
+    fields = ['title', 'url']
     
     class Meta:
         model = Link
@@ -18,7 +18,7 @@ class ImageForm(forms.ModelForm):
     error_css_class = 'error'
     
     caption = forms.CharField(help_text="Caption")
-    path = forms.FileField(help_text="Images", required=False)
+    path = forms.FileField(help_text="Images")
     
     fields = ['caption', 'path']
     
@@ -29,7 +29,7 @@ class ResourceForm(forms.ModelForm):
     error_css_class = 'error'
     
     name = forms.CharField(help_text="Name")
-    path = forms.FileField(help_text="Resources", required=False)
+    path = forms.FileField(help_text="Resources")
     
     fields = ['name', 'path']
     

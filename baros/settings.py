@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['sjclab.herokuapp.com', 'http://127.0.0.1', 'localhost']
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
+    # 'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -42,7 +43,6 @@ INSTALLED_APPS = (
     'storages',
     's3_folder_storage',
     'registration',
-    'registration.supplements.default',
     'gunicorn'
 )
 
@@ -59,7 +59,6 @@ ROOT_URLCONF = 'urls'
 
 WSGI_APPLICATION = 'baros.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
@@ -70,13 +69,9 @@ DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
@@ -99,6 +94,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/inventory/experiments/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -128,5 +124,4 @@ AWS_IS_GZIPPED = False
 REGISTRATION_SUPPLEMENT_CLASS = None
 
 ACCOUNT_ACTIVATION_DAYS = 14
-
-LOGIN_REDIRECT_URL = '/inventory/experiments/'
+REGISTRATION_AUTO_LOGIN = True

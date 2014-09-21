@@ -142,6 +142,7 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
     context_dict = {}
     if id:
         experiment = get_object_or_404(Experiment, pk=id)
+        experiment.url = url_safe(experiment.title)
         
         ResourceFormSet = modelformset_factory(Resource, form = ResourceForm)
         resource_qset = Resource.objects.filter(experiment = experiment)
@@ -151,6 +152,10 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
         image_qset = Image.objects.filter(experiment=experiment)
         image_formset = ImageFormSet(queryset=image_qset, prefix='images')
         
+        LinkFormSet = modelformset_factory(Link, form = LinkForm)
+        link_qset = Link.objects.filter(experiment=experiment)
+        link_formset = LinkFormSet(queryset=link_qset, prefix='links')
+        
     else:
         experiment = Experiment()
         
@@ -159,11 +164,15 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
         
         ImageFormSet = modelformset_factory(Image, form=ImageForm)
         image_formset = ImageFormSet(queryset=Image.objects.none(), prefix='images')
+        
+        LinkFormSet = modelformset_factory(Link, form=LinkForm)
+        link_formset = LinkFormSet(queryset=Link.objects.none(), prefix='links')
  
     if request.POST:
         form = ExperimentForm(request.POST, request.FILES, instance=experiment)
         resource_formset = ResourceFormSet(request.POST, request.FILES, prefix='resources')
         image_formset = ImageFormSet(request.POST, request.FILES, prefix='images')
+        link_formset = LinkFormSet(request.POST, prefix='links')
         
         if form.is_valid() and resource_formset.is_valid() and image_formset.is_valid():
             if 'main_photo' in request.FILES:
@@ -179,6 +188,11 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
             for i in image_fset:
                 i.experiment = experiment
                 i.save()
+                
+            link_fset = link_formset.save(commit=False)
+            for l in link_fset:
+                l.experiment = experiment
+                l.save()
                 
             messages.add_message(request, messages.SUCCESS, _('Experiment successfully updated.'))
             # If the save was successful, redirect to another page
@@ -196,6 +210,7 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
     context_dict['form'] = form
     context_dict['resource_formset'] = resource_formset
     context_dict['image_formset'] = image_formset
+    context_dict['link_formset'] = link_formset
  
     return render(request, template_name, context_dict)
 

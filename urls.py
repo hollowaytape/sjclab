@@ -9,7 +9,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^inventory/', include('inventory.urls')),
 	url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/', include('registration.urls')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^favicon\.ico$', RedirectView.as_view(url='https://sjclab-assets.s3.amazonaws.com/img/favicon.ico'), name='favicon'),
 )
 

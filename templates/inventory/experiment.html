@@ -11,8 +11,7 @@
     <h1>{{ experiment_name }}</h1>
 {% endblock %}
 {% block body_block %}
-    <i class="fa fa-pencil"></i> {{ text.author }}, <i class="fa fa-book"></i> <em>{{ text.title }}</em><br />
-    <i class="fa fa-book"></i> {{ text.year }} Year, <i class="fa fa-file-text-o"></i> {{ text.manual }}
+    <i class="fa fa-book"></i> {{ text.author }}, <em>{{ text.title }}</em> - <i class="fa fa-file-text-o"></i> {{ text.manual }} ({{ text.year }})
     {% if main_photo %}
     <div class="col-lg-4 col-sm-6 col-xs-12" style="float:right">
         <img src="{{ MEDIA_URL }}{{ main_photo }}" alt="{{experiment.title}}" class="thumbnail img-responsive"/>

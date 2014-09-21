@@ -9,5 +9,4 @@ static3==0.5.1
 boto==2.32.1
 django-storages==1.1.8
 django-s3-folder-storage==0.1
-git+https://github.com/macropin/django-registration.git@675f87567afdc9913eaead40d6056c0f482df56b
-django-inspectional-registration==0.4.3 
+django-registration-redux==1.1

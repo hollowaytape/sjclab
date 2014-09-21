@@ -9,3 +9,5 @@ venv
 ignore_directory
 .idea
 .boto
+credentials.ps1
+media

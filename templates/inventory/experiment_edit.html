@@ -83,7 +83,14 @@
                 
                 <div class="form-group">
                     <label for="images" class="col-lg-2 control-label">Images</label>
-                        <table border="0" cellpadding="0" cellspacing="0" id="image_formset">
+                        <table border="1px" id="image_formset">
+                            <thead>
+                                <tr>
+                                    <td><b>Caption</b></td>
+                                    <td><b>Upload</b></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
                             <tbody>
                             {% for image_form in image_formset.forms %}
                                 <tr>
@@ -112,6 +119,22 @@
                         </table>
                     {{ resource_formset.management_form }}
                 </div>
+                
+                <div class="form-group">
+                    <label for="links" class="col-lg-2 control-label">Links</label>
+                        <table border="0" cellpadding="0" cellspacing="0" id="link_formset">
+                            <tbody>
+                            {% for link_form in link_formset.forms %}
+                                <tr>
+                                    <td>{{ link_form.id }}{{ link_form.title }}</td>
+                                    <td>{{ link_form.url }}</td>
+                                    <td>{{ link_form.errors }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {{ link_formset.management_form }}
+                </div>
 
                     
                     <div class="col-lg-10">
@@ -125,7 +148,10 @@
                 
                 <div class="form-group">
                     <div class="col-lg-2 control-label"></div>
-                    <div class="col-lg-10"><button type="submit" class="btn btn-primary">Submit</button></div>
+                    <div class="col-lg-10">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="{% url 'experiment' experiment.url %}" class="btn btn-default">Cancel</button>
+                    </div>
                 </div>
 				
             </form>
@@ -143,6 +169,10 @@
         $('#image_formset tbody tr').formset({
             prefix: '{{ image_formset.prefix }}',
             formCssClass: "images-form"
+        });
+        $('#link_formset tbody tr').formset({
+            prefix: '{{ link_formset.prefix }}',
+            formCssClass: "links-form"
         });
     })
 </script>
