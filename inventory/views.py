@@ -71,6 +71,7 @@ def experiment(request, experiment_name_url):
     context_dict['text'] = experiment.text
     context_dict['images'] = Image.objects.filter(experiment=experiment)
     context_dict['resources'] = Resource.objects.filter(experiment=experiment)
+    context_dict['links'] = Link.objects.filter(experiment=experiment)
 
     # Go render the response and return it to the client.
     return render(request, 'inventory/experiment.html', context_dict)
