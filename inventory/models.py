@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import URLValidator
 import datetime
 
 def validate_filesize(fieldfile_obj):
@@ -26,7 +27,7 @@ class Resource(models.Model):
     
 class Link(models.Model):
     title = models.CharField(max_length=200)
-    url = models.CharField(max_length=400)
+    url = models.CharField(max_length=400, validators=[URLValidator])
     experiment = models.ForeignKey('Experiment', blank=True, null=True)
     
     def __unicode__(self):

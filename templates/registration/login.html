@@ -7,9 +7,9 @@
     
 {% block body_block %}
 {% if next %}
-    <form class="form-horizontal" id="login_form" method="post" action="{% url 'auth_login' %}?next={{ next }}/">
+    <form class="form-horizontal" id="login_form" method="post" action="{% url 'login' %}?next={{ next }}/">
 {% else %}
-    <form class="form-horizontal" id="login_form" method="post" action="{% url 'auth_login' %}">
+    <form class="form-horizontal" id="login_form" method="post" action="{% url 'login' %}">
 {% endif %}
 
 {% csrf_token %}

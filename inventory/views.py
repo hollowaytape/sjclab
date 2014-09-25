@@ -178,6 +178,11 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
         if form.is_valid() and resource_formset.is_valid() and image_formset.is_valid():
             if 'main_photo' in request.FILES:
                 form.main_photo = request.FILES['main_photo']
+            
+            tag_objects = []
+            for tag in request.POST['tags']:
+                tag_objects.append(Tag.objects.get_or_create(name=tag))
+            form.tags = tag_objects
             form.save()
             
             resource_fset = resource_formset.save(commit=False)
@@ -264,7 +269,7 @@ def room_edit(request, room_url):
 
     return render(request, 'inventory/room_edit.html', {'formset': formset, 'room': room})
     
-
+"""
 def register(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
@@ -359,7 +364,7 @@ def user_login(request):
         },
         context_instance=RequestContext(request)
         )
-        
+        """
 @login_required
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.

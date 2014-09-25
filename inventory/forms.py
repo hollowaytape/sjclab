@@ -3,6 +3,14 @@ import datetime
 from inventory.models import Experiment, Room, Material, Tag, Text, UserProfile, Resource, Image, Link
 from django.contrib.auth.models import User
 
+class TagField(forms.CharField):
+    widget = forms.Textarea
+    
+    def clean(self, value):
+        super(TagField, self).clean(value)
+        tags = value.split(', ')
+        return tags
+
 class LinkForm(forms.ModelForm):
     error_css_class = 'error'
     
@@ -44,8 +52,8 @@ class ExperimentForm(forms.ModelForm):
     procedure = forms.CharField(widget=forms.Textarea, help_text="Procedure", required=False)
     materials = forms.ModelMultipleChoiceField(help_text="Materials", queryset=Material.objects.all().order_by('name'), required=False)
     resources = forms.FileField(help_text="Resources", required=False)
-    on_program = forms.BooleanField(help_text="On Program?", required=False)
-    tags = forms.ModelMultipleChoiceField(help_text="Tags", queryset=Tag.objects.all(), required=False)
+    on_program = forms.BooleanField(help_text="On Program?")
+    tags = TagField(help_text="Tags", required=False)
     complete = forms.BooleanField(help_text="Complete Page?", required=False)
     main_photo = forms.ImageField(help_text="Picture", required=False)
     

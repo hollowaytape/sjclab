@@ -106,7 +106,14 @@
                 
                 <div class="form-group">
                     <label for="resources" class="col-lg-2 control-label">Resources</label>
-                        <table border="0" cellpadding="0" cellspacing="0" id="resource_formset">
+                        <table border="1px" id="resource_formset">
+                            <thead>
+                                <tr>
+                                    <td><b>Title</b></td>
+                                    <td><b>Upload</b></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
                             <tbody>
                             {% for resource_form in resource_formset.forms %}
                                 <tr>
@@ -122,7 +129,15 @@
                 
                 <div class="form-group">
                     <label for="links" class="col-lg-2 control-label">Links</label>
-                        <table border="0" cellpadding="0" cellspacing="0" id="link_formset">
+                        <table border="1px" id="link_formset">
+                            <thead>
+                                <tr>
+                                    <td><b>Title</b></td>
+                                    <td><b>Web Address</b></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <tbody>
                             {% for link_form in link_formset.forms %}
                                 <tr>
