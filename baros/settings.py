@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'inventory',
     'storages',
     's3_folder_storage',
-    'registration',
+    # 'registration',
     'gunicorn'
 )
 
@@ -69,9 +69,9 @@ DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_L10N = True
+TIME_ZONE = 'EST'
+USE_I18N = False
+USE_L10N = False
 USE_TZ = True
 
 TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
@@ -93,7 +93,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static"
 )
 
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/inventory/login/'
 LOGIN_REDIRECT_URL = '/inventory/experiments/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -120,8 +120,9 @@ AWS_S3_SECURE_URLS = True
 AWS_REDUCED_REDUNDANCY = False
 AWS_IS_GZIPPED = False
 
-# django-(inspectional-)registration
-REGISTRATION_SUPPLEMENT_CLASS = None
-
-ACCOUNT_ACTIVATION_DAYS = 14
-REGISTRATION_AUTO_LOGIN = True
+# Email settings
+EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
+EMAIL_HOST= 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']

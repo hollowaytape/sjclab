@@ -151,21 +151,20 @@
                     {{ link_formset.management_form }}
                 </div>
 
-                    
+                <div class="form-group">
                     <div class="col-lg-10">
                         {{ form.complete.errors }}
                         <div class="checkbox">
                             <label>{{ form.complete }} Page Complete?</label>
                         </div>
                     </div>
-                    <!--<button class="btn btn-default">Cancel</button>-->
                 </div>
                 
                 <div class="form-group">
                     <div class="col-lg-2 control-label"></div>
                     <div class="col-lg-10">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                        <a href="{% url 'experiment' experiment.url %}" class="btn btn-default">Cancel</button>
+                        <a href="{% url 'experiment' experiment.url %}"><button class="btn btn-default">Cancel</button></a>
                     </div>
                 </div>
 				

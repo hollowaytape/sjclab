@@ -101,6 +101,9 @@ class Experiment(models.Model):
     def __unicode__(self):
         return self.title
         
+    def get_tags(self):
+        return "".join([t.name for t in self.tags.all()])
+        
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)

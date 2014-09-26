@@ -2,9 +2,36 @@ from django import forms
 import datetime
 from inventory.models import Experiment, Room, Material, Tag, Text, UserProfile, Resource, Image, Link
 from django.contrib.auth.models import User
+from django.utils.encoding import smart_str
+from django.utils.safestring import mark_safe
+from django.forms.util import flatatt
+
+class CommaSeparatedTags(forms.Widget):
+    # See http://stackoverflow.com/questions/4960445/display-a-comma-separated-list-of-manytomany-items-in-a-charfield-on-a-modelform
+    def render(self, name, value, attrs=None):
+        final_attrs = self.build_attrs(attrs, type='text', name=name)
+        
+        if not type(value) == unicode:
+            values = []
+            for each in value:
+                try:
+                    values.append(str(Tag.objects.get(pk=each).name))
+                except:
+                    continue
+            value = ', '.join(values)
+            if value:
+                final_attrs['value'] = smart_str(value)
+                
+        else:
+            final_attrs['value'] = smart_str(value)
+            
+        return mark_safe(u'<input%s />' % flatatt(final_attrs))
 
 class TagField(forms.CharField):
-    widget = forms.Textarea
+    widget = CommaSeparatedTags
+    
+    class Meta:
+        model = Tag
     
     def clean(self, value):
         super(TagField, self).clean(value)
