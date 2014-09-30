@@ -19,7 +19,7 @@
     {% endif %}
     
     {% if tags %}
-    <h4>Tags: {% for tag in tags.all %} <a href="{% url 'tag' tag.name %}">{{ tag.name }}</a> {% endfor %}</h4>
+    <h4>Tags: {% for tag in tags %} <a href="{% url 'tag' tag.url %}">{{ tag.name }}</a>, {% endfor %}</h4>
     {% else %}
     <h4>Tags: None</h4>
     {% endif %}

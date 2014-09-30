@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+    {% if users %}
+        <ul>
+        {% for user in users %}
+            <li>{{ user.name }}, {{ user.email }}
+        {% endfor %}
+    {% else %}
+        No users require activation.
+    {% endif %}
+{% endblock %}

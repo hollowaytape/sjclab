@@ -6,7 +6,7 @@ from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 from django.forms.util import flatatt
 
-class CommaSeparatedTags(forms.Widget):
+class CommaSeparatedWidget(forms.Widget):
     # See http://stackoverflow.com/questions/4960445/display-a-comma-separated-list-of-manytomany-items-in-a-charfield-on-a-modelform
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(attrs, type='text', name=name)
@@ -27,17 +27,16 @@ class CommaSeparatedTags(forms.Widget):
             
         return mark_safe(u'<input%s />' % flatatt(final_attrs))
 
-class TagField(forms.CharField):
-    widget = CommaSeparatedTags
-    
-    class Meta:
-        model = Tag
-    
+class CommaSeparatedChoiceField(forms.ModelMultipleChoiceField):
+    widget = CommaSeparatedWidget
     def clean(self, value):
-        super(TagField, self).clean(value)
-        tags = value.split(', ')
-        return tags
-
+        tag_list = []
+        if value is not None:
+            #value = [item.strip() for item in value.split(",")]
+            for item in value.split(", "):
+                tag_list.append(Tag.objects.get_or_create(name=item)[0].id)
+        return super(CommaSeparatedChoiceField, self).clean(tag_list)
+        
 class LinkForm(forms.ModelForm):
     error_css_class = 'error'
     
@@ -80,7 +79,7 @@ class ExperimentForm(forms.ModelForm):
     materials = forms.ModelMultipleChoiceField(help_text="Materials", queryset=Material.objects.all().order_by('name'), required=False)
     resources = forms.FileField(help_text="Resources", required=False)
     on_program = forms.BooleanField(help_text="On Program?")
-    tags = TagField(help_text="Tags", required=False)
+    tags = CommaSeparatedChoiceField(help_text="Tags", required=False, queryset=Tag.objects.all())
     complete = forms.BooleanField(help_text="Complete Page?", required=False)
     main_photo = forms.ImageField(help_text="Picture", required=False)
     
@@ -89,6 +88,17 @@ class ExperimentForm(forms.ModelForm):
     # An inline class to provide additional information on the form.
     class Meta:
         model = Experiment
+        
+    def save(self, commit=True):
+        instance = super(ExperimentForm, self).save(commit=commit)
+        tags = self.cleaned_data.get('self', None)
+        if tags is not None:
+            for tag_name in tags.split(", "):
+                tag = Tag.objects.create(name=tag_name)
+                instance.tags.add(tag)
+        instance.save()
+        return instance
+        
         
 class RoomForm(forms.ModelForm):
     error_css_class = 'error'

@@ -79,7 +79,7 @@
 
 <h2>By Tag</h2>
 {% for tag in tags %}
-    <a href="{% url 'tag' tag.name %}">{{ tag.name }}, </a>
+    <a href="{% url 'tag' tag.url %}">{{ tag.name }}, </a>
 {% endfor %}
 
 <p><a href="{% url 'experiment_edit' %}" class="btn btn-primary btn-lg">Add an Experiment</a></p>

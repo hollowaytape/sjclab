@@ -31,7 +31,10 @@ def experiment_index(request):
     context_dict['sr_experiments'] = Experiment.objects.filter(text__year="Senior").order_by('title')
     context_dict['ot_experiments'] = Experiment.objects.filter(text__year="Other").order_by('title')
 
-    context_dict['tags'] = Tag.objects.order_by('name')
+    tags = Tag.objects.order_by('name')
+    for t in tags:
+        t.url = url_safe(t.name)
+    context_dict['tags'] = tags
     
     # Sanitize experiment names for use in urls.
     for year in (context_dict['fr_experiments'], context_dict['jr_experiments'], context_dict['sr_experiments'], context_dict['ot_experiments']):
@@ -54,6 +57,7 @@ def experiment(request, experiment_name_url):
     
     # materials: each kind of material necessary for the experiment.
     materials = experiment.materials.all()
+    tags = experiment.tags.all()
     
     # material_locations: dict with entries {material: [instance1, instance2]}.
     material_locations = {}
@@ -61,10 +65,13 @@ def experiment(request, experiment_name_url):
     for m in materials:
         material_locations[m] = Material.objects.filter(name=m)
     
+    for t in tags:
+        t.url = url_safe(t.name)
+    
     context_dict['experiment'] = experiment
     context_dict['materials'] = materials
     context_dict['material_locations'] = material_locations
-    context_dict['tags'] = experiment.tags
+    context_dict['tags'] = tags
     context_dict['procedure'] = experiment.procedure
     context_dict['main_photo'] = experiment.main_photo
     context_dict['id'] = experiment.id
@@ -179,10 +186,12 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
             if 'main_photo' in request.FILES:
                 form.main_photo = request.FILES['main_photo']
             
-            tag_objects = []
+            """tag_objects = []
             for tag in form.cleaned_data['tags']:
-                tag_objects.append(Tag.objects.get_or_create(name=tag))
+                tag_objects.append(Tag.objects.get_or_create(name=tag)[0].id)
+            print form.tags
             form.tags = tag_objects
+            print form.tags"""
             form.save()
             
             resource_fset = resource_formset.save(commit=False)
@@ -206,7 +215,11 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
             return HttpResponseRedirect(redirect_url)
         else:
             print form.errors
+            #print form.tags
+            #print form.tag_objects
             print resource_formset.errors
+            print image_formset.errors
+            print link_formset.errors
             messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. See errors below and please try again.'))
  
     else:
@@ -359,3 +372,8 @@ def user_logout(request):
     # Take the user back to the homepage.
     messages.add_message(request, messages.SUCCESS, _('You have logged out.'))
     return HttpResponseRedirect('/inventory/')
+    
+def admin_user_approval(request):
+     users = User.objects.filter(is_active=False)
+     
+     return render_to_response('inventory/user_approval.html', {'users': users}, context_instance=RequestContext(context))
