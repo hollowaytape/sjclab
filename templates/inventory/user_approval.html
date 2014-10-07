@@ -1,12 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'inventory/base.html' %}
+
+{% block head %}
+    <h1>Users Awaiting Approval</h1>
+{% endblock %}
 
 {% block body_block %}
     {% if users %}
         <ul>
         {% for user in users %}
-            <li>{{ user.name }}, {{ user.email }}
+            <li>{{ user.username }}, {{ user.email }} - <a href="{% url 'approve_user' user.id %}">Approve Registration</a>
         {% endfor %}
     {% else %}
-        No users require activation.
+        No users require activation at this time.
     {% endif %}
 {% endblock %}

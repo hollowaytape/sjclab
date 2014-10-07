@@ -26,4 +26,5 @@ urlpatterns = patterns('',
     url(r'^logout/$', views.user_logout, name='logout'),
     
     url(r'^approval/$', views.admin_user_approval, name="user_approval"),
+    url(r'^approval/(?P<id>\d+)/$', views.approve_user, {}, name="approve_user"),
 )

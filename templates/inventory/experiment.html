@@ -38,7 +38,7 @@
         </ul>
     {% else %}
         <ul>
-            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">What materials are needed for this experiment?</a></li>
+            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}" style="color:#BBBDB6">What materials are needed for this experiment?</a></li>
         </ul>
     {% endif %}
 
@@ -48,7 +48,7 @@
             {% if procedure %}
                 {{ procedure }}
             {% else %}
-                <p><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">How is this experiment performed?</a></p>
+                <p><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}" style="color:#BBBDB6">How is this experiment performed?</a></p>
             {% endif %}
 		</div>
 	</div>
@@ -72,7 +72,7 @@
         </ul>
     {% else %}
         <ul>
-        <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">Upload a file related to this experiment...</a></li>
+        <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}" style="color:#BBBDB6">Upload a file related to this experiment...</a></li>
         </ul>
     {% endif %}
     
@@ -85,7 +85,7 @@
         </ul>
     {% else %}
         <ul>
-        <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}">Add a link...</a></li>
+        <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}" style="color:#BBBDB6">Add a link...</a></li>
         </ul>
     {% endif %}
     

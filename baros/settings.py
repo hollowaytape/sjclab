@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import os
 import dj_database_url
+from django.contrib.messages import constants as messages
 
 SETTINGS_DIR = os.path.dirname(__file__)
 
@@ -44,7 +45,7 @@ INSTALLED_APPS = (
     's3_folder_storage',
     # 'registration',
     'gunicorn',
-    #'debug-toolbar',
+    'debug_toolbar.apps.DebugToolbarConfig',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -94,6 +95,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static"
 )
 
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
+
 LOGIN_URL = '/inventory/login/'
 LOGIN_REDIRECT_URL = '/inventory/experiments/'
 
@@ -127,3 +132,4 @@ EMAIL_HOST= 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
+ADMIN_EMAILS = os.environ['ADMIN_EMAILS']

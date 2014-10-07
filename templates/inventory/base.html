@@ -35,6 +35,9 @@
             <li><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
             <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a>
 			{% endblock %}
+            {% if user.is_superuser %}
+                <li><a href="{% url 'user_approval' %}"><i class="fa fa-user"></i> Admin</a>
+            {% endif %}
           </ul>
 
           <ul class="nav navbar-nav navbar-right">

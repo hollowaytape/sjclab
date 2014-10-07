@@ -10,10 +10,12 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import ugettext as _
 from django.forms.models import inlineformset_factory
 import datetime
+from django.core.mail import send_mail
+from django.contrib.auth.models import User, Permission
 
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
@@ -302,9 +304,9 @@ def register(request):
 
             profile.save()
 
-            messages.add_message(request, messages.SUCCESS, _('Registration successful. Welcome!'))
+            messages.add_message(request, messages.SUCCESS, _('Registration successful. The administrator has been notified, and will activate your account.'))
             registered = True
-            # TODO: Email the admin to notify them a new user has a pending registration.
+            send_mail('Pending user registration', 'A user has registered with the name %s and email %s. Please check the registration page.' % (user.username, user.email), 'accounts@sjclab.herokuapp.com', ['max.silbiger@gmail.com', 'thatkidsam@gmail.com'], fail_silently=False)
 
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
@@ -318,7 +320,7 @@ def register(request):
         profile_form = UserProfileForm()
 
     return render(request, 
-            'inventory/register.html',
+            'registration/registration_form.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
             
 def user_login(request):
@@ -345,10 +347,11 @@ def user_login(request):
                     request.user = user
                     return HttpResponseRedirect(request.POST.get('next'))
             else:
-                messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. See errors below and please try again.'))
+                messages.add_message(request, messages.ERROR, _('Your account is not active yet. Please wait for the administrator to approve your registration.'))
+                return render(request, 'registration/login.html', {})
         else:
             messages.add_message(request, messages.ERROR, _('Invalid login details supplied, please try again.'))
-            return render(request, 'inventory/login.html', {})
+            return render(request, 'registration/login.html', {})
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
@@ -373,7 +376,17 @@ def user_logout(request):
     messages.add_message(request, messages.SUCCESS, _('You have logged out.'))
     return HttpResponseRedirect('/inventory/')
     
+@permission_required('is_superuser')
 def admin_user_approval(request):
      users = User.objects.filter(is_active=False)
      
-     return render_to_response('inventory/user_approval.html', {'users': users}, context_instance=RequestContext(context))
+     return render_to_response('inventory/user_approval.html', {'users': users}, context_instance=RequestContext(request))
+     
+@permission_required('is_superuser')
+def approve_user(request, id):
+    user = User.objects.get(id=id)
+    
+    user.is_active = True
+    
+    messages.add_message(request, messages.SUCCESS, _('User %s successfully activated.'))
+    return HttpResponseRedirect('inventory/approval')

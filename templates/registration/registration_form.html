@@ -16,23 +16,23 @@
                         <input type="text" name="username" class="form-control" id="id_username" maxlength="30" placeholder="Username">
                     </div>
                 </div>
-            
-                <div class="form-group">
-                    <label for="id_email1" class="col-lg-2 control-label">Email</label>
-                    <div class="col-lg-10">
-                        <input type="text" name="email" class="form-control" id="id_email1" placeholder="Email" maxlength="75">
-                    </div>
-                </div>
                 
                 <div class="form-group">
-                    <label for="id_email2" class="col-lg-2 control-label">Email (again)</label>
+                    <label for="id_password" class="col-lg-2 control-label">Password</label>
                     <div class="col-lg-10">
-                        <input type="text" name="email" class="form-control" id="id_email2" placeholder="Email" maxlength="75">
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password" maxlength="50">
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label for="id_email" class="col-lg-2 control-label">Email</label>
+                    <div class="col-lg-10">
+                        <input type="text" name="email" class="form-control" id="id_email" placeholder="Email" maxlength="75">
                     </div>
                 </div>
             </fieldset>
 
             {{ supplement_form.as_p }}
-            <p><button type="submit" class="btn btn-primary" value="Register"></p>
+            <p><button type="submit" class="btn btn-primary" value="Register">Register</p>
         </form>
 {% endblock %}
