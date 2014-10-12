@@ -24,7 +24,7 @@ PROJECT_PATH = os.path.abspath(os.path.join(SETTINGS_DIR, os.pardir))
 SECRET_KEY = os.environ['SJCLAB_DJANGO_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     's3_folder_storage',
     # 'registration',
     'gunicorn',
-    'debug_toolbar.apps.DebugToolbarConfig',
+    #'debug_toolbar.apps.DebugToolbarConfig',
 )
 
 MIDDLEWARE_CLASSES = (
