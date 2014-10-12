@@ -1,6 +1,6 @@
 {% extends 'inventory/base.html' %}
 
-{% block title %} {{ experiment_name }} - Lab Experiment {% endblock %}
+{% block title %} {{ experiment_name }} - Lab Experiment{% endblock %}
 
 {% block navbar %}
                 <li class="active"><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
@@ -18,8 +18,8 @@
     </div>
     {% endif %}
     
-    {% if tags %}
-    <h4>Tags: {% for tag in tags %} <a href="{% url 'tag' tag.url %}">{{ tag.name }}</a>, {% endfor %}</h4>
+    {% if last_tag %}
+    <h4>Tags: {% for tag in comma_tags %} <a href="{% url 'tag' tag.url %}">{{ tag.name }}</a>, {% endfor %} <a href="{% url 'tag' last_tag.url %}">{{ last_tag.name }}</a></h4>
     {% else %}
     <h4>Tags: None</h4>
     {% endif %}
@@ -54,12 +54,12 @@
 	</div>
     
     {% if images %}
-        <div class="row">
-        {% for i in images %}
-            <div class="col-lg-4 col-sm-6 col-xs-12">
-                <img src="{{ MEDIA_URL}}{{ i.path }}" class="thumbnail img-responsive" />
-            </div>
-        {% endfor %}
+        <div class="container">
+            <ul class="row" style="list-style:none;">
+                {% for i in images %}
+                    <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4"><img src="{{ MEDIA_URL}}{{ i.path }}" class="thumbnail img-responsive" /></li>
+                {% endfor %}
+            </ul>
         </div>
     {% endif %}
     

@@ -1,6 +1,6 @@
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, render_to_response
+from django.shortcuts import render, get_object_or_404, render_to_response, redirect
 from inventory.models import Experiment, Material, Text, Room, Tag, Image, Resource, Link
 from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm, TextForm, ResourceForm, ImageForm, LinkForm
 from django.forms.models import modelformset_factory
@@ -59,7 +59,9 @@ def experiment(request, experiment_name_url):
     
     # materials: each kind of material necessary for the experiment.
     materials = experiment.materials.all()
-    tags = experiment.tags.all()
+    
+    last_tag = experiment.tags.last()
+    comma_tags = experiment.tags.all().exclude(name=last_tag.name)
     
     # material_locations: dict with entries {material: [instance1, instance2]}.
     material_locations = {}
@@ -67,13 +69,16 @@ def experiment(request, experiment_name_url):
     for m in materials:
         material_locations[m] = Material.objects.filter(name=m)
     
-    for t in tags:
+    for t in comma_tags:
         t.url = url_safe(t.name)
+        
+    last_tag.url = url_safe(last_tag.name)
     
     context_dict['experiment'] = experiment
     context_dict['materials'] = materials
     context_dict['material_locations'] = material_locations
-    context_dict['tags'] = tags
+    context_dict['comma_tags'] = comma_tags
+    context_dict['last_tag'] = last_tag
     context_dict['procedure'] = experiment.procedure
     context_dict['main_photo'] = experiment.main_photo
     context_dict['id'] = experiment.id
@@ -389,4 +394,4 @@ def approve_user(request, id):
     user.is_active = True
     
     messages.add_message(request, messages.SUCCESS, _('User %s successfully activated.'))
-    return HttpResponseRedirect('inventory/approval')
+    return redirect('admin_user_approval')
