@@ -18,8 +18,8 @@
     </div>
     {% endif %}
     
-    {% if last_tag %}
-    <h4>Tags: {% for tag in comma_tags %} <a href="{% url 'tag' tag.url %}">{{ tag.name }}</a>, {% endfor %} <a href="{% url 'tag' last_tag.url %}">{{ last_tag.name }}</a></h4>
+    {% if tags %}
+    <h4>Tags: {% for tag in tags %} <a class="btn btn-default" href="{% url 'tag' tag.url %}">{{ tag.name }}</a>{% endfor %}
     {% else %}
     <h4>Tags: None</h4>
     {% endif %}

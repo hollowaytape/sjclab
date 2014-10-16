@@ -66,8 +66,7 @@ def experiment(request, experiment_name_url):
     # materials: each kind of material necessary for the experiment.
     materials = experiment.materials.all()
     
-    last_tag = experiment.tags.last()
-    comma_tags = experiment.tags.all().exclude(name=last_tag.name)
+    tags = experiment.tags.all()
     
     # material_locations: dict with entries {material: [instance1, instance2]}.
     material_locations = {}
@@ -75,16 +74,13 @@ def experiment(request, experiment_name_url):
     for m in materials:
         material_locations[m] = Material.objects.filter(name=m)
     
-    for t in comma_tags:
+    for t in tags:
         t.url = url_safe(t.name)
-        
-    last_tag.url = url_safe(last_tag.name)
-    
+
     context_dict['experiment'] = experiment
     context_dict['materials'] = materials
     context_dict['material_locations'] = material_locations
-    context_dict['comma_tags'] = comma_tags
-    context_dict['last_tag'] = last_tag
+    context_dict['tags'] = tags
     context_dict['procedure'] = experiment.procedure
     context_dict['main_photo'] = experiment.main_photo
     context_dict['id'] = experiment.id
