@@ -12,7 +12,7 @@ def validate_filesize(fieldfile_obj):
 class Image(models.Model):
     caption = models.CharField(max_length=100)
     path = models.ImageField(upload_to=('experiments/images/'), validators=[validate_filesize])
-    experiment = models.ForeignKey('Experiment', blank=True, null=True)
+    experiment = models.ForeignKey('Experiment', blank=True, null=True) 
     
     def __unicode__(self):
         return self.caption
