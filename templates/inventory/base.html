@@ -1,8 +1,9 @@
-{% load static %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Max Silbiger">
     
     <link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet" media="screen">
 	<link href="{{ STATIC_URL }}css/bootstrap-fluid-adj.css" rel="stylesheet">
@@ -11,11 +12,12 @@
 	
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="{{ STATIC_URL }}img/favicon.ico">
     <!--[if lt IE 9]>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
     
-        <title>{% block title %}Lab - St. John's College{% endblock %}</title>
+        <title>{% block title %}Home{% endblock %} - SJC Lab</title>
     </head>
 <body>
 <div class="navbar navbar-default navbar-static-top">

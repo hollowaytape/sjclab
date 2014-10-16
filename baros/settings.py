@@ -24,7 +24,7 @@ PROJECT_PATH = os.path.abspath(os.path.join(SETTINGS_DIR, os.pardir))
 SECRET_KEY = os.environ['SJCLAB_DJANGO_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     # 'registration',
     'gunicorn',
     #'debug_toolbar.apps.DebugToolbarConfig',
+    'collectfast',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,6 +96,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static"
 )
 
+# Override bootstrap error class
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
@@ -105,22 +107,23 @@ LOGIN_REDIRECT_URL = '/inventory/experiments/'
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # AWS S3 Storage
+STATICFILES_DIRS = ("C:/Users/Max/Code/Baros/static/",)
 DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
 DEFAULT_S3_PATH = "media"
-STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+#STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+STATICFILES_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 STATIC_S3_PATH = "static"
 AWS_STORAGE_BUCKET_NAME = "sjclab-assets"
 
 MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
-#MEDIA_URL = '//s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
 MEDIA_URL = 'https://sjclab-assets.s3.amazonaws.com/media/'
 STATIC_ROOT = "/%s/" % STATIC_S3_PATH
-#STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
 STATIC_URL = 'https://sjclab-assets.s3.amazonaws.com/'
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
+AWS_PRELOAD_METADATA = True
 AWS_AUTO_CREATE_BUCKET = True
-AWS_S3_FILE_OVERWRITE = False
+#AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_SECURE_URLS = True
 AWS_REDUCED_REDUNDANCY = False
@@ -128,8 +131,8 @@ AWS_IS_GZIPPED = False
 
 # Email settings
 EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
+EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
 EMAIL_HOST= 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
-ADMIN_EMAILS = os.environ['ADMIN_EMAILS']
+ADMIN_EMAILS = os.environ['ADMIN_EMAILS'].split(', ')
