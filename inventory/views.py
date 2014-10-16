@@ -28,22 +28,28 @@ def eye_safe(string):
 def experiment_index(request):
     context_dict = {}
     
+    # Grab a list of all appropriate experiments to each year.
     context_dict['fr_experiments'] = Experiment.objects.filter(text__year="Freshman").order_by('title')
     context_dict['jr_experiments'] = Experiment.objects.filter(text__year="Junior").order_by('title')
     context_dict['sr_experiments'] = Experiment.objects.filter(text__year="Senior").order_by('title')
     context_dict['ot_experiments'] = Experiment.objects.filter(text__year="Other").order_by('title')
-
-    tags = Tag.objects.order_by('name')
-    for t in tags:
-        t.url = url_safe(t.name)
-    context_dict['tags'] = tags
     
     # Sanitize experiment names for use in urls.
     for year in (context_dict['fr_experiments'], context_dict['jr_experiments'], context_dict['sr_experiments'], context_dict['ot_experiments']):
         for experiment in year:
             experiment.url = url_safe(experiment.title)
+
+    # Grab a list of all tags and sanitize their names for urls.
+    tags = Tag.objects.order_by('name').exclude(name="none")
+    for t in tags:
+        t.url = url_safe(t.name)
+    context_dict['tags'] = tags
+        
+    none_tag = Tag.objects.get(name="none")
+    none_tag.url = "none"
+    context_dict['none_tag'] = none_tag
     
-    # Render the response and send it back!
+    # Render the response and send it back.
     return render(request, 'inventory/experiment_index.html', context_dict)
 
     
@@ -91,21 +97,27 @@ def experiment(request, experiment_name_url):
     return render(request, 'inventory/experiment.html', context_dict)
 
     
-def tag(request, tag_name):
+def tag(request, tag_name_url):
+    # Change underscores in the experiment name to spaces.
+    tag_name = eye_safe(tag_name_url)
     context_dict = {'tag_name': tag_name}
     
     tag = get_object_or_404(Tag, name = tag_name)
+    context_dict['tag'] = tag
     
     # Retrieve all of the Experiment objects with this tag.
     # Maybe there is a more idiomatic way of doing this...
-    experiments = []
-    for e in Experiment.objects.all():
-        if tag in e.tags.all():
-            e.url = url_safe(e.title)
-            experiments.append(e)
-    
-    context_dict['experiments'] = experiments  
-    context_dict['tag'] = tag
+    #experiments = []
+    #for e in Experiment.objects.all():
+        #if tag in e.tags.all():
+            #e.url = url_safe(e.title)
+            #experiments.append(e)
+            
+    #context_dict['experiments'] = experiments  
+            
+    context_dict['experiments'] = Experiment.objects.filter(tags__name=tag.name).order_by('title')
+    for e in context_dict['experiments']:
+        e.url = url_safe(e.title)
     
     return render(request, 'inventory/tag.html', context_dict)
     
@@ -155,32 +167,28 @@ def rooms_all(request):
 @login_required
 def experiment_edit(request, id=None, template_name='inventory/experiment_edit.html'):
     context_dict = {}
+    ResourceFormSet = modelformset_factory(Resource, form = ResourceForm)
+    ImageFormSet = modelformset_factory(Image, form = ImageForm)
+    LinkFormSet = modelformset_factory(Link, form=LinkForm)
+    
     if id:
         experiment = get_object_or_404(Experiment, pk=id)
         experiment.url = url_safe(experiment.title)
         
-        ResourceFormSet = modelformset_factory(Resource, form = ResourceForm)
         resource_qset = Resource.objects.filter(experiment = experiment)
         resource_formset = ResourceFormSet(queryset = resource_qset, prefix='resources')
         
-        ImageFormSet = modelformset_factory(Image, form = ImageForm)
         image_qset = Image.objects.filter(experiment=experiment)
         image_formset = ImageFormSet(queryset=image_qset, prefix='images')
         
-        LinkFormSet = modelformset_factory(Link, form = LinkForm)
         link_qset = Link.objects.filter(experiment=experiment)
         link_formset = LinkFormSet(queryset=link_qset, prefix='links')
         
     else:
         experiment = Experiment()
         
-        ResourceFormSet = modelformset_factory(Resource, form = ResourceForm)
         resource_formset = ResourceFormSet(queryset=Resource.objects.none(), prefix='resources')
-        
-        ImageFormSet = modelformset_factory(Image, form=ImageForm)
         image_formset = ImageFormSet(queryset=Image.objects.none(), prefix='images')
-        
-        LinkFormSet = modelformset_factory(Link, form=LinkForm)
         link_formset = LinkFormSet(queryset=Link.objects.none(), prefix='links')
  
     if request.POST:
@@ -193,12 +201,6 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
             if 'main_photo' in request.FILES:
                 form.main_photo = request.FILES['main_photo']
             
-            """tag_objects = []
-            for tag in form.cleaned_data['tags']:
-                tag_objects.append(Tag.objects.get_or_create(name=tag)[0].id)
-            print form.tags
-            form.tags = tag_objects
-            print form.tags"""
             form.save()
             
             resource_fset = resource_formset.save(commit=False)
@@ -221,12 +223,6 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
             redirect_url = reverse('experiment', args=[url_safe(experiment.title)])
             return HttpResponseRedirect(redirect_url)
         else:
-            print form.errors
-            #print form.tags
-            #print form.tag_objects
-            print resource_formset.errors
-            print image_formset.errors
-            print link_formset.errors
             messages.add_message(request, messages.ERROR, _('There was a problem saving the experiment. See errors below and please try again.'))
  
     else:
@@ -393,5 +389,5 @@ def approve_user(request, id):
     
     user.is_active = True
     
-    messages.add_message(request, messages.SUCCESS, _('User %s successfully activated.'))
+    messages.add_message(request, messages.SUCCESS, _('User %s successfully activated.' % user.username))
     return redirect('admin_user_approval')

@@ -78,9 +78,7 @@
     </div>
 
 <h2>By Tag</h2>
-{% for tag in tags %}
-    <a href="{% url 'tag' tag.url %}">{{ tag.name }}, </a>
-{% endfor %}
+<h4>{% for tag in tags %}<a href="{% url 'tag' tag.url %}">{{ tag.name }}</a>, {% endfor %} <a href="{% url 'tag' 'none' %}">{{ none_tag.name }}</a></h4>
 
 <p><a href="{% url 'experiment_edit' %}" class="btn btn-primary btn-lg">Add an Experiment</a></p>
 {% endblock %}

@@ -45,7 +45,7 @@ class Room(models.Model):
 class Material(models.Model): 
     name = models.CharField(max_length=100)
     room = models.ForeignKey('Room', null=True, blank=True)
-    location = models.CharField(max_length=100, null=True, default="Somewhere")
+    location = models.CharField(max_length=100, blank=True, null=True, default="Somewhere")
     count = models.IntegerField(default=1)
 
     def __unicode__(self):
@@ -66,7 +66,7 @@ class Text(models.Model):
 	
 	('MECH', 'Mechanics'),
 	('ELEC', 'Electricity and Magnetism'),
-	('MXWL', 'Notes to Maxwell\'s Papers'),
+	('MXWL', 'Maxwell\'s Papers'),
 	
 	('ATOM', 'Atoms and Measurement'),
 	('GENS', 'Genetics and Evolution')

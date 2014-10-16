@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block head %}
-    {% if experiment %}
+    {% if experiment.url %}
         <h1>Edit {{ experiment }}</h1>
     {% else %}
         <h1>Add an Experiment</h1>
@@ -83,7 +83,7 @@
                 
                 <div class="form-group">
                     <label for="images" class="col-lg-2 control-label">Images</label>
-                        <table border="1px" id="image_formset">
+                        <table id="image_formset" class="table table-hover">
                             <thead>
                                 <tr>
                                     <td><b>Caption</b></td>
@@ -106,7 +106,7 @@
                 
                 <div class="form-group">
                     <label for="resources" class="col-lg-2 control-label">Resources</label>
-                        <table border="1px" id="resource_formset">
+                        <table id="resource_formset" class="table table-hover">
                             <thead>
                                 <tr>
                                     <td><b>Title</b></td>
@@ -129,7 +129,7 @@
                 
                 <div class="form-group">
                     <label for="links" class="col-lg-2 control-label">Links</label>
-                        <table border="1px" id="link_formset">
+                        <table id="link_formset" class="table table-hover">
                             <thead>
                                 <tr>
                                     <td><b>Title</b></td>
@@ -155,7 +155,7 @@
                     <div class="col-lg-10">
                         {{ form.complete.errors }}
                         <div class="checkbox">
-                            <label>{{ form.complete }} Page Complete?</label>
+                            <label class="col-lg-2 control-label">{{ form.complete }} Page Complete?</label>
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,11 @@
                     <div class="col-lg-2 control-label"></div>
                     <div class="col-lg-10">
                         <button type="submit" class="btn btn-primary">Submit</button>
+                        {% if experiment.url %}
                         <a href="{% url 'experiment' experiment.url %}"><button class="btn btn-default">Cancel</button></a>
+                        {% else %}
+                        <a href="{% url 'experiment_index' %}"><button class="btn btn-default">Cancel</button></a>
+                        {% endif %}
                     </div>
                 </div>
 				
