@@ -303,11 +303,9 @@ def register(request):
 
             messages.add_message(request, messages.SUCCESS, _('Registration successful. The administrator has been notified, and will activate your account.'))
             registered = True
-            send_mail('Pending user registration', 'A user has registered with the name %s and email %s. Please check the registration page.' % (user.username, user.email), 'accounts@sjclab.herokuapp.com', ['max.silbiger@gmail.com', 'thatkidsam@gmail.com'], fail_silently=False)
+            send_mail('Pending user registration', 'A user has registered with the name %s and email %s. Please check the registration page.' % 
+                (user.username, user.email), 'accounts@sjclab.herokuapp.com', ['max.silbiger@gmail.com', 'thatkidsam@gmail.com'], fail_silently=False)
 
-        # Invalid form or forms - mistakes or something else?
-        # Print problems to the terminal.
-        # They'll also be shown to the user.
         else:
             messages.add_message(request, messages.ERROR, _('There was a problem registering. Please try again.'))
             print user_form.errors, profile_form.errors
@@ -383,7 +381,14 @@ def admin_user_approval(request):
 def approve_user(request, id):
     user = User.objects.get(id=id)
     
-    user.is_active = True
-    
-    messages.add_message(request, messages.SUCCESS, _('User %s successfully activated.' % user.username))
-    return redirect('admin_user_approval')
+    if user.is_active == False:
+        user.is_active = True
+        user.save()
+        messages.add_message(request, messages.SUCCESS, _('User %s successfully activated.' % user.username))
+        send_mail('Your account has been activated', '%s, the administrator has activated your account. You may now login.' % user.username, 
+            'accounts@sjclab.herokuapp.com', [user.email], fail_silently=False)
+
+    else:
+        messages.add_message(request, messages.ERROR, _('User %s is already active.' % user.username))
+
+    return HttpResponseRedirect('/inventory/approval/')
