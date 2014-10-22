@@ -62,7 +62,7 @@ def experiment(request, experiment_name_url):
     # materials: each kind of material necessary for the experiment.
     materials = experiment.materials.all()
     
-    tags = experiment.tags.all()
+    tags = experiment.tags.all().exclude(name="")
     
     # material_locations: dict with entries {material: [instance1, instance2]}.
     material_locations = {}
@@ -230,8 +230,10 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
 
 @permission_required('is_superuser')
 def experiment_delete(request, id):
-    experiment = get_object_or_404(Experiment, pk=id).delete()
+    experiment = Experiment.objects.get(pk=id).delete()
     messages.add_message(request, messages.SUCCESS, _('Experiment deleted.'))
+
+    return HttpResponseRedirect('/inventory/experiments/')
 
 """@login_required
 def text_edit(request):

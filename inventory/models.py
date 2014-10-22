@@ -89,7 +89,7 @@ class Tag(models.Model):
 
 
 class Experiment(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
     text = models.ForeignKey('Text', null=True, blank=True)
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)

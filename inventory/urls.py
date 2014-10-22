@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^experiments/add/$', views.experiment_edit, name='experiment_edit'),
     url(r'^experiments/edit/(?P<id>\d+)/$', views.experiment_edit, name='experiment_edit'),
 	url(r'^experiments/(?P<experiment_name_url>\w+)/$', views.experiment, name='experiment'), 
+    url(r'^experiments/delete/(?P<id>\d+)/$', views.experiment_delete, name='experiment_delete'),
     
     url(r'^experiments/tagged/(?P<tag_name_url>\w+)/$', views.tag, name='tag'),
     

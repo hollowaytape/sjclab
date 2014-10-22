@@ -89,9 +89,10 @@ class ExperimentForm(forms.ModelForm):
         model = Experiment
         
     def save(self, commit=True):
+        #TODO: Why does an input of "" create an empty tag?
         instance = super(ExperimentForm, self).save(commit=commit)
         tags = self.cleaned_data.get('self', None)
-        if tags is not None:
+        if tags:
             for tag_name in tags.split(", "):
                 tag = Tag.objects.create(name=tag_name)
                 instance.tags.add(tag)

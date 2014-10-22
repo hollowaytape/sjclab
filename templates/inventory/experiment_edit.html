@@ -166,6 +166,7 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                         {% if experiment.url %}
                         <a href="{% url 'experiment' experiment.url %}"><button class="btn btn-default">Cancel</button></a>
+                        <!--<a href="{% url 'experiment_delete' experiment.id %}"><button class="btn btn-danger">Delete Experiment</button></a>-->
                         {% else %}
                         <a href="{% url 'experiment_index' %}"><button class="btn btn-default">Cancel</button></a>
                         {% endif %}
