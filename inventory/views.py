@@ -40,14 +40,10 @@ def experiment_index(request):
             experiment.url = url_safe(experiment.title)
 
     # Grab a list of all tags and sanitize their names for urls.
-    tags = Tag.objects.order_by('name').exclude(name="none")
+    tags = Tag.objects.order_by('name').exclude(name="none").exclude(name="")
     for t in tags:
         t.url = url_safe(t.name)
     context_dict['tags'] = tags
-        
-    none_tag = Tag.objects.get(name="none")
-    none_tag.url = "none"
-    context_dict['none_tag'] = none_tag
     
     # Render the response and send it back.
     return render(request, 'inventory/experiment_index.html', context_dict)
