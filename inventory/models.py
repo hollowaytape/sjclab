@@ -52,24 +52,25 @@ class Material(models.Model):
         return self.name
 		
 class Text(models.Model):
+
     YEAR_CHOICES = (
-        ('FR', 'Freshman'),
-        ('JR', 'Junior'),
-        ('SR', 'Senior'),
-        ('OT', 'Other'),
+        ("Freshman", 'Freshman'),
+        ("Junior", 'Junior'),
+        ("Senior", 'Senior'),
+        ("Other", 'Other'),
     )
 	
     MANUAL_CHOICES = [
-    ('OBSV', 'Observing Living Beings'),
-	('EQLB', 'Measurement and Equilibrium'),
-	('CONS', 'Constitution of Bodies'),
+    ("Observing Living Beings", 'Observing Living Beings'),
+	("Measurement and Equilibrium", 'Measurement and Equilibrium'),
+	("Constitution of Bodies", 'Constitution of Bodies'),
 	
-	('MECH', 'Mechanics'),
-	('ELEC', 'Electricity and Magnetism'),
-	('MXWL', 'Maxwell\'s Papers'),
+	("Mechanics", 'Mechanics'),
+	("Electricity and Magnetism", 'Electricity and Magnetism'),
+	("Maxwell's Papers", "Maxwell's Papers"),
 	
-	('ATOM', 'Atoms and Measurement'),
-	('GENS', 'Genetics and Evolution')
+	("Atoms and Measurement", 'Atoms and Measurement'),
+	("Genetics and Evolution", 'Genetics and Evolution')
 	]
 	
     title = models.CharField(max_length=100)

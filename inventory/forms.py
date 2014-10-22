@@ -32,9 +32,9 @@ class CommaSeparatedChoiceField(forms.ModelMultipleChoiceField):
     def clean(self, value):
         tag_list = []
         if value is not None:
-            #value = [item.strip() for item in value.split(",")]
             for item in value.split(", "):
-                tag_list.append(Tag.objects.get_or_create(name=item)[0].id)
+                if item is not "":
+                    tag_list.append(Tag.objects.get_or_create(name=item)[0].id)
         return super(CommaSeparatedChoiceField, self).clean(tag_list)
         
 class LinkForm(forms.ModelForm):
@@ -85,7 +85,6 @@ class ExperimentForm(forms.ModelForm):
     
     fields = ['title', 'on_program', 'text', 'procedure', 'materials', 'resources', 'tags', 'complete', 'main_photo', 'resources']
     
-    # An inline class to provide additional information on the form.
     class Meta:
         model = Experiment
         

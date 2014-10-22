@@ -31,7 +31,7 @@ def experiment_index(request):
     # Grab a list of all appropriate experiments to each year.
     context_dict['fr_experiments'] = Experiment.objects.filter(text__year="Freshman").order_by('title')
     context_dict['jr_experiments'] = Experiment.objects.filter(text__year="Junior").order_by('title')
-    context_dict['sr_experiments'] = Experiment.objects.filter(text__year="SR").order_by('title')
+    context_dict['sr_experiments'] = Experiment.objects.filter(text__year="Senior").order_by('title')
     context_dict['ot_experiments'] = Experiment.objects.filter(text__year="Other").order_by('title')
     
     # Sanitize experiment names for use in urls.
@@ -227,6 +227,11 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
     context_dict['link_formset'] = link_formset
  
     return render(request, template_name, context_dict)
+
+@permission_required('is_superuser')
+def experiment_delete(request, id):
+    experiment = get_object_or_404(Experiment, pk=id).delete()
+    messages.add_message(request, messages.SUCCESS, _('Experiment deleted.'))
 
 """@login_required
 def text_edit(request):
