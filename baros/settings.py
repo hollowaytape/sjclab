@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'gunicorn',
     #'debug_toolbar.apps.DebugToolbarConfig',
     'collectfast',
+    'django_wysiwyg',
 )
 
 MIDDLEWARE_CLASSES = (
