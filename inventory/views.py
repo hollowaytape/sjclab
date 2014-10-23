@@ -229,7 +229,7 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
     return render(request, template_name, context_dict)
 
 @permission_required('is_superuser')
-def experiment_delete(request, id):
+def experiment_delete(id):
     experiment = Experiment.objects.get(pk=id).delete()
     messages.add_message(request, messages.SUCCESS, _('Experiment deleted.'))
 
@@ -367,12 +367,19 @@ def user_login(request):
 
 @login_required
 def user_logout(request):
-    # Since we know the user is logged in, we can now just log them out.
+    next = request.GET.get('next')
     logout(request)
 
     # Take the user back to the homepage.
     messages.add_message(request, messages.SUCCESS, _('You have logged out.'))
-    return HttpResponseRedirect('/inventory/')
+
+    if 'next' in request.GET:
+        next = request.GET['next']
+
+    if next == "":
+        return HttpResponseRedirect('/inventory/experiments/')
+    else:
+        return HttpResponseRedirect(next)
     
 @permission_required('is_superuser')
 def admin_user_approval(request):

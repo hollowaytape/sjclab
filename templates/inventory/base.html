@@ -46,7 +46,7 @@
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
                 <li><p class="navbar-text">Welcome, {{ user.username }}!</p>
-                <li><a href="{% url 'logout' %}">Logout</a>
+                <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
             {% else %}
                 <li><a href="{% url 'register' %}"><i class="fa fa-angle-right"></i> Register</a>
                 <li><a href="{% url 'login' %}?next={{ request.path }}"><i class="fa fa-angle-double-right"></i> Login</a>
