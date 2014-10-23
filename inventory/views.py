@@ -149,7 +149,7 @@ def rooms_all(request):
     material_types = Material.objects.values_list('name', flat=True).distinct()
     material_locations = {}
     for m in material_types:
-        locations = Material.objects.filter(name=m)
+        locations = Material.objects.filter(name=m).order_by('name')
         material_locations[m] = locations
     
     context_dict['material_locations'] = material_locations

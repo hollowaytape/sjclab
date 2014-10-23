@@ -24,7 +24,7 @@ PROJECT_PATH = os.path.abspath(os.path.join(SETTINGS_DIR, os.pardir))
 SECRET_KEY = os.environ['SJCLAB_DJANGO_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 

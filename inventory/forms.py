@@ -76,20 +76,20 @@ class ExperimentForm(forms.ModelForm):
     title = forms.CharField(help_text="Title")
     text = forms.ModelChoiceField(help_text="Text", queryset=Text.objects.all().order_by('author'))
     procedure = forms.CharField(widget=forms.Textarea, help_text="Procedure", required=False)
-    materials = forms.ModelMultipleChoiceField(help_text="Materials", queryset=Material.objects.all().order_by('name'), required=False)
-    resources = forms.FileField(help_text="Resources", required=False)
+    materials = forms.ModelMultipleChoiceField(help_text="Materials", widget=forms.CheckboxSelectMultiple, queryset=Material.objects.order_by('name').distinct('name'), required=False)
+    #resources = forms.FileField(help_text="Resources", required=False)
     on_program = forms.BooleanField(help_text="On Program?")
     tags = CommaSeparatedChoiceField(help_text="Tags", required=False, queryset=Tag.objects.all())
     complete = forms.BooleanField(help_text="Complete Page?", required=False)
     main_photo = forms.ImageField(help_text="Picture", required=False)
     
-    fields = ['title', 'on_program', 'text', 'procedure', 'materials', 'resources', 'tags', 'complete', 'main_photo', 'resources']
+    fields = ['title', 'on_program', 'text', 'procedure', 'materials', 'tags', 'complete', 'main_photo']
     
     class Meta:
         model = Experiment
         
     def save(self, commit=True):
-        #TODO: Why does an input of "" create an empty tag?
+        #TODO: Why does an input of "" create an empty tag? (Does it still do this?)
         instance = super(ExperimentForm, self).save(commit=commit)
         tags = self.cleaned_data.get('self', None)
         if tags:
