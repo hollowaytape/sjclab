@@ -122,10 +122,10 @@ class MaterialForm(forms.ModelForm):
 
 class TextForm(forms.ModelForm):
     error_css_class = 'error'
-    title = forms.CharField(help_text="Text Name")
+    title = forms.CharField(help_text="Title")
     author = forms.CharField(help_text="Author")
-    manual = forms.CharField(help_text="Manual")  # Selects?
-    year = forms.CharField(help_text="Year")      # Selects?
+    manual = forms.ChoiceField(help_text="Manual", choices=Text.MANUAL_CHOICES)
+    year = forms.ChoiceField(help_text="Year", choices=Text.YEAR_CHOICES)
     
     fields = ['title', 'author', 'manual', 'year']
     

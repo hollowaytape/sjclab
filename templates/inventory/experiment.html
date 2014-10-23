@@ -1,6 +1,6 @@
 {% extends 'inventory/base.html' %}
 
-{% block title %} {{ experiment_name }} - Lab Experiment{% endblock %}
+{% block title %}{{ experiment_name }} - Lab Experiment{% endblock %}
 
 {% block navbar %}
                 <li class="active"><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
@@ -46,7 +46,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             {% if procedure %}
-                {{ procedure }}
+                {{ procedure|safe }}
             {% else %}
                 <p><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}" style="color:#BBBDB6">How is this experiment performed?</a></p>
             {% endif %}
@@ -62,6 +62,7 @@
                         <a href="{{ MEDIA_URL }}{{ i.path }}" class="thumbnail" style="margin-bottom:7px;">
                             <img src="{{ MEDIA_URL}}{{ i.path }}" class="item" />
                         </a>
+                        <p style="text-align:center;"><em>{{ i.caption }}</em></p>
                     </div>
                 {% endfor %}
             </div>

@@ -1,0 +1,65 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %} Add Text {% endblock %}
+
+{% block navbar %}
+    <li class="active"><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
+    <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a>
+{% endblock %}
+
+{% block head %}
+    <h1>Add Text</h1>
+{% endblock %}
+
+{% block body_block %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form id="text_form" class="form-horizontal" method="post" action="">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+
+                <div class="form-group">
+                    <label for="title" class="col-lg-2 control-label">Title</label>
+                    <div class="col-lg-10">
+                        {{ form.title.errors }}
+                        {{ form.title }}
+                    </div>
+				</div>
+
+				<div class="form-group">
+                    <label for="author" class="col-lg-2 control-label">Author</label>
+                    <div class="col-lg-10">
+                        {{ form.author.errors }}
+                        {{ form.author }}
+                    </div>
+				</div>
+
+				<div class="form-group">
+                    <label for="manual" class="col-lg-2 control-label">Manual</label>
+                    <div class="col-lg-10">
+                        {{ form.manual.errors }}
+                        {{ form.manual }}
+                    </div>
+				</div>
+
+				<div class="form-group">
+                    <label for="year" class="col-lg-2 control-label">Year</label>
+                    <div class="col-lg-10">
+                        {{ form.year.errors }}
+                        {{ form.year }}
+                    </div>
+				</div>
+
+				<div class="form-group">
+                    <div class="col-lg-2 control-label"></div>
+                    <div class="col-lg-10">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

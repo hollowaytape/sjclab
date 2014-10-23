@@ -1,5 +1,12 @@
 {% extends 'inventory/base.html' %}
+
 {% block title %} Add Experiment {% endblock %}
+
+{% block load %}
+{% load wysiwyg %}
+{% wysiwyg_setup %}
+{% endblock %}
+
 {% block navbar %}
     <li class="active"><a href="{% url 'experiment_index' %}"><i class="fa fa-flask"></i> Experiments</a>
     <li><a href="{% url 'room_index' %}"><i class="fa fa-briefcase"></i> Inventory</a>
@@ -34,9 +41,9 @@
                 <div class="form-group">
                     <label for="text" class="col-lg-2 control-label">Text</label>
                     <div class="col-lg-10">
-                    <!--<div style="width: 83.3333333%; position: relative; float:right;">-->
                         {{ form.text.errors }}
                         {{ form.text }}
+                        <span class="help-block">Is the text msising from the list? <a href="{% url 'text_add' %}">Add a new text</a>.</span>
                     </div>
                     
                     <div class="col-lg-10">
@@ -64,6 +71,7 @@
                     <div class="col-lg-10">
                         {{ form.procedure.errors }}
                         {{ form.procedure }}
+                        {% wysiwyg_editor "id_procedure" %}
                     </div>
                 </div>
 
@@ -72,12 +80,12 @@
                     <div class="col-lg-10">
                         {{ form.tags.errors }}
                         {{ form.tags }}
+                        <span class="help-block">Enter a list of tags separated with commas - i.e. "surfing, beach, waves"</span>
                     </div> 
                 </div>
 				
 				<div class="form-group">
-					<label for="main_photo" class="col-lg-2 control-label">Picture</label>
-                    <!--<div style="width: 83.3333333%; position: relative; float:right;">-->
+					<label for="main_photo" class="col-lg-2 control-label">Main Photo</label>
                     <div class="col-lg-10">
                     {{ form.main_photo.errors }}
                     {{ form.main_photo }}
@@ -200,4 +208,5 @@
         });
     })
 </script>
+
 {% endblock %}

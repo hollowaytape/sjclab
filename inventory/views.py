@@ -16,6 +16,7 @@ from django.forms.models import inlineformset_factory
 import datetime
 from django.core.mail import send_mail
 from django.contrib.auth.models import User, Permission
+from django_wysiwyg import clean_html
 
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
@@ -77,7 +78,7 @@ def experiment(request, experiment_name_url):
     context_dict['materials'] = materials
     context_dict['material_locations'] = material_locations
     context_dict['tags'] = tags
-    context_dict['procedure'] = experiment.procedure
+    context_dict['procedure'] = clean_html(experiment.procedure)
     context_dict['main_photo'] = experiment.main_photo
     context_dict['id'] = experiment.id
     context_dict['text'] = experiment.text
@@ -235,9 +236,10 @@ def experiment_delete(id):
 
     return HttpResponseRedirect('/inventory/experiments/')
 
-"""@login_required
-def text_edit(request):
+@login_required
+def text_add(request):
     text = Text()
+    context_dict = {}
     
     if request.POST:
         form = TextForm(request.POST, instance=text)
@@ -253,7 +255,8 @@ def text_edit(request):
         form = TextForm(instance=text)
         
     context_dict['form'] = form
-    return render(request, template_name, context_dict)"""
+    context_dict['text'] = text
+    return render(request, 'inventory/text_add.html', context_dict)
     
 @login_required
 def room_edit(request, room_url):

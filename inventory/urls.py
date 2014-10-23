@@ -19,6 +19,8 @@ urlpatterns = patterns('',
     url(r'^rooms/(?P<room_url>\w+)/$', views.room, name='room'),
     url(r'^rooms/edit/(?P<room_url>\w+)/$', views.room_edit, name='room_edit'),
 
+    url(r'^texts/add/$', views.text_add, name='text_add'),
+
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
     url(r'^register/$', views.register, name='register'),

@@ -1,6 +1,9 @@
 from django.contrib import admin
-from inventory.models import Material, Text, Experiment, Room, UserProfile
-# Tags do not make sense to put in the Admin, since they only have one attribute.
+from inventory.models import Material, Text, Experiment, Room, UserProfile, Tag
+
+class TagAdmin(admin.ModelAdmin):
+    ordering = ['name']
+    fields = ['name']
 
 class TextAdmin(admin.ModelAdmin):
     ordering = ['manual', 'author']
@@ -25,6 +28,7 @@ class ExperimentAdmin(admin.ModelAdmin):
         ('Additional',       {'fields': ['tags', 'resources']})]
 
 
+admin.site.register(Tag, TagAdmin)
 admin.site.register(Text, TextAdmin)
 admin.site.register(Experiment, ExperimentAdmin)
 admin.site.register(Room, RoomAdmin)
