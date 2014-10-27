@@ -1,0 +1,40 @@
+/*
+ * Globals
+ */
+
+/* Links */
+a {
+  color: #fff;
+}
+
+a:focus, 
+a:hover {
+  color: orange;
+}
+
+h1, h2 {
+  font-family: "Playfair Display", "Georgia", serif;
+}
+
+p {
+  font-family: "Droid Serif", "Georgia", serif;
+}
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+  height: 100%;
+  background-image: url(../img/blackwhite.jpg) no-repeat bottom center scroll;
+  -webkit-background-size: 100% auto;
+  -moz-background-size: 100% auto;
+  -o-background-size: 100% auto;
+  background-size: 100% auto;
+  background-repeat:no-repeat;
+  display: compact;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
