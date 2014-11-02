@@ -30,10 +30,11 @@
                     <div class="col-lg-10">
                         <input type="text" name="email" class="form-control" id="id_email" placeholder="Email" maxlength="75">
                     </div>
+                    {{ supplement_form.as_p }}
+                    <input type="submit" value="Register" />
                 </div>
             </fieldset>
 
-            {{ supplement_form.as_p }}
-            <p><button type="submit" class="btn btn-primary" value="Register">Register</p>
         </form>
+        <p>Already registered? <a href="{% url 'login' %}">Click here to login.</a></p>
 {% endblock %}
