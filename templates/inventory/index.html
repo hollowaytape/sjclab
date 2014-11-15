@@ -1,66 +1,9 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% extends 'inventory/base_pretty.html' %}
 
-    <title>St. John's College Lab</title>
+{% block image %}axlotl.jpg{% endblock %}
 
-    <!-- Bootstrap Core CSS -->
-    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="{{ STATIC_URL }}css/grayscale.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="{{ STATIC_URL }}css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-    <!-- Intro Header -->
-    <header class="intro">
-        <div class="intro-body">
-            <div style="vertical-align: middle;">
-                        <h1 class="brand-heading">St. John's College</h1>
-                        <h2 class="brand-heading">Laboratory Notebook</h2>
-                        <p class="intro-text" style="color:#FFFFFF;"><a href="{% url 'experiment_index' %}">Experiments</a> | <a href="{% url 'room_index' %}">Inventory</a></p>
-            </div>
-        </div>
-    </header>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>Copyright &copy; Max Silbiger 2014, Photo by Anyi Guo</p>
-        </div>
-    </footer>
-
-    <!-- jQuery Version 1.11.0 -->
-    <script src="{{ STATIC_URL }}js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="{{ STATIC_URL }}js/jquery.easing.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="{{ STATIC_URL }}js/grayscale.js"></script>
-
-</body>
-
-</html>
+{% block content %}
+    <h1 class="brand-heading" style="color:#ffa500;">St. John's College</h1>
+    <h2 class="brand-heading">Laboratory Notebook</h2>
+    <p class="intro-text" style="color:#FFFFFF;"><a href="{% url 'experiment_index' %}">Experiments</a> | <a href="{% url 'room_index' %}">Inventory</a></p>
+{% endblock %}
