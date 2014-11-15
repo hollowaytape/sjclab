@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
-{% block title %} Registration Complete {% endblock %}
+{% extends 'inventory/base_pretty.html' %}
+{% block title %}Registration Complete{% endblock %}
 
-{% block head %}
-    <h2>Registration Complete</h2>
-{% endblock %}
+{% block image %}diffraction.jpg{% endblock %}
 
-{% block body_block %}
-    <p>You have successfully registered. Please check the email you provided to activate your account. (Or wait for the administrator to activate your account.)
+{% block content %}
+	<h1 class="brand-heading" style="color:#ffa500;">Registration Complete</h1>
+	<p>You have successfully registered.
+	<p>You will be notified by email when the administrator activates your account.
 {% endblock %}
