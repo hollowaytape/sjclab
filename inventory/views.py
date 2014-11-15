@@ -26,6 +26,7 @@ def eye_safe(string):
     """ Undoes the operation of url_safe()."""
     return string.replace('_', ' ')
 
+@login_required
 def experiment_index(request):
     context_dict = {}
     
@@ -49,7 +50,7 @@ def experiment_index(request):
     # Render the response and send it back.
     return render(request, 'inventory/experiment_index.html', context_dict)
 
-    
+@login_required    
 def experiment(request, experiment_name_url):
     # Change underscores in the experiment name to spaces.
     experiment_name = eye_safe(experiment_name_url)
@@ -89,7 +90,7 @@ def experiment(request, experiment_name_url):
     # Go render the response and return it to the client.
     return render(request, 'inventory/experiment.html', context_dict)
 
-    
+@login_required    
 def tag(request, tag_name_url):
     # Change underscores in the experiment name to spaces.
     tag_name = eye_safe(tag_name_url)
@@ -97,23 +98,14 @@ def tag(request, tag_name_url):
     
     tag = get_object_or_404(Tag, name = tag_name)
     context_dict['tag'] = tag
-    
-    # Retrieve all of the Experiment objects with this tag.
-    # Maybe there is a more idiomatic way of doing this...
-    #experiments = []
-    #for e in Experiment.objects.all():
-        #if tag in e.tags.all():
-            #e.url = url_safe(e.title)
-            #experiments.append(e)
-            
-    #context_dict['experiments'] = experiments  
             
     context_dict['experiments'] = Experiment.objects.filter(tags__name=tag.name).order_by('title')
     for e in context_dict['experiments']:
         e.url = url_safe(e.title)
     
     return render(request, 'inventory/tag.html', context_dict)
-    
+
+@login_required    
 def room_index(request):
     context_dict = {}
     
@@ -128,6 +120,7 @@ def room_index(request):
     
     return render(request, 'inventory/room_index.html', context_dict)
 
+@login_required
 def room(request, room_url):
     room_number = eye_safe(room_url)
     room = get_object_or_404(Room, number=room_number)
@@ -141,7 +134,8 @@ def room(request, room_url):
     context_dict['materials'] = materials
     
     return render(request, 'inventory/room.html', context_dict)
-    
+ 
+@login_required   
 def rooms_all(request):
     context_dict = {}
     
@@ -234,7 +228,7 @@ def experiment_delete(id):
     experiment = Experiment.objects.get(pk=id).delete()
     messages.add_message(request, messages.SUCCESS, _('Experiment deleted.'))
 
-    return HttpResponseRedirect('/inventory/experiments/')
+    return HttpResponseRedirect('/experiments/')
 
 @login_required
 def text_add(request):
@@ -343,7 +337,7 @@ def user_login(request):
                 login(request, user)
                 messages.add_message(request, messages.SUCCESS, _('Welcome, %s!' % username))
                 if next == "":
-                    return HttpResponseRedirect('/inventory/experiments/')
+                    return HttpResponseRedirect('/experiments/')
                 else:
                     request.user = user
                     return HttpResponseRedirect(request.POST.get('next'))
@@ -380,7 +374,7 @@ def user_logout(request):
         next = request.GET['next']
 
     if next == "":
-        return HttpResponseRedirect('/inventory/experiments/')
+        return HttpResponseRedirect('/')
     else:
         return HttpResponseRedirect(next)
     
@@ -404,4 +398,4 @@ def approve_user(request, id):
     else:
         messages.add_message(request, messages.ERROR, _('User %s is already active.' % user.username))
 
-    return HttpResponseRedirect('/inventory/approval/')
+    return HttpResponseRedirect('/approval/')

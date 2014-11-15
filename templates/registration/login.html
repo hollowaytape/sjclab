@@ -1,11 +1,17 @@
 {% extends 'inventory/base_pretty.html' %}
-{% block title %} Login {% endblock %}
+{% block title %}Login{% endblock %}
 
-
+{% block image %}blackwhite.jpg{% endblock %}
 
 {% block content %}
-<h1 class="brand-heading" style="color:#ffa500">St. John's College</h1>
+<h1 class="brand-heading" style="color:#ce8500">St. John's College</h1>
 <h2 class="brand-heading">Laboratory Notebook</h2>
+
+{% if messages %}
+        {% for message in messages %}
+             <p>{{ message }}
+        {% endfor %}
+{% endif %}
     
 {% if next %}
     <form class="form-horizontal" id="login_form" method="post" action="{% url 'login' %}?next={{ next }}/">
@@ -15,16 +21,10 @@
 
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ next }}" />
-<fieldset>
 <div class="form-group">
-        <input type="text" class="form-control" name="username" id="inputUsername" placeholder="Username" style="margin-left:auto;margin-right:auto;width:15%;">
+        <input type="text" class="form-control" name="username" id="inputUsername" placeholder="Username" style="margin-left:auto;margin-right:auto;width:25%;">
 </div>
-<div class="form-group">
-        <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password" style="margin-left:auto;margin-right:auto;width:15%;">
+        <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password" style="margin-left:auto;margin-right:auto;width:25%;">
         <br />
-        <input class="btn btn-default btn-lg" type="submit" value="Submit" />
-</div>
-</fieldset>
-</form>
-<p>Not a member? <a href="{% url 'register' %}">Click here to register.</a></p>
+        <div style="display:inline"><input class="btn btn-default btn-lg" type="submit" value="Login" /></form> <a href="{% url 'register' %}" class="btn btn-default btn-lg">Register</a></div>
 {% endblock %}

@@ -4,7 +4,8 @@ from baros import settings
 from django.views.generic import TemplateView
 
 urlpatterns = patterns('',
-    url(r'^$', TemplateView.as_view(template_name='inventory/index.html'), name='index'),
+    #url(r'^$', TemplateView.as_view(template_name='inventory/index.html'), name='index'),
+    url(r'^$', views.user_login, name='login'),
     
     url(r'^experiments/$', views.experiment_index, name='experiment_index'),
     url(r'^experiments/add/$', views.experiment_edit, name='experiment_edit'),
@@ -24,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
     url(r'^register/$', views.register, name='register'),
-    url(r'^login/$', views.user_login, name='login'),
+    #url(r'^login/$', views.user_login, name='login'),
     #url(r'^restricted/', views.restricted, name='restricted'),
     url(r'^logout/$', views.user_logout, name='logout'),
     

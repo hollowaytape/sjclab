@@ -102,8 +102,8 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-LOGIN_URL = '/inventory/login/'
-LOGIN_REDIRECT_URL = '/inventory/experiments/'
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/experiments/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 

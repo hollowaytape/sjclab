@@ -7,7 +7,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^inventory/', include('inventory.urls')),
+	url(r'^$', 'inventory.views.user_login'),
+    url(r'', include('inventory.urls')),
+    url(r'^inventory/', RedirectView.as_view(pattern_name='inventory.views.user_login')),       # To preserve legacy links
 	url(r'^admin/', include(admin.site.urls)),
     url(r'^favicon\.ico$', RedirectView.as_view(url='https://sjclab-assets.s3.amazonaws.com/img/favicon.ico'), name='favicon'),
 )
