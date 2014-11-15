@@ -304,7 +304,7 @@ def register(request):
             messages.add_message(request, messages.SUCCESS, _('Registration successful. The administrator has been notified, and will activate your account.'))
             registered = True
             send_mail('Pending user registration', 'A user has registered with the name %s and email %s. Please check the registration page.' % 
-                (user.username, user.email), 'accounts@sjclab.herokuapp.com', ['max.silbiger@gmail.com', 'thatkidsam@gmail.com'], fail_silently=False)
+                (user.username, user.email), 'accounts@sjclab.herokuapp.com', ['max.silbiger@gmail.com', 'mark.daly@sjc.edu'], fail_silently=False)
 
         else:
             messages.add_message(request, messages.ERROR, _('There was a problem registering. Please try again.'))
