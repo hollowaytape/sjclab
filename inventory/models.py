@@ -21,28 +21,29 @@ class Resource(models.Model):
     name = models.CharField(max_length=100)
     path = models.FileField(upload_to=('experiments/resources/'), validators=[validate_filesize])
     experiment = models.ForeignKey('Experiment', blank=True, null=True)
-    tutor = models.BooleanField(default=False)
     
     def __unicode__(self):
         return self.name
     
 class Link(models.Model):
     title = models.CharField(max_length=200)
-    url = models.CharField(max_length=400, validators=[URLValidator])
+    url = models.CharField(max_length=400, validators=[URLValidator()])
     experiment = models.ForeignKey('Experiment', blank=True, null=True)
-    tutor = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.title
 
+
 class Room(models.Model):
     floor = models.CharField(max_length=40, default="First Floor")
     hall = models.CharField(max_length=20, blank=True, null=True)
-    number = models.CharField(max_length=20)    # Not quite a number, also things like "Music Library"
+    # Not always a number, also things like "Music Library"
+    number = models.CharField(max_length=20)
     date_modified = models.DateTimeField(default=datetime.datetime.now)
     
     def __unicode__(self):
         return self.number
+
 
 class Material(models.Model): 
     name = models.CharField(max_length=100)
@@ -52,7 +53,8 @@ class Material(models.Model):
 
     def __unicode__(self):
         return self.name
-		
+
+
 class Text(models.Model):
 
     YEAR_CHOICES = (
@@ -61,20 +63,20 @@ class Text(models.Model):
         ("Senior", 'Senior'),
         ("Other", 'Other'),
     )
-	
+
     MANUAL_CHOICES = [
     ("Observing Living Beings", 'Observing Living Beings'),
-	("Measurement and Equilibrium", 'Measurement and Equilibrium'),
-	("Constitution of Bodies", 'Constitution of Bodies'),
-	
-	("Mechanics", 'Mechanics'),
-	("Electricity and Magnetism", 'Electricity and Magnetism'),
-	("Maxwell's Papers", "Maxwell's Papers"),
-	
-	("Atoms and Measurement", 'Atoms and Measurement'),
-	("Genetics and Evolution", 'Genetics and Evolution')
-	]
-	
+    ("Measurement and Equilibrium", 'Measurement and Equilibrium'),
+    ("Constitution of Bodies", 'Constitution of Bodies'),
+
+    ("Mechanics", 'Mechanics'),
+    ("Electricity and Magnetism", 'Electricity and Magnetism'),
+    ("Maxwell's Papers", "Maxwell's Papers"),
+
+    ("Atoms and Measurement", 'Atoms and Measurement'),
+    ("Genetics and Evolution", 'Genetics and Evolution')
+    ]
+
     title = models.CharField(max_length=100, unique=True)
     manual = models.CharField(max_length=30, choices=MANUAL_CHOICES, null=True, default='NULL')
     year = models.CharField(max_length=8, choices=YEAR_CHOICES)
@@ -82,7 +84,8 @@ class Text(models.Model):
 
     def __unicode__(self):
         return "%s, %s" % (self.author, self.title)
-        
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=75)
     
@@ -96,9 +99,11 @@ class Experiment(models.Model):
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
     main_photo = models.ImageField(upload_to=('experiments/images/'), null=True, blank=True)
-    resources = models.FileField(upload_to=('inventory/resources/'), null=True, blank=True)    # pdfs, videos, etc
-    on_program = models.BooleanField(default=True)         # Is it in the text? Or did a tutor/assistant come up with it?
-    complete = models.BooleanField(default=False)          # Mark true when all info filled out.
+    resources = models.FileField(upload_to=('inventory/resources/'), null=True, blank=True)
+    # Is it in the manual/text? True. Is it something a tutor came up with? False.
+    on_program = models.BooleanField(default=True)
+    # Mark complete when the page has a reasonable amount of info.
+    complete = models.BooleanField(default=False)
     tags = models.ManyToManyField('Tag', null=True, blank=True)
 
     def __unicode__(self):
@@ -106,7 +111,8 @@ class Experiment(models.Model):
         
     def get_tags(self):
         return "".join([t.name for t in self.tags.all()])
-        
+
+
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)

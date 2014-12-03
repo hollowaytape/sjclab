@@ -1,5 +1,4 @@
 from django import forms
-import datetime
 from inventory.models import Experiment, Room, Material, Tag, Text, UserProfile, Resource, Image, Link
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
@@ -27,6 +26,7 @@ class CommaSeparatedWidget(forms.Widget):
             
         return mark_safe(u'<input%s />' % flatatt(final_attrs))
 
+
 class CommaSeparatedChoiceField(forms.ModelMultipleChoiceField):
     widget = CommaSeparatedWidget
     def clean(self, value):
@@ -36,18 +36,19 @@ class CommaSeparatedChoiceField(forms.ModelMultipleChoiceField):
                 if item is not "":
                     tag_list.append(Tag.objects.get_or_create(name=item)[0].id)
         return super(CommaSeparatedChoiceField, self).clean(tag_list)
-        
+
+
 class LinkForm(forms.ModelForm):
     error_css_class = 'error'
     
     title = forms.CharField(help_text="Title")
     url = forms.CharField(help_text="Links")
-    tutor = forms.BooleanField(help_text="Tutor-Only?")
     
-    fields = ['title', 'url', 'tutor']
+    fields = ['title', 'url']
     
     class Meta:
         model = Link
+
 
 class ImageForm(forms.ModelForm):
     error_css_class = 'error'
@@ -60,17 +61,18 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
 
+
 class ResourceForm(forms.ModelForm):
     error_css_class = 'error'
     
     name = forms.CharField(help_text="Name")
     path = forms.FileField(help_text="Resources")
-    tutor = forms.BooleanField(help_text="Tutor-Only?")
     
-    fields = ['name', 'path', 'tutor']
+    fields = ['name', 'path']
     
     class Meta:
         model = Resource
+
 
 class ExperimentForm(forms.ModelForm):
     error_css_class = 'error'
@@ -91,7 +93,7 @@ class ExperimentForm(forms.ModelForm):
         model = Experiment
         
     def save(self, commit=True):
-        #TODO: Why does an input of "" create an empty tag? (Does it still do this?)
+        # TODO: Why does an input of "" create an empty tag? (Does it still do this?)
         instance = super(ExperimentForm, self).save(commit=commit)
         tags = self.cleaned_data.get('self', None)
         if tags:
@@ -111,6 +113,7 @@ class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
 
+
 class MaterialForm(forms.ModelForm):
     error_css_class = 'error'
     name = forms.CharField(help_text="Material")
@@ -121,6 +124,7 @@ class MaterialForm(forms.ModelForm):
     
     class Meta:
         model = Material
+
 
 class TextForm(forms.ModelForm):
     error_css_class = 'error'
@@ -133,13 +137,15 @@ class TextForm(forms.ModelForm):
     
     class Meta:
         model = Text
-        
+
+
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
+
 
 class UserProfileForm(forms.ModelForm):
     class Meta:

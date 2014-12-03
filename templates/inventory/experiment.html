@@ -8,16 +8,16 @@
 {% endblock %}
 
 {% block head %}
-    <h1>{{ experiment_name }}</h1>
+    <h1>{{ experiment.title }}</h1>
 {% endblock %}
 {% block body_block %}
-    <i class="fa fa-book"></i> {{ text.author }}, <em>{{ text.title }}</em> - <i class="fa fa-file-text-o"></i> {{ text.manual }} ({{ text.year }})
-    {% if main_photo %}
+    <i class="fa fa-book"></i> {{ experiment.text.author }}, <em>{{ experiment.text.title }}</em> - <i class="fa fa-file-text-o"></i> {{ experiment.text.manual }} ({{ experiment.text.year }})
+    {% if experiment.main_photo %}
     <div class="col-lg-4 col-sm-6 col-xs-12" style="float:right">
-        <img src="{{ MEDIA_URL }}{{ main_photo }}" alt="{{experiment.title}}" class="thumbnail img-responsive"/>
+        <img src="{{ MEDIA_URL }}{{ experiment.main_photo }}" alt="{{ experiment.title }}" class="thumbnail img-responsive"/>
     </div>
     {% endif %}
-    
+
     {% if tags %}
     <h4>Tags: {% for tag in tags %} <a class="btn btn-default" href="{% url 'tag' tag.url %}">{{ tag.name }}</a>{% endfor %}
     {% else %}
@@ -38,7 +38,7 @@
         </ul>
     {% else %}
         <ul>
-            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}" style="color:#BBBDB6">What materials are needed for this experiment?</a></li>
+            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' experiment.id %}" style="color:#BBBDB6">What materials are needed for this experiment?</a></li>
         </ul>
     {% endif %}
 
@@ -48,11 +48,11 @@
             {% if procedure %}
                 {{ procedure|safe }}
             {% else %}
-                <p><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}" style="color:#BBBDB6">How is this experiment performed?</a></p>
+                <p><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' experiment.id %}" style="color:#BBBDB6">How is this experiment performed?</a></p>
             {% endif %}
 		</div>
 	</div>
-    
+
     {% if images %}
     <h4>Images:</h4>
         <div id="container">
@@ -68,7 +68,7 @@
             </div>
         </div>
     {% endif %}
-    
+
     <h4>Resources:</h4>
     {% if resources %}
         <ul>
@@ -78,10 +78,10 @@
         </ul>
     {% else %}
         <ul>
-            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}" style="color:#BBBDB6">Upload a file related to this experiment...</a></li>
+            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' experiment.id %}" style="color:#BBBDB6">Upload a file related to this experiment...</a></li>
         </ul>
     {% endif %}
-    
+
     <h4>Links:</h4>
     {% if links %}
         <ul>
@@ -91,29 +91,10 @@
         </ul>
     {% else %}
         <ul>
-            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' id %}" style="color:#BBBDB6">Add a link...</a></li>
+            <li><i class="fa fa-pencil"></i> <a href="{% url 'experiment_edit' experiment.id %}" style="color:#BBBDB6">Add a link...</a></li>
         </ul>
     {% endif %}
 
-    {% if perms.inventory.view_tutor_resources %}
-    <h4>Tutor Resources:</h4>
-        {% if tutor_resources or tutor_links %}
-            <ul>
-                {% for r in tutor_resources %}
-                    <li><a href="{{ MEDIA_URL }}{{ r.path }}">{{ r }}</a></li>
-                {% endfor %}
-            </ul>
-
-            <ul>
-                {% for l in tutor_links %}
-                    <li><a href="{{ l.url }}">{{ l.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endif %}
-    
-	<br />
-    {% if perms.inventory.edit_eperiments %}
-    <p><a href="{% url 'experiment_edit' id %}" class="btn btn-primary btn-lg">Edit the Experiment</a>{% endif %}
+     <p><a href="{% url 'experiment_edit' experiment.id %}" class="btn btn-primary btn-lg">Edit the Experiment</a>
         <a href="{% url 'experiment_index' %}" class="btn btn-default btn-lg">Return to Experiment Index</a></p>
 {% endblock %}
