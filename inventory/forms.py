@@ -42,8 +42,9 @@ class LinkForm(forms.ModelForm):
     
     title = forms.CharField(help_text="Title")
     url = forms.CharField(help_text="Links")
+    tutor = forms.BooleanField(help_text="Tutor-Only?")
     
-    fields = ['title', 'url']
+    fields = ['title', 'url', 'tutor']
     
     class Meta:
         model = Link
@@ -64,8 +65,9 @@ class ResourceForm(forms.ModelForm):
     
     name = forms.CharField(help_text="Name")
     path = forms.FileField(help_text="Resources")
+    tutor = forms.BooleanField(help_text="Tutor-Only?")
     
-    fields = ['name', 'path']
+    fields = ['name', 'path', 'tutor']
     
     class Meta:
         model = Resource

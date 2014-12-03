@@ -21,6 +21,7 @@ class Resource(models.Model):
     name = models.CharField(max_length=100)
     path = models.FileField(upload_to=('experiments/resources/'), validators=[validate_filesize])
     experiment = models.ForeignKey('Experiment', blank=True, null=True)
+    tutor = models.BooleanField(default=False)
     
     def __unicode__(self):
         return self.name
@@ -29,7 +30,8 @@ class Link(models.Model):
     title = models.CharField(max_length=200)
     url = models.CharField(max_length=400, validators=[URLValidator])
     experiment = models.ForeignKey('Experiment', blank=True, null=True)
-    
+    tutor = models.BooleanField(default=False)
+
     def __unicode__(self):
         return self.title
 

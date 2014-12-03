@@ -122,6 +122,7 @@
                                 <tr>
                                     <td><b>Title</b></td>
                                     <td><b>Upload</b></td>
+                                    <td><b>Tutor-Only?</b></td>
                                     <td></td>
                                 </tr>
                             </thead>
@@ -130,6 +131,7 @@
                                 <tr>
                                     <td>{{ resource_form.id }}{{ resource_form.name }}</td>
                                     <td>{{ resource_form.path }}</td>
+                                    <td>{{ resource_form.tutor }}</td>
                                     <td>{{ resource_form.errors }}</td>
                                 </tr>
                             {% endfor %}
@@ -145,6 +147,7 @@
                                 <tr>
                                     <td><b>Title</b></td>
                                     <td><b>Web Address</b></td>
+                                    <td><b>Tutor-Only?</b></td>
                                     <td></td>
                                 </tr>
                             </thead>
@@ -154,6 +157,7 @@
                                 <tr>
                                     <td>{{ link_form.id }}{{ link_form.title }}</td>
                                     <td>{{ link_form.url }}</td>
+                                    <td>{{ link_form.tutor }}</td>
                                     <td>{{ link_form.errors }}</td>
                                 </tr>
                             {% endfor %}

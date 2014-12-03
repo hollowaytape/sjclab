@@ -1,26 +1,25 @@
 from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, render_to_response, redirect
+from django.shortcuts import render, get_object_or_404, render_to_response
 from inventory.models import Experiment, Material, Text, Room, Tag, Image, Resource, Link
-from inventory.forms import ExperimentForm, RoomForm, MaterialForm, UserForm, UserProfileForm, TextForm, ResourceForm, ImageForm, LinkForm
+from inventory.forms import ExperimentForm, MaterialForm, UserForm, UserProfileForm, TextForm, ResourceForm, ImageForm, LinkForm
 from django.forms.models import modelformset_factory
-from django.forms.formsets import formset_factory
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import ugettext as _
-from django.forms.models import inlineformset_factory
 import datetime
 from django.core.mail import send_mail
 from django.contrib.auth.models import User, Permission
 from django_wysiwyg import clean_html
 
+
 def url_safe(string):
     """ Replaces spaces with underscores, making a string safer for urls."""
     return string.replace(' ', '_').replace(".", "")
+
 
 def eye_safe(string):
     """ Undoes the operation of url_safe()."""
@@ -37,11 +36,11 @@ def experiment_index(request):
     context_dict['ot_experiments'] = Experiment.objects.filter(text__year="Other").order_by('title')
     
     # Sanitize experiment names for use in urls.
-    for year in (context_dict['fr_experiments'], context_dict['jr_experiments'], context_dict['sr_experiments'], context_dict['ot_experiments']):
-        for experiment in year:
+    for experiment_list in context_dict.itervalues():
+        for experiment in experiment_list:
             experiment.url = url_safe(experiment.title)
 
-    # Grab a list of all tags and sanitize their names for urls.
+    # Grab a list of all valid tags and sanitize their names for urls.
     tags = Tag.objects.order_by('name').exclude(name="none").exclude(name="")
     for t in tags:
         t.url = url_safe(t.name)
@@ -54,10 +53,8 @@ def experiment_index(request):
 def experiment(request, experiment_name_url):
     # Change underscores in the experiment name to spaces.
     experiment_name = eye_safe(experiment_name_url)
-    
-    # Context dictionary to pass to the template.
-    # Contain the name of the experiment passed by the user.
-    context_dict = {'experiment_name': experiment_name}
+
+    context_dict = {}
     
     experiment = get_object_or_404(Experiment, title=experiment_name)
     
@@ -84,8 +81,11 @@ def experiment(request, experiment_name_url):
     context_dict['id'] = experiment.id
     context_dict['text'] = experiment.text
     context_dict['images'] = Image.objects.filter(experiment=experiment)
-    context_dict['resources'] = Resource.objects.filter(experiment=experiment)
-    context_dict['links'] = Link.objects.filter(experiment=experiment)
+    context_dict['resources'] = Resource.objects.filter(experiment=experiment).filter(tutor=False)
+    context_dict['links'] = Link.objects.filter(experiment=experiment).filter(tutor=False)
+
+    context_dict['tutor_resources'] = Resource.objects.filter(experiment=experiment).filter(tutor=True)
+    context_dict['tutor_links'] = Link.objects.filter(experiment=experiment).filter(tutor=True)
 
     # Go render the response and return it to the client.
     return render(request, 'inventory/experiment.html', context_dict)
@@ -114,7 +114,7 @@ def room_index(request):
     context_dict['second'] = Room.objects.filter(floor="Second Floor").order_by('number')
     context_dict['ground'] = Room.objects.filter(floor="Ground Floor").order_by('number')
     
-    for hall in (context_dict['first_bio'], context_dict['first_phys'], context_dict['second'], context_dict['ground']):
+    for hall in context_dict.itervalues():
         for room in hall:
             room.url = url_safe(room.number)
     
@@ -142,6 +142,7 @@ def rooms_all(request):
     # Then, get each type of Material and add it to the dict.
     # By using values_list w/"flat" param, we get a list instead of an unhashable dict.
     material_types = Material.objects.values_list('name', flat=True).distinct()
+
     material_locations = {}
     for m in material_types:
         locations = Material.objects.filter(name=m).order_by('name')
@@ -224,7 +225,7 @@ def experiment_edit(request, id=None, template_name='inventory/experiment_edit.h
     return render(request, template_name, context_dict)
 
 @permission_required('is_superuser')
-def experiment_delete(id):
+def experiment_delete(request, id):
     experiment = Experiment.objects.get(pk=id).delete()
     messages.add_message(request, messages.SUCCESS, _('Experiment deleted.'))
 
@@ -256,9 +257,9 @@ def text_add(request):
 def room_edit(request, room_url):
     number = eye_safe(room_url)
     room = Room.objects.get(number = number)
+
     MaterialFormSet = modelformset_factory(Material, form = MaterialForm)
     qset = Material.objects.filter(room = room)
-    # Not sure why it is reassigned in this way - test as one assignment statement later?
     formset = MaterialFormSet(queryset = qset)
     
     if request.method == 'POST':
