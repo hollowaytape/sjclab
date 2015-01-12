@@ -17,9 +17,9 @@
                 <ul>
                     {% for experiment in fr_experiments %}
                         {% if experiment.complete %}
-                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#878179">{{ experiment.title }}</a></li>
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#333333">{{ experiment.title }}</a></li>
                         {% else %}
-                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#BBBDB6">{{ experiment.title }}</a></li>
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#AAAAAA">{{ experiment.title }}</a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
@@ -33,9 +33,9 @@
                 <ul>
                     {% for experiment in jr_experiments %}
                         {% if experiment.complete %}
-                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#878179">{{ experiment.title }}</a></li>
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#333333">{{ experiment.title }}</a></li>
                         {% else %}
-                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#BBBDB6">{{ experiment.title }}</a></li>
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#AAAAAA">{{ experiment.title }}</a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
@@ -49,9 +49,9 @@
                 <ul>
                     {% for experiment in sr_experiments %}
                         {% if experiment.complete %}
-                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#878179">{{ experiment.title }}</a></li>
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#333333">{{ experiment.title }}</a></li>
                         {% else %}
-                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#BBBDB6">{{ experiment.title }}</a></li>
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#AAAAAA">{{ experiment.title }}</a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
@@ -65,9 +65,9 @@
                 <ul>
                     {% for experiment in ot_experiments %}
                         {% if experiment.complete %}
-                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#878179">{{ experiment.title }}</a></li>
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#333333">{{ experiment.title }}</a></li>
                         {% else %}
-                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#BBBDB6">{{ experiment.title }}</a></li>
+                            <li><a href="{% url 'experiment' experiment.url %}" style="color:#AAAAAA">{{ experiment.title }}</a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
