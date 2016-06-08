@@ -28,7 +28,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['sjclab.herokuapp.com', 'http://127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['sjclab.herokuapp.com', 'localboast.com', 'http://127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -66,7 +66,7 @@ WSGI_APPLICATION = 'baros.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-DATABASES = { 'default': dj_database_url.config(default="postgres://dnwpzmwrmfxotb:hJQeMnHEZE7VyKbRXwcSZsLkQn@ec2-107-20-234-127.compute-1.amazonaws.com:5432/d9q9m7er1gc7o9") }
+DATABASES = { 'default': dj_database_url.config(default="postgres://tpnouofpumqcxu:vmy3QUw4pc1NPe2J0zspFogeJQ@ec2-54-243-202-84.compute-1.amazonaws.com:5432/d8uq0t88c2k6sm") }
 DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 # Internationalization
