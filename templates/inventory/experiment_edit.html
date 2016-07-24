@@ -46,7 +46,7 @@
                         <span class="help-block">Is the text msising from the list? <a href="{% url 'text_add' %}">Add a new text</a>.</span>
                     </div>
                     
-                    <div class="col-lg-10">
+                    <div class="col-lg-10 col-offset-2">
                     <div class="checkbox">
                     <label>
                         {{ form.on_program.errors }}
@@ -58,7 +58,7 @@
 
                 <div class="form-group">
                     <label for="materials" class="col-lg-2 control-label">Materials</label>
-                    <div class="col-lg-10">
+                    <div class="col-lg-6">
                         {{ form.materials.errors }}
                         <div class="pre-scrollable">
                             {{ form.materials }}
@@ -80,7 +80,7 @@
                     <div class="col-lg-10">
                         {{ form.tags.errors }}
                         {{ form.tags }}
-                        <span class="help-block">Enter a list of tags separated with commas - i.e. "surfing, beach, waves"</span>
+                        <span class="help-block">Enter a list of tags separated with commas - i.e. "measurement, life, quantum"</span>
                     </div> 
                 </div>
 				
@@ -162,7 +162,7 @@
                     {{ link_formset.management_form }}
                 
 
-                    <div class="col-lg-10">
+                    <div class="col-lg-10 col-offset-2">
                         <div class="checkbox">
                             <label>
                                 {{ form.complete.errors }}

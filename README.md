@@ -3,4 +3,13 @@ sjclab
 
 Django site for managing a college laboratory's experiments and inventory.
 
-Ran on Heroku/Amazon S3 from September 2014-September 2015, currently searching for a new S3 service to bring it back online.
+[See the site here.](http://sjclab.herokuapp.com)
+
+Technologies used:
+* Python/Django
+* PostgreSQL
+* Amazon AWS S3
+* Heroku
+* Sendgrid
+
+Ran on Heroku/Amazon S3 from 9/2014-9/2015, then re-launched as an archive in 6/2016. 
