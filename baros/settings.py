@@ -108,7 +108,7 @@ LOGIN_REDIRECT_URL = '/experiments/'
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # AWS S3 Storage
-STATICFILES_DIRS = ("C:/Users/Max/Code/Baros/static/",)
+STATICFILES_DIRS = ("C:/Users/Owner/Code/sjclab/static/",)
 DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
 DEFAULT_S3_PATH = "media"
 #STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'

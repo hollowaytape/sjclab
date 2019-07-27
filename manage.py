@@ -2,7 +2,7 @@
 import os
 import sys
 
-sys.path.append("C:\\Users\Code\Baros")
+sys.path.append("C:\\Users\Code\sjclab")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'baros.settings'
 
 if __name__ == "__main__":
