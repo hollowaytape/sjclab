@@ -1,9 +1,12 @@
-from django.conf.urls import patterns, url
-import views
+from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
+from inventory import views
 from baros import settings
 from django.views.generic import TemplateView
 
-urlpatterns = patterns('',
+
+urlpatterns = [
     #url(r'^$', TemplateView.as_view(template_name='inventory/index.html'), name='index'),
     url(r'^$', views.user_login, name='login'),
     
@@ -22,7 +25,7 @@ urlpatterns = patterns('',
 
     url(r'^texts/add/$', views.text_add, name='text_add'),
 
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+    #url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
     url(r'^register/$', views.register, name='register'),
     #url(r'^login/$', views.user_login, name='login'),
@@ -31,4 +34,4 @@ urlpatterns = patterns('',
     
     url(r'^approval/$', views.admin_user_approval, name="user_approval"),
     url(r'^approval/(?P<id>\d+)/$', views.approve_user, name="approve_user"),
-)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

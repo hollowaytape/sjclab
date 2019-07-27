@@ -3,7 +3,7 @@ from inventory.models import Experiment, Room, Material, Tag, Text, UserProfile,
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
-from django.forms.util import flatatt
+from django.forms.utils import flatatt
 
 class CommaSeparatedWidget(forms.Widget):
     # See http://stackoverflow.com/questions/4960445/display-a-comma-separated-list-of-manytomany-items-in-a-charfield-on-a-modelform
@@ -48,6 +48,7 @@ class LinkForm(forms.ModelForm):
     
     class Meta:
         model = Link
+        fields = "__all__"
 
 
 class ImageForm(forms.ModelForm):
@@ -60,6 +61,7 @@ class ImageForm(forms.ModelForm):
     
     class Meta:
         model = Image
+        fields = "__all__"
 
 
 class ResourceForm(forms.ModelForm):
@@ -72,6 +74,7 @@ class ResourceForm(forms.ModelForm):
     
     class Meta:
         model = Resource
+        fields = "__all__"
 
 
 class ExperimentForm(forms.ModelForm):
@@ -91,6 +94,7 @@ class ExperimentForm(forms.ModelForm):
     
     class Meta:
         model = Experiment
+        fields = "__all__"
         
     def save(self, commit=True):
         # TODO: Why does an input of "" create an empty tag? (Does it still do this?)
@@ -112,6 +116,7 @@ class RoomForm(forms.ModelForm):
     
     class Meta:
         model = Room
+        fields = "__all__"
 
 
 class MaterialForm(forms.ModelForm):
@@ -124,6 +129,7 @@ class MaterialForm(forms.ModelForm):
     
     class Meta:
         model = Material
+        fields = "__all__"
 
 
 class TextForm(forms.ModelForm):
@@ -137,6 +143,7 @@ class TextForm(forms.ModelForm):
     
     class Meta:
         model = Text
+        fields = "__all__"
 
 
 class UserForm(forms.ModelForm):

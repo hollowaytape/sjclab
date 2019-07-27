@@ -25,7 +25,6 @@ def eye_safe(string):
     """ Undoes the operation of url_safe()."""
     return string.replace('_', ' ')
 
-@login_required
 def experiment_index(request):
     context_dict = {
         'fr_experiments': Experiment.objects.filter(text__year="Freshman").order_by('title'),
@@ -47,8 +46,7 @@ def experiment_index(request):
 
     # Render the response and send it back.
     return render(request, 'inventory/experiment_index.html', context_dict)
-
-@login_required    
+  
 def experiment(request, experiment_name_url):
     # Change underscores in the experiment name to spaces.
     experiment_name = eye_safe(experiment_name_url)
@@ -82,8 +80,7 @@ def experiment(request, experiment_name_url):
 
     # Go render the response and return it to the client.
     return render(request, 'inventory/experiment.html', context_dict)
-
-@login_required    
+   
 def tag(request, tag_name_url):
     # Change underscores in the experiment name to spaces.
     tag_name = eye_safe(tag_name_url)
@@ -100,8 +97,7 @@ def tag(request, tag_name_url):
         e.url = url_safe(e.title)
     
     return render(request, 'inventory/tag.html', context_dict)
-
-@login_required    
+ 
 def room_index(request):
     context_dict = {
         'first_bio': Room.objects.filter(hall="Biology").order_by('number'),
@@ -116,7 +112,6 @@ def room_index(request):
     
     return render(request, 'inventory/room_index.html', context_dict)
 
-@login_required
 def room(request, room_url):
     room_number = eye_safe(room_url)
     room = get_object_or_404(Room, number=room_number)
@@ -133,7 +128,6 @@ def room(request, room_url):
     
     return render(request, 'inventory/room.html', context_dict)
  
-@login_required   
 def rooms_all(request):
     # Get each type of Material and add it to the dict.
     # By using values_list w/"flat" param, we get a list instead of an unhashable dict.
@@ -149,7 +143,6 @@ def rooms_all(request):
     # Render the response and send it back!
     return render(request, 'inventory/rooms_all.html', context_dict)
 
-@login_required
 def experiment_edit(request, id=None):
     ResourceFormSet = modelformset_factory(Resource, form = ResourceForm)
     ImageFormSet = modelformset_factory(Image, form = ImageForm)
@@ -231,14 +224,12 @@ def experiment_edit(request, id=None):
  
     return render(request, 'inventory/experiment_edit.html', context_dict)
 
-@permission_required('is_superuser')
 def experiment_delete(request, id):
     Experiment.objects.get(pk=id).delete()
     messages.add_message(request, messages.SUCCESS, _('Experiment deleted.'))
 
     return HttpResponseRedirect('/experiments/')
 
-@login_required
 def text_add(request):
     text = Text()
     
@@ -262,7 +253,6 @@ def text_add(request):
 
     return render(request, 'inventory/text_add.html', context_dict)
     
-@login_required
 def room_edit(request, room_url):
     number = eye_safe(room_url)
     room = Room.objects.get(number = number)
@@ -329,7 +319,7 @@ def register(request):
 
         else:
             messages.add_message(request, messages.ERROR, _('There was a problem registering. Please try again.'))
-            print user_form.errors, profile_form.errors
+            print(user_form.errors, profile_form.errors)
 
     else:
         user_form = UserForm()
@@ -389,7 +379,6 @@ def user_login(request):
         #return render_to_response('registration/login.html', context_dict, context_instance=RequestContext(request))
         return render(request, 'registration/login.html', context_dict)
 
-@login_required
 def user_logout(request):
     next = request.GET.get('next')
     logout(request)
@@ -405,14 +394,12 @@ def user_logout(request):
     else:
         return HttpResponseRedirect(next)
     
-@permission_required('is_superuser')
 def admin_user_approval(request):
      users = User.objects.filter(is_active=False)
      
      return render_to_response('inventory/user_approval.html', {'users': users},
                                context_instance=RequestContext(request))
      
-@permission_required('is_superuser')
 def approve_user(request, id):
     user = User.objects.get(id=id)
     

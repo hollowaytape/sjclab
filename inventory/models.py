@@ -12,7 +12,7 @@ def validate_filesize(fieldfile_obj):
 class Image(models.Model):
     caption = models.CharField(max_length=100)
     path = models.ImageField(upload_to=('experiments/images/'), validators=[validate_filesize])
-    experiment = models.ForeignKey('Experiment', blank=True, null=True) 
+    experiment = models.ForeignKey('Experiment', blank=True, null=True, on_delete="SET_NULL") 
     
     def __unicode__(self):
         return self.caption
@@ -20,7 +20,7 @@ class Image(models.Model):
 class Resource(models.Model):            
     name = models.CharField(max_length=100)
     path = models.FileField(upload_to=('experiments/resources/'), validators=[validate_filesize])
-    experiment = models.ForeignKey('Experiment', blank=True, null=True)
+    experiment = models.ForeignKey('Experiment', blank=True, null=True, on_delete="SET_NULL")
     
     def __unicode__(self):
         return self.name
@@ -28,7 +28,7 @@ class Resource(models.Model):
 class Link(models.Model):
     title = models.CharField(max_length=200)
     url = models.CharField(max_length=400, validators=[URLValidator()])
-    experiment = models.ForeignKey('Experiment', blank=True, null=True)
+    experiment = models.ForeignKey('Experiment', blank=True, null=True, on_delete="SET_NULL")
 
     def __unicode__(self):
         return self.title
@@ -47,7 +47,7 @@ class Room(models.Model):
 
 class Material(models.Model): 
     name = models.CharField(max_length=100)
-    room = models.ForeignKey('Room', null=True, blank=True)
+    room = models.ForeignKey('Room', null=True, blank=True, on_delete="SET_NULL")
     location = models.CharField(max_length=100, blank=True, null=True, default="Somewhere")
     count = models.IntegerField(default=1)
 
@@ -95,7 +95,7 @@ class Tag(models.Model):
 
 class Experiment(models.Model):
     title = models.CharField(max_length=200, unique=True)
-    text = models.ForeignKey('Text', null=True, blank=True)
+    text = models.ForeignKey('Text', null=True, blank=True, on_delete="SET_NULL")
     procedure = models.TextField(null=True, blank=True)
     materials = models.ManyToManyField('Material', null=True, blank=True)
     main_photo = models.ImageField(upload_to=('experiments/images/'), null=True, blank=True)
@@ -115,7 +115,7 @@ class Experiment(models.Model):
 
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete="SET_NULL")
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
