@@ -12,4 +12,4 @@ django-s3-folder-storage==0.1
 django-registration-redux==1.1
 Collectfast==0.2.1
 django-wysiwyg==0.7.0
-html5lib==0.999
+html5lib==0.99999999
